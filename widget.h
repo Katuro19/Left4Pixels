@@ -5,6 +5,8 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QRect>
+#include <QTimer>
+#include <QElapsedTimer>
 
 class Widget : public QWidget
 {
@@ -16,11 +18,18 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
 private:
     QRect player;
-    void movePlayer(int dx, int dy);
+    QTimer *moveTimer;
+    QElapsedTimer timer;
+    int dx, dy;
+    int fps;  // Compteur FPS
+    int frameCount;  // Compte le nombre de frames
+    void movePlayer();
+    void updateFPS();
 };
 
 #endif // WIDGET_H
