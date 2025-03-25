@@ -9,15 +9,16 @@ qt_standard_project_setup()
 #Add directories here :
 include_directories(
     .
+    ./Player
 )
 
 
 # Create a source list, where you add every files you want to use
 set(SOURCES
     main.cpp
-    widget.cpp
 
-    widget.h
+    ./Player/player.cpp
+    ./Player/player.h
 )
 
 

@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <QWidget>
 #include <QKeyEvent>
@@ -8,13 +8,13 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-class Widget : public QWidget
+class Player : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Widget(QWidget *parent = nullptr);
-    ~Widget();
+    explicit Player(QWidget *parent = nullptr);
+    ~Player();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

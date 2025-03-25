@@ -1,26 +1,26 @@
-#include "widget.h"
+#include "player.h"
 #include <QKeyEvent>
 #include <QPainter>
 #include <QTimer>
 #include <QElapsedTimer>
 
-Widget::Widget(QWidget *parent) : QWidget(parent), player(50, 50, 50, 50), dx(0), dy(0), fps(0), frameCount(0)
+Player::Player(QWidget *parent) : QWidget(parent), player(50, 50, 50, 50), dx(0), dy(0), fps(0), frameCount(0)
 {
-    setFixedSize(400, 400);
+    setFixedSize(400, 400); //Window size
 
-    moveTimer = new QTimer(this);
-    connect(moveTimer, &QTimer::timeout, this, &Widget::movePlayer);
-    moveTimer->start(16);  // Mettre à jour toutes les 16 ms (environ 60 FPS)
+    moveTimer = new QTimer(this); //take player in the timer (for smooth movements)
+    connect(moveTimer, &QTimer::timeout, this, &Player::movePlayer);
+    moveTimer->start(16);
 
     timer.start();
 }
 
-Widget::~Widget()
+Player::~Player()
 {
     delete moveTimer;
 }
 
-void Widget::keyPressEvent(QKeyEvent *event)
+void Player::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Up) {
         dy = -5;
@@ -33,7 +33,7 @@ void Widget::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void Widget::keyReleaseEvent(QKeyEvent *event)
+void Player::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Up || event->key() == Qt::Key_Down) {
         dy = 0;
@@ -43,7 +43,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
-void Widget::paintEvent(QPaintEvent *event)
+void Player::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
 
@@ -67,7 +67,7 @@ void Widget::paintEvent(QPaintEvent *event)
     painter.drawText(10, 20, QString("FPS: %1").arg(fps));
 }
 
-void Widget::movePlayer()
+void Player::movePlayer()
 {
     player.moveTo(player.x() + dx, player.y() + dy);
     update();  // Redessiner la fenêtre
@@ -76,7 +76,7 @@ void Widget::movePlayer()
     updateFPS();
 }
 
-void Widget::updateFPS()
+void Player::updateFPS()
 {
     // Calculer le temps écoulé depuis la dernière frame
     qint64 elapsed = timer.elapsed();
