@@ -15,6 +15,9 @@ include_directories(
 # Create a source list, where you add every files you want to use
 set(SOURCES
     main.cpp
+    widget.cpp
+
+    widget.h
 )
 
 
