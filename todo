@@ -1,7 +1,5 @@
 URGENT :
     - Make a game (maybe?)
-    - Create a vector for entity in Scene
-    - Make sure to destroy everyone in the vector when scene is destroyed
     - Make documentation about entity type
 
 KINDA IMPORTANT :
