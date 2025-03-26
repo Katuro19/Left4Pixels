@@ -1,8 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <vector>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QGraphicsRectItem>
+#include <QKeyEvent>
+
+#include "Entity.h"
+
 
 
 class Scene : public QGraphicsScene {
@@ -18,11 +24,13 @@ public slots:
 
 protected:
     QTimer* timer;
+    void keyPressEvent(QKeyEvent* event);
+    //void keyReleaseEvent(QKeyEvent* event);
 
 private:
-    QGraphicsTextItem* qgti;
-    QGraphicsRectItem* qgri;
-    QGraphicsRectItem* container;
+    QVector<Entity*> Entities;
+
+    void LoadEntities();
 
 };
 

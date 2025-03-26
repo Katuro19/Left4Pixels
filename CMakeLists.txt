@@ -11,6 +11,7 @@ include_directories(
     .
     ./Window
     ./Scene
+    ./Entity
 )
 
 
@@ -23,6 +24,9 @@ set(SOURCES
     
     ./Scene/Scene.h
     ./Scene/Scene.cpp
+
+    ./Entity/Entity.h
+    ./Entity/Entity.cpp
 
 )
 
