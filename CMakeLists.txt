@@ -9,9 +9,8 @@ qt_standard_project_setup()
 #Add directories here :
 include_directories(
     .
-    ./Player
-    ./Widget
-    ./Map
+    ./Window
+    ./Scene
 )
 
 
@@ -19,14 +18,11 @@ include_directories(
 set(SOURCES
     main.cpp
 
-    ./Player/player.cpp
-    ./Player/player.h
-
-    ./Widget/widget.cpp
-    ./Widget/widget.h
-
-    ./Map/map.cpp
-    ./Map/map.h
+    ./Window/MainWindow.h
+    ./Window/MainWindow.cpp
+    
+    ./Scene/Scene.h
+    ./Scene/Scene.cpp
 
 )
 

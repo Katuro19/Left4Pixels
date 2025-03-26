@@ -1,17 +1,10 @@
-#include "player.h"
-#include "map.h"
 #include <QApplication>
+#include "MainWindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-
-    Map map;
-    map.show();
-
-    Player player;
-    player.show();
-
+    MainWindow mainWindow;
+    mainWindow.show();
     return a.exec();
 }
