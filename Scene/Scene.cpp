@@ -6,24 +6,26 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     qgri = new QGraphicsRectItem(10, 100, 300, 200);
     this->addItem(qgri);
 
-    qgti = new QGraphicsTextItem("CIR2 Nantes");
-    this->addItem(qgti);
+    container = new QGraphicsRectItem(10, -500, 50, 50);
+    //qgti = new QGraphicsTextItem("CIR2 Nantes", container); //Exemple pour ajouter un objet DANS le deuxieme cadre
+
+    this->addItem(container);
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(16); //toutes les 30 millisecondes
+    timer->start(30); //toutes les 30 millisecondes
 }
 
 
 void Scene::update(){
-    QPointF pos = qgti->pos(); //récupération de la position de l’objet qgti
+    QPointF pos = container->pos(); //récupération de la position de l’objet qgti
 
 
-    if (qgti->collidesWithItem(qgri)) {
+    if (container->collidesWithItem(qgri)) {
         qDebug() << "Collision !";
        }
     else{
-        qgti->setPos(pos.rx(), pos.ry()+5); //incrémentation de la coordonnée y
+        container->setPos(pos.rx(), pos.ry()+5); //incrémentation de la coordonnée y
     }
        
 }

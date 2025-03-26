@@ -22,6 +22,7 @@ protected:
 private:
     QGraphicsTextItem* qgti;
     QGraphicsRectItem* qgri;
+    QGraphicsRectItem* container;
 
 };
 
