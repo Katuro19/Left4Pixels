@@ -10,6 +10,8 @@ qt_standard_project_setup()
 include_directories(
     .
     ./Player
+    ./Widget
+    ./Map
 )
 
 
@@ -19,7 +21,15 @@ set(SOURCES
 
     ./Player/player.cpp
     ./Player/player.h
+
+    ./Widget/widget.cpp
+    ./Widget/widget.h
+
+    ./Map/map.cpp
+    ./Map/map.h
+
 )
+
 
 
 add_executable(

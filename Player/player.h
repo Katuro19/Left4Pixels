@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+
+#include "widget.h"
 #include <QWidget>
 #include <QKeyEvent>
 #include <QPainter>
@@ -8,18 +10,24 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-class Player : public QWidget
+class Player : public Widget
 {
     Q_OBJECT
 
 public:
-    explicit Player(QWidget *parent = nullptr);
+    explicit Player(Widget *parent = nullptr);
     ~Player();
 
-protected:
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
+
+public slots :
+    void movePlayer();
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+
+
+protected :
     void paintEvent(QPaintEvent *event) override;
+
 
 private:
     QRect player;
@@ -28,8 +36,7 @@ private:
     int dx, dy;
     int fps;  // Compteur FPS
     int frameCount;  // Compte le nombre de frames
-    void movePlayer();
     void updateFPS();
 };
 
-#endif // WIDGET_H
+#endif // PLAYER_H

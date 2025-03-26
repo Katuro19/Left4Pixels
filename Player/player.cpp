@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-Player::Player(QWidget *parent) : QWidget(parent), player(50, 50, 50, 50), dx(0), dy(0), fps(0), frameCount(0)
+Player::Player(Widget *parent) : Widget(parent), player(50, 50, 50, 50), dx(0), dy(0), fps(0), frameCount(0)
 {
     setFixedSize(400, 400); //Window size
 
@@ -13,6 +13,7 @@ Player::Player(QWidget *parent) : QWidget(parent), player(50, 50, 50, 50), dx(0)
     moveTimer->start(16);
 
     timer.start();
+    this->show();
 }
 
 Player::~Player()
@@ -47,16 +48,6 @@ void Player::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
 
-    // Dessiner la grille (fond d'écran)
-    painter.setPen(QPen(Qt::lightGray)); // Couleur de la grille
-    int gridSize = 20; // Taille des cellules de la grille
-    for (int x = 0; x < width(); x += gridSize) {
-        painter.drawLine(x, 0, x, height()); // Lignes verticales
-    }
-    for (int y = 0; y < height(); y += gridSize) {
-        painter.drawLine(0, y, width(), y); // Lignes horizontales
-    }
-
     // Dessiner le joueur
     painter.setBrush(Qt::blue);
     painter.drawRect(player);
@@ -90,5 +81,6 @@ void Player::updateFPS()
         frameCount++;
     }
 }
+
 
 
