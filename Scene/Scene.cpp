@@ -13,13 +13,10 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     */
 
 
-    QString ip = "...";
-    QString ip2 = "../Resources/Textures/Objects/supersecretweapon.png";
-    QString ip3 = "../Resources/Characters/runner.png";
 
-    Entity* superCube = new Entity(nullptr,QStringLiteral("randomPath"),2);
-    Entity* sword = new Entity(superCube,ip2,1);
-    Entity* zombie = new Entity(nullptr,ip3,2);
+    Entity* superCube = new Entity(nullptr,QStringLiteral("randomPath"));
+    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
+    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"));
 
     (*superCube).SetId(QStringLiteral("Cube"));
     (*sword).SetId(QStringLiteral("Sword"));

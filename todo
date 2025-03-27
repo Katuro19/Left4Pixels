@@ -1,6 +1,8 @@
 URGENT :
     - Make a game (maybe?)
-    - Make documentation about entity type
+    - fix fps problem (ifykyk)
+    - change player constructor to use entity constructor for basic uses
+    - make the weapon collinding
 
 KINDA IMPORTANT :
 

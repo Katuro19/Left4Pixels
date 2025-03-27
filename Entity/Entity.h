@@ -21,9 +21,6 @@ class Entity : public QGraphicsPixmapItem {
         -> This is a QGraphicsPixmapItem.
             -> You can leave the filePath empty in the constructor to make an invisible entity.
 
-        -> Collision will be OFF by default. 
-            -> If you trigger it (loadCollisions to true), the default hitbox will be cached as pixel perfect on the default loaded sprite.
-
         -> Every complex objects on the scene should be a child of Entity.
 
         -> Remember that attached children to an Entity are not loaded in the scene, they are loaded at the same time as their parent
@@ -35,7 +32,7 @@ class Entity : public QGraphicsPixmapItem {
 
 
 public:
-    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", int loadCollisions = 0);
+    Entity(QGraphicsItem* parent = nullptr, QString filePath = "");
     /*
         PARAMETERS :
         -> parent : decide who is the parent (another entity usually). Can be empty. note that this entity will be attached to the parent
@@ -43,10 +40,6 @@ public:
 
         -> filePath : You can choose a filepath to immediatly load textures. If no path is given, will be invisible.
 
-        -> loadCOllisions : Different parameters doing different things
-            -> 0 : No collisions nor shape constructors will be loaded (default should be used)
-            -> 1 : Load collisions as a simple object (use it for bg texture for exemple)
-            -> 2 : Load collisions as pixel perfect (use it for complex objects)
 
     */
     //virtual ~Entity();

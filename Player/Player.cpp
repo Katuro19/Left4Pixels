@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(int hit_points, Entity* Weapon, float speed, float attack_speed, QGraphicsItem* parent, QString filePath) : Entity(parent, filePath), hit_points(hit_points), Weapon(Weapon), speed(speed), attack_speed(attack_speed) {
+Player::Player(int HP, Entity* Weapon, float speed, float attack_speed, QGraphicsItem* parent, QString filePath) : Entity(parent, filePath), HP(HP), Weapon(Weapon), speed(speed), attack_speed(attack_speed) {
 
 }
 Player::~Player() {
@@ -16,8 +16,8 @@ void Player::setSpeed(float speed) {
 void Player::setAttackSpeed(float attack_speed) {
     this->attack_speed = attack_speed;
 }
-void Player::setHitpoints(int hit_points) {
-    this->hit_points = hit_points;
+void Player::setHitpoints(int HP) {
+    this->HP = HP;
 }
 Entity* Player::getWeapon() {
     return this->Weapon;
@@ -29,5 +29,5 @@ float Player::getAttackSpeed() const {
     return this->attack_speed;
 }
 int Player::getHitpoints() const {
-    return this->hit_points;
+    return this->HP;
 }
