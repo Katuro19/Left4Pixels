@@ -12,13 +12,29 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     this->addItem(superCube);
     */
 
-    QString ip = "...";
 
-    Entity* superCube = new Entity(nullptr,ip);
-    Entity* qgri = new Entity;
+    QString ip = "...";
+    QString ip2 = "../Resources/Textures/Objects/supersecretweapon.png";
+    QString ip3 = "../Resources/Characters/runner.png";
+
+    Entity* superCube = new Entity(nullptr,QStringLiteral("randomPath"),2);
+    Entity* sword = new Entity(superCube,ip2,1);
+    Entity* zombie = new Entity(nullptr,ip3,2);
+
+    (*superCube).SetId(QStringLiteral("Cube"));
+    (*sword).SetId(QStringLiteral("Sword"));
+    (*zombie).SetId(QStringLiteral("Zombie"));
+
+
+
 
     this->Entities.push_back(superCube);
-    this->Entities.push_back(qgri);
+    sword->moveBy(-10, 0); // Déplace de +10 pixels en X (vers la droite)
+
+    //this->Entities.push_back(sword);
+
+    this->Entities.push_back(zombie);
+    zombie->moveBy(-50,0);
 
     
     LoadEntities();
@@ -26,7 +42,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(30); //toutes les 30 millisecondes
+    timer->start(16); 
 }
 
 
@@ -37,13 +53,19 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
+    
     QPointF pos = Entities[0]->pos(); //récupération de la position de l’objet qgti
 
-    if (Entities[0]->collidesWithItem(Entities[1])) {
-        qDebug() << "Collision !";
-       }
+     try{
+        if (Entities[0]->collidesWithItem(Entities[1])) {
+            qDebug() << "Collision !";
+        }
+    }
+    catch (...){
 
-       
+    }
+        
+    
 }
 
 void Scene::keyPressEvent(QKeyEvent* event){
@@ -63,7 +85,11 @@ void Scene::keyPressEvent(QKeyEvent* event){
 
 
 void Scene::LoadEntities(){
+    int vectorSize = Entities.size();
+    int counter = 1;
     for (Entity* entity : Entities) {
+        qDebug() << qPrintable(QString("Loading entities (%1/%2)").arg(counter).arg(vectorSize));
         this->addItem(entity); 
+        counter++;
     }
 }
