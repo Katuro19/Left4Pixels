@@ -27,6 +27,8 @@ set(SOURCES
 
     ./Entity/Entity.h
     ./Entity/Entity.cpp
+    ./Player/Player.cpp
+    ./Player/Player.h
 
 )
 
