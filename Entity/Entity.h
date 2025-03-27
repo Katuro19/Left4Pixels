@@ -60,6 +60,7 @@ public:
 private:
 
     int entityType;
+    int uid;
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
 
     QString filePath;

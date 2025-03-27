@@ -21,7 +21,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     (*superCube).SetId(QStringLiteral("Cube"));
     (*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
-
+    //(*zombie).TriggerVisibility(false);
 
 
 

@@ -5,6 +5,7 @@ URGENT :
     - make the weapon collinding
 
 KINDA IMPORTANT :
+    - Make a working ID system for entities. maybe bound it to the position in the vector list?
 
 
 MEH :
