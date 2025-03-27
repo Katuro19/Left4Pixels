@@ -1,8 +1,8 @@
 #include "Player.h"
 
 
-Player::Player(int HP, Entity* Weapon, float speed, float attack_speed, QGraphicsItem* parent, QString filePath) : Entity(parent, filePath), HP(HP), Weapon(Weapon), speed(speed), attack_speed(attack_speed) {
-
+Player::Player(QGraphicsItem* parent, QString filePath, Entity* Weapon, float speed, float attack_speed) : Entity(parent, filePath), HP(HP), Weapon(Weapon), speed(speed), attack_speed(attack_speed) {
+    this->HP= 100;
 }
 Player::~Player() {
 

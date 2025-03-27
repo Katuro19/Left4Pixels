@@ -13,7 +13,7 @@ private:
 
 
 public:
-    explicit Player(int HP = 100, Entity* weapon = nullptr, float speed = 1.0, float attack_speed = 1.0, QGraphicsItem* parent = nullptr, QString filePath = "");
+    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "",Entity* weapon = nullptr, float speed = 1.0, float attack_speed = 1.0);
     ~Player();
     void setWeapon(Entity* weapon);
     void setSpeed(float speed);

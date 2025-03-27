@@ -1,5 +1,5 @@
 #include "Scene.h"
-
+#include "Player/Player.h"
 
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     /*
@@ -14,7 +14,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
 
-    Entity* superCube = new Entity(nullptr,QStringLiteral("randomPath"));
+    Player* superCube = new Player(nullptr,QStringLiteral("randomPath"));
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"));
 

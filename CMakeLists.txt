@@ -29,6 +29,8 @@ set(SOURCES
     ./Entity/Entity.cpp
     ./Player/Player.cpp
     ./Player/Player.h
+    ./Weapon/Weapon.cpp
+    ./Weapon/Weapon.h
 
 )
 
