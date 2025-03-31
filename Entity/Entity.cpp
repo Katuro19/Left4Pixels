@@ -27,7 +27,8 @@ void Entity::LoadTexture(const QString &imagePath){
         QPixmap defaultPixmap = QPixmap(DEFAULT_PATH);
 
         if(defaultPixmap.isNull()){
-            qDebug() << "Error loading default with path DEFAULT_PATH :(";
+            throw std::runtime_error("Error loading default with path DEFAULT_PATH :(");
+
         }
 
         setPixmap(defaultPixmap);

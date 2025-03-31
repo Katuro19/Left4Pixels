@@ -9,9 +9,12 @@
 #include <QKeyEvent>
 #include <QBitmap>
 #include <QRegion>
+#include <QPointF>
+
 
 #include <iostream>
 #include <string>  
+#include <stdexcept>
 
 
 
@@ -50,17 +53,36 @@ public:
         this->active = visible;
     }
 
-    void SetId(QString name){
+    void SetId(QString name){ //Set the ID.
         this->identifier = name;
     }
 
-    // QPainterPath shape() const; 
+    void SetDirection(float dx, float dy, bool preventMoving=false){ //Save the direction and trigger isMoving. Using the preventMoving (to true) you can prevent the movement start
+        this->direction = QPointF(dx, dy);
+        if(!preventMoving){
+            this->isMoving = true;
+        }
+    }
+
+    void SetMovement(bool willMove){
+        this->isMoving = willMove;
+    }
+
+    void UpdateMovement(){
+        if(this->isMoving){
+            setPos(pos() + direction * speed); //Move using current position + speed, use SetDirection
+        }
+    }
+
+    bool IsMoving(){
+        return this->isMoving;
+    }
 
 
 private:
 
-    int entityType;
-    int uid;
+    int entityType; //Will be used to detect a collision type
+    int uid; //uid, in case...
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
 
     QString filePath;
@@ -69,6 +91,9 @@ private:
     bool perfectBox=false; //Will be used to decide about collisions : either perfect or big box. True mean perfect.
     QPainterPath cachedShape; //Special qpainter to save the shape collide box, since the collider wont change for a lot of entities.
 
+    QPointF direction; //Direction can stock the 2D movement of an entity.
+    bool isMoving=false; //Decide if an entity is mooving or no.
+    float speed = 3.0; //Default speed
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
     void ReloadEntity(); //Reload the entity colliders.

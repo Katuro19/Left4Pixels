@@ -12,6 +12,7 @@ include_directories(
     ./Window
     ./Scene
     ./Entity
+    ./Player
 )
 
 

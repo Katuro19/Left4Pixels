@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 
 #include "Entity.h"
+#include "Player.h"
 
 
 
@@ -18,6 +19,8 @@ public:
     Scene(QObject* parent = nullptr);
     virtual ~Scene();
 
+    Player* player;
+
 public slots:
     void update();
 
@@ -25,12 +28,14 @@ public slots:
 protected:
     QTimer* timer;
     void keyPressEvent(QKeyEvent* event);
-    //void keyReleaseEvent(QKeyEvent* event);
+    void keyReleaseEvent(QKeyEvent* event);
+    void updateDirection();
+
 
 private:
     QVector<Entity*> Entities;
-
     void LoadEntities();
+    QSet<int> pressedKeys;
 
 };
 

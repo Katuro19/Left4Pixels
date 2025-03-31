@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "Player/Player.h"
 
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     /*
@@ -18,9 +17,14 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"));
 
+    
     (*superCube).SetId(QStringLiteral("Cube"));
+    (*superCube).setWeapon(sword);
     (*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
+
+    this->player = superCube;
+
     //(*zombie).TriggerVisibility(false);
 
 
@@ -51,34 +55,61 @@ Scene::~Scene() {
 
 void Scene::update(){
     
-    QPointF pos = Entities[0]->pos(); //récupération de la position de l’objet qgti
 
-     try{
-        if (Entities[0]->collidesWithItem(Entities[1])) {
-            qDebug() << "Collision !";
-        }
+    //Movement manager :
+    for(Entity* entity : Entities){
+        if(entity->IsMoving()){ //if the entity moving
+            entity->UpdateMovement();
+        } 
     }
-    catch (...){
 
-    }
+
+
+    // QPointF pos = Entities[0]->pos(); //récupération de la position de l’objet qgti
+
+    //  try{
+        
+    //     if (this->player->getWeapon()->collidesWithItem(Entities[1])) {
+    //         qDebug() << "Collision !";
+    //     }
+    // }
+    // catch (...){
+
+    // }
         
     
 }
 
-void Scene::keyPressEvent(QKeyEvent* event){
-    QPointF pos = Entities[0]->pos();
-    if (event->key() == Qt::Key_Up) {
-        Entities[0]->setPos(pos.rx(), pos.ry()-5);
-    } else if (event->key() == Qt::Key_Down) {
-        Entities[0]->setPos(pos.rx(), pos.ry()+5);
-    } else if (event->key() == Qt::Key_Left) {
-        Entities[0]->setPos(pos.rx() - 5, pos.ry());
-    } else if (event->key() == Qt::Key_Right) {
-        Entities[0]->setPos(pos.rx() + 5, pos.ry());
-    }
+
+//This is only for the player
+void Scene::keyPressEvent(QKeyEvent* event) {
+    pressedKeys.insert(event->key());
+    updateDirection();
 }
 
+void Scene::keyReleaseEvent(QKeyEvent* event) {
+    pressedKeys.remove(event->key());
+    updateDirection();
+}
 
+void Scene::updateDirection() {
+    float dx = 0.0f;
+    float dy = 0.0f;
+    if (pressedKeys.contains(Qt::Key_Up))    dy -= 1.0f;
+    if (pressedKeys.contains(Qt::Key_Down))  dy += 1.0f;
+    if (pressedKeys.contains(Qt::Key_Left))  dx -= 1.0f;
+    if (pressedKeys.contains(Qt::Key_Right)) dx += 1.0f;
+    
+    // Patch the navigation bug (being faster in diagonals)
+    float magnitude = std::sqrt(dx*dx + dy*dy);
+    if (magnitude > 0) {
+        dx /= magnitude;
+        dy /= magnitude;
+    }
+    
+    this->player->SetDirection(dx,dy);
+    this->player->SetMovement(!pressedKeys.isEmpty());
+}
 
 
 void Scene::LoadEntities(){
