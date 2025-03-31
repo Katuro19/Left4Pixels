@@ -36,9 +36,9 @@ protected:
 
 
 private:
-    QVector<Entity*> Entities;
-    void LoadEntities();
-    QSet<int> pressedKeys;
+    QVector<Entity*> Entities; //Will store every entities on the scene
+    void LoadEntities(); //Load entities
+    QSet<int> pressedKeys; //This is used for smooth movements
 
 };
 

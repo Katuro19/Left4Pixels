@@ -56,12 +56,12 @@ void Scene::update(){
 
 
     for(Entity* entity : Entities){
-        ProvidePlayerMovement(entity); 
+        ProvidePlayerMovement(entity);
 
         if(entity->IsMoving()){ //if the entity move
 
         } 
-        entity->UpdateMovement();
+        entity->UpdateMovement(); //Update the movement if needed
 
     }
 
@@ -101,21 +101,21 @@ void Scene::UpdateDirection() {
 
 }
 
-void Scene::ProvidePlayerMovement(Entity* entity){
+void Scene::ProvidePlayerMovement(Entity* entity){ //This will check the position of the player with the next entity and decide how to move the player in consequence
     if(entity->GetEntityType() == "player" || entity->GetEntityType() == "tile"){ //Colliding with itself or a floor
         return;
     }
 
 
-    QPointF oldPos = player->pos();
+    QPointF oldPos = player->pos(); //get current pos
 
     QPointF newX(player->GetDirection().x(),0);
     QPointF newY(0,player->GetDirection().y());
 
-    QPointF nextPositionX = player->pos() + newX * player->GetSpeed();
-    QPointF nextPositionY = player->pos() + newY * player->GetSpeed();
+    QPointF nextPositionX = player->pos() + newX * player->GetSpeed(); //Get the future position on X
+    QPointF nextPositionY = player->pos() + newY * player->GetSpeed(); //Get the future position on Y
 
-    player->setPos(nextPositionX);
+    player->setPos(nextPositionX); //Check what if the player is on X (future)
     if(player->collidesWithItem(entity)){ //Collide on x
         player->SetDirection(0,player->GetDirection().y());
         
@@ -124,8 +124,8 @@ void Scene::ProvidePlayerMovement(Entity* entity){
         }
     }
 
-    player->setPos(nextPositionY);
-    if(player->collidesWithItem(entity)){ //Collide on x
+    player->setPos(nextPositionY); //Check what if the player is on Y (future)
+    if(player->collidesWithItem(entity)){ //Collide on y
         player->SetDirection(player->GetDirection().x(),0);
 
         if(entity->GetEntityType() == "runner"){
