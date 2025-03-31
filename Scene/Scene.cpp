@@ -43,7 +43,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(16); 
+    timer->start(16); //60 FPS
 }
 
 
