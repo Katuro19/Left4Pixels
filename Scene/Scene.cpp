@@ -12,10 +12,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     */
 
 
-
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
-    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"));
+    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
 
     
     (*superCube).SetId(QStringLiteral("Cube"));
@@ -33,9 +32,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     sword->moveBy(-10, 0); // Déplace de +10 pixels en X (vers la droite)
 
     //this->Entities.push_back(sword);
-
     this->Entities.push_back(zombie);
-    zombie->moveBy(-50,0);
+    zombie->moveBy(-100,0);
+    zombie->SetDirection(1,0);
 
     
     LoadEntities();
@@ -56,37 +55,33 @@ Scene::~Scene() {
 void Scene::update(){
 
 
-
-    //Movement manager :
     for(Entity* entity : Entities){
-        if(entity->IsMoving()){ //if the entity moving
-            QPointF oldPos = player->pos();
-            QPointF nextPosition = player->pos() + player->GetDirection() * player->GetSpeed();
-            player->setPos(nextPosition);
-            if(player->collidesWithItem(Entities[1])){
-                player->setPos(oldPos);
-            }
-            else{
-                entity->UpdateMovement();
+        ProvidePlayerMovement(entity); 
 
-            }
+        if(entity->IsMoving()){ //if the entity move
+
         } 
+        entity->UpdateMovement();
+
     }
+
+    player->UpdateMovement();
+
 }
 
 
 //This is only for the player
 void Scene::keyPressEvent(QKeyEvent* event) {
     pressedKeys.insert(event->key());
-    updateDirection();
+    UpdateDirection();
 }
 
 void Scene::keyReleaseEvent(QKeyEvent* event) {
     pressedKeys.remove(event->key());
-    updateDirection();
+    UpdateDirection();
 }
 
-void Scene::updateDirection() {
+void Scene::UpdateDirection() {
     float dx = 0.0f;
     float dy = 0.0f;
     if (pressedKeys.contains(Qt::Key_Up))    dy -= 1.0f;
@@ -103,6 +98,43 @@ void Scene::updateDirection() {
 
     this->player->SetDirection(dx,dy);
     this->player->SetMovement(!pressedKeys.isEmpty());
+
+}
+
+void Scene::ProvidePlayerMovement(Entity* entity){
+    if(entity->GetEntityType() == "player" || entity->GetEntityType() == "tile"){ //Colliding with itself or a floor
+        return;
+    }
+
+
+    QPointF oldPos = player->pos();
+
+    QPointF newX(player->GetDirection().x(),0);
+    QPointF newY(0,player->GetDirection().y());
+
+    QPointF nextPositionX = player->pos() + newX * player->GetSpeed();
+    QPointF nextPositionY = player->pos() + newY * player->GetSpeed();
+
+    player->setPos(nextPositionX);
+    if(player->collidesWithItem(entity)){ //Collide on x
+        player->SetDirection(0,player->GetDirection().y());
+        
+        if(entity->GetEntityType() == "runner"){
+            delete player;
+        }
+    }
+
+    player->setPos(nextPositionY);
+    if(player->collidesWithItem(entity)){ //Collide on x
+        player->SetDirection(player->GetDirection().x(),0);
+
+        if(entity->GetEntityType() == "runner"){
+            delete player;
+        }
+    }
+    
+    player->setPos(oldPos);
+    
 
 }
 

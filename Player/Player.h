@@ -12,13 +12,20 @@ private:
 
 
 public:
+
     explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Entity* weapon = nullptr, float attack_speed = 1.0);
+   
     ~Player();
+
     void setWeapon(Entity* weapon);
-    void setAttackSpeed(float attack_speed);
-    void setHitpoints(int HP);
     Entity* getWeapon();
+    
+
+    void setAttackSpeed(float attack_speed);
     float getAttackSpeed() const;
+
+    
+    void setHitpoints(int HP);
     int getHitpoints() const;
 
 

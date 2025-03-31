@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <QGraphicsScene>
+#include <QGraphicsTextItem>
 #include <QTimer>
 #include <QGraphicsRectItem>
+#include <QElapsedTimer>
 #include <QKeyEvent>
 
 #include "Entity.h"
@@ -29,7 +31,8 @@ protected:
     QTimer* timer;
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
-    void updateDirection();
+    void UpdateDirection();
+    void ProvidePlayerMovement(Entity* entity);
 
 
 private:

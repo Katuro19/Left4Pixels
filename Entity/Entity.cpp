@@ -42,11 +42,14 @@ void Entity::LoadTexture(const QString &imagePath){
 
 
 void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
-    if(this->entityType == "wall"){
+    if(this->entityType == "wall" || this->entityType == "tile"){
         SetSpeed(0);
     }
     else if(this->entityType == "player"){
         SetSpeed(3.0);
+    }
+    else if(this->entityType == "runner"){
+        SetSpeed(1.0);
     }
     else {
         QString errorMessage = "Entity type " + (this->entityType) + " does not exist";
