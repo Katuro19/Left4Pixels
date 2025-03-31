@@ -4,8 +4,10 @@
 
 
 
-Entity::Entity(QGraphicsItem* parent, QString filePath) : QGraphicsPixmapItem(parent), entityType(0), active(true){
-    qDebug() << "Creating entity...";
+Entity::Entity(QGraphicsItem* parent, QString filePath, QString entityType) : QGraphicsPixmapItem(parent), entityType(entityType), active(true){
+    qDebug() << "Creating entity of type" << this->entityType << "...";
+
+    SetDefaultSpeed();
 
     if(!filePath.isEmpty()){
         this->LoadTexture(filePath);
@@ -16,9 +18,6 @@ Entity::Entity(QGraphicsItem* parent, QString filePath) : QGraphicsPixmapItem(pa
 
 
 void Entity::LoadTexture(const QString &imagePath){
-    cachedShape = QPainterPath(); //Empty the cache when reloading textures, so that the shape() call will rebound it
-
-
     qDebug() << "Loading texture at" << imagePath;
 
     QPixmap pixmap = QPixmap(imagePath);
@@ -39,10 +38,18 @@ void Entity::LoadTexture(const QString &imagePath){
     }
 }
 
-void Entity::ReloadEntity(){
-        cachedShape = QPainterPath(); //Empty the cache, that mean the next shape() call will rebound the collisions (auto)
-        qDebug() << "Shape cache emptied for entity" << this->identifier;
 
+
+
+void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
+    if(this->entityType == "wall"){
+        SetSpeed(0);
+    }
+    else if(this->entityType == "player"){
+        SetSpeed(3.0);
+    }
+    else {
+        QString errorMessage = "Entity type " + (this->entityType) + " does not exist";
+        throw std::runtime_error(errorMessage.toStdString());
+    }
 }
-
-

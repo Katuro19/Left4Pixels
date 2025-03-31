@@ -35,7 +35,7 @@ class Entity : public QGraphicsPixmapItem {
 
 
 public:
-    Entity(QGraphicsItem* parent = nullptr, QString filePath = "");
+    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall");
     /*
         PARAMETERS :
         -> parent : decide who is the parent (another entity usually). Can be empty. note that this entity will be attached to the parent
@@ -64,6 +64,10 @@ public:
         }
     }
 
+    QPointF GetDirection(){
+        return this->direction;
+    }
+
     void SetMovement(bool willMove){
         this->isMoving = willMove;
     }
@@ -78,10 +82,29 @@ public:
         return this->isMoving;
     }
 
+    void SetUid(int UID){
+        this->uid = UID;
+    };
+
+    int GetUid(){
+        return this->uid;
+    }
+
+    void SetSpeed(float newSpeed){
+        this->speed = newSpeed;
+    }
+
+    float GetSpeed(){
+        return this->speed;
+    }
+
+    QString GetEntityType(){
+        return this->entityType;
+    }
 
 private:
 
-    int entityType; //Will be used to detect a collision type
+    QString entityType; //Will be used to detect a collision type
     int uid; //uid, in case...
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
 
@@ -96,7 +119,8 @@ private:
     float speed = 3.0; //Default speed
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
-    void ReloadEntity(); //Reload the entity colliders.
+
+    void SetDefaultSpeed();
 };
 
 

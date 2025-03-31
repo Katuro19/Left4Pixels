@@ -12,7 +12,7 @@ private:
 
 
 public:
-    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "",Entity* weapon = nullptr, float attack_speed = 1.0);
+    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Entity* weapon = nullptr, float attack_speed = 1.0);
     ~Player();
     void setWeapon(Entity* weapon);
     void setAttackSpeed(float attack_speed);

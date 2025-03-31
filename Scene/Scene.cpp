@@ -13,7 +13,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
 
-    Player* superCube = new Player(nullptr,QStringLiteral("randomPath"));
+    Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"));
 
@@ -54,30 +54,24 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
-    
+
+
 
     //Movement manager :
     for(Entity* entity : Entities){
         if(entity->IsMoving()){ //if the entity moving
-            entity->UpdateMovement();
+            QPointF oldPos = player->pos();
+            QPointF nextPosition = player->pos() + player->GetDirection() * player->GetSpeed();
+            player->setPos(nextPosition);
+            if(player->collidesWithItem(Entities[1])){
+                player->setPos(oldPos);
+            }
+            else{
+                entity->UpdateMovement();
+
+            }
         } 
     }
-
-
-
-    // QPointF pos = Entities[0]->pos(); //récupération de la position de l’objet qgti
-
-    //  try{
-        
-    //     if (this->player->getWeapon()->collidesWithItem(Entities[1])) {
-    //         qDebug() << "Collision !";
-    //     }
-    // }
-    // catch (...){
-
-    // }
-        
-    
 }
 
 
@@ -106,9 +100,10 @@ void Scene::updateDirection() {
         dx /= magnitude;
         dy /= magnitude;
     }
-    
+
     this->player->SetDirection(dx,dy);
     this->player->SetMovement(!pressedKeys.isEmpty());
+
 }
 
 
@@ -117,7 +112,8 @@ void Scene::LoadEntities(){
     int counter = 1;
     for (Entity* entity : Entities) {
         qDebug() << qPrintable(QString("Loading entities (%1/%2)").arg(counter).arg(vectorSize));
-        this->addItem(entity); 
+        entity->SetUid(counter - 1);
+        this->addItem(entity);
         counter++;
     }
 }
