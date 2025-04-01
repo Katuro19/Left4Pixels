@@ -1,0 +1,27 @@
+#ifndef PROJECTILES_H
+#define PROJECTILES_H
+#include "Entity.h"
+
+class Projectile : public Entity {
+private:
+    int damage;
+    bool isBreakble;
+    int peirces;
+    int bounces;
+    int HP;
+public:
+    Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile", int damage = 10, bool isBreakble = true, int peirces = 0,int bounces = 0, int HP = 50);
+    ~Projectile();
+    void setDamage(int damage);
+    void setBreakble(bool isBreakble);
+    void setPeirces(int peirces);
+    void setBounces(int bounces);
+    void setHP(int HP);
+    int getDamage() const;
+    bool getBreakble() const;
+    int getPeirces() const;
+    int getBounces() const;
+    int getHP() const;
+};
+
+#endif //PROJECTILES_H

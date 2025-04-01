@@ -13,6 +13,8 @@ include_directories(
     ./Scene
     ./Entity
     ./Player
+    ./Weapon
+    ./Projectiles
 )
 
 
@@ -32,6 +34,8 @@ set(SOURCES
     ./Player/Player.h
     ./Weapon/Weapon.cpp
     ./Weapon/Weapon.h
+    ./Projectiles/Projectiles.cpp
+    ./Projectiles/Projectiles.h
 
 )
 
