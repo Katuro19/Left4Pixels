@@ -22,6 +22,9 @@ void Projectile::setBounces(int bounces) {
 void Projectile::setHP(int HP) {
     this->HP = HP;
 }
+void Projectile::setTarget(QPointF target) {
+    this->target = target;
+}
 int Projectile::getDamage() const {
     return this->damage;
 }
@@ -36,4 +39,7 @@ int Projectile::getBounces() const {
 }
 int Projectile::getHP() const {
     return this->HP;
+}
+QPointF Projectile::getTarget() const {
+    return this->target;
 }

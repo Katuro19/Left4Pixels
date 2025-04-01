@@ -18,11 +18,13 @@ public:
     void setPeirces(int peirces);
     void setBounces(int bounces);
     void setHP(int HP);
+    void setTarget(QPointF target);
     int getDamage() const;
     bool getBreakble() const;
     int getPeirces() const;
     int getBounces() const;
     int getHP() const;
+    QPointF getTarget() const;
 };
 
 #endif //PROJECTILES_H
