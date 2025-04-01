@@ -22,6 +22,10 @@ public:
 
     Player* player;
 
+    void CameraUpdate(Entity* entity);
+
+
+
 public slots:
     void update();
 

@@ -60,8 +60,8 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
-
-    views().first()->centerOn(player);
+    
+    CameraUpdate(player);
 
     //Calculation for collisions :
     QPointF oldPos = player->pos(); //get current pos
@@ -91,7 +91,10 @@ void Scene::update(){
 
 }
 
+void Scene::CameraUpdate(Entity* entity){
+    views().first()->centerOn(entity);
 
+}
 
 //This is only for the player
 void Scene::keyPressEvent(QKeyEvent* event) {
