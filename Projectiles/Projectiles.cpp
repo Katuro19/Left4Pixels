@@ -1,7 +1,7 @@
 #include "Projectiles.h"
 
 
-Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType, int damage, bool isBreakble, int peirces, int bounces, int HP) : Entity(parent, filePath, entityType), damage(damage), isBreakble(isBreakble), peirces(peirces),bounces(bounces), HP(HP) {
+Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType, int damage, bool isBreakble, int peirces, int bounces, int HP, QPointF target) : Entity(parent, filePath, entityType), damage(damage), isBreakble(isBreakble), peirces(peirces),bounces(bounces), HP(HP), target(target) {
 
 }
 Projectile::~Projectile() {

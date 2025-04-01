@@ -9,8 +9,9 @@ private:
     int peirces;
     int bounces;
     int HP;
+    QPointF target;
 public:
-    Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile", int damage = 10, bool isBreakble = true, int peirces = 0,int bounces = 0, int HP = 50);
+    Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile", int damage = 10, bool isBreakble = true, int peirces = 0,int bounces = 0, int HP = 50, QPointF target = {0,0});
     ~Projectile();
     void setDamage(int damage);
     void setBreakble(bool isBreakble);
