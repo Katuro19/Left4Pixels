@@ -13,7 +13,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
-    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
+    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"item");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
     Entity* wall = new Entity(nullptr,QStringLiteral("../Resources/Textures/Tiles/THEwall.png"),"wall");
 
@@ -60,8 +60,6 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
-    
-    CameraUpdate(player);
 
     //Calculation for collisions :
     QPointF oldPos = player->pos(); //get current pos
@@ -86,8 +84,12 @@ void Scene::update(){
 
     }
 
+
     player->setPos(oldPos); //Because the player is moved while doing collision calculation, we set it back to its original position
     player->UpdateMovement();
+    
+    CameraUpdate(player);
+
 
 }
 
@@ -100,11 +102,13 @@ void Scene::CameraUpdate(Entity* entity){
 void Scene::keyPressEvent(QKeyEvent* event) {
     pressedKeys.insert(event->key());
     UpdateDirection();
+
 }
 
 void Scene::keyReleaseEvent(QKeyEvent* event) {
     pressedKeys.remove(event->key());
     UpdateDirection();
+
 }
 
 void Scene::UpdateDirection() {
@@ -122,6 +126,8 @@ void Scene::UpdateDirection() {
         dy /= magnitude;
     }
 
+    qDebug() << dx << dy;
+
     this->player->SetDirection(dx,dy);
     this->player->SetMovement(!pressedKeys.isEmpty());
 
@@ -133,24 +139,18 @@ void Scene::ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF
     }
 
 
-    player->setPos(nextPositionX); //Check what if the player is on X (future)
-    if(player->collidesWithItem(entity)){ //Collide on x
-        player->SetDirection(0,player->GetDirection().y());
-        
-        // if(entity->GetEntityType() == "runner"){
-        //     delete player;
-        // }
-    }
-
-    player->setPos(nextPositionY); //Check what if the player is on Y (future)
-    if(player->collidesWithItem(entity)){ //Collide on y
-        player->SetDirection(player->GetDirection().x(),0);
-
-        // if(entity->GetEntityType() == "runner"){
-        //     delete player;
-        // }
-    }
+    else{
+        player->setPos(nextPositionX); //Check what if the player is on X (future)
+        if(player->collidesWithItem(entity)){ //Collide on x
+            player->SetDirection(0,player->GetDirection().y());
+        }
     
+        player->setPos(nextPositionY); //Check what if the player is on Y (future)
+        if(player->collidesWithItem(entity)){ //Collide on y
+            player->SetDirection(player->GetDirection().x(),0);
+        }    
+    }
+
     
 
 }

@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <vector>
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QTimer>
@@ -9,6 +8,10 @@
 #include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QGraphicsView>
+
+
+#include <vector>
+#include <cmath>
 
 #include "Entity.h"
 #include "Player.h"

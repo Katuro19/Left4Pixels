@@ -42,7 +42,7 @@ void Entity::LoadTexture(const QString &imagePath){
 
 
 void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
-    if(this->entityType == "wall" || this->entityType == "tile"){
+    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" ){
         SetSpeed(0);
     }
     else if(this->entityType == "player"){
