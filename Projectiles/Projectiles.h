@@ -21,8 +21,8 @@ public:
     bool getBreakble() const;
     void setBreakble(bool isBreakble);
 
-    int getPeirces() const;
-    void setPeirces(int peirces);
+    int getPierces() const;
+    void setPierces(int peirces);
 
     int getBounces() const;
     void setBounces(int bounces);
