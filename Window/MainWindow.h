@@ -23,6 +23,8 @@ public:
     MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow();
 
+
+
 public slots:
     void slot_aboutMenu();
 };

@@ -102,6 +102,8 @@ public:
         return this->entityType;
     }
 
+
+
 private:
 
     QString entityType; //Will be used to detect a collision type
@@ -110,9 +112,6 @@ private:
 
     QString filePath;
     bool active;
-
-    bool perfectBox=false; //Will be used to decide about collisions : either perfect or big box. True mean perfect.
-    QPainterPath cachedShape; //Special qpainter to save the shape collide box, since the collider wont change for a lot of entities.
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.

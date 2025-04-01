@@ -8,11 +8,10 @@
 #include <QGraphicsRectItem>
 #include <QElapsedTimer>
 #include <QKeyEvent>
+#include <QGraphicsView>
 
 #include "Entity.h"
 #include "Player.h"
-
-
 
 class Scene : public QGraphicsScene {
     Q_OBJECT
@@ -32,7 +31,7 @@ protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void UpdateDirection();
-    void ProvidePlayerMovement(Entity* entity);
+    void ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY);
 
 
 private:

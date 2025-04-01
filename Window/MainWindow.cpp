@@ -11,12 +11,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     this->setCentralWidget(mainView);
     this->setWindowTitle("Left4Pixels");
-    this->resize(400, 400);
 
-    helpMenu = menuBar()->addMenu(tr("&Help"));
-    QAction* actionHelp = new QAction(tr("&About"), this);
-    connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
-    helpMenu->addAction(actionHelp);
+    mainView->setSceneRect(-600, 0, 5000, 5000);  // Taille de la scène
+    mainView->setFixedSize(800, 600);        // Taille de la fenêtre
+    mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+
+    //helpMenu = menuBar()->addMenu(tr("&Help"));
+    // QAction* actionHelp = new QAction(tr("&About"), this);
+    // connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
+    // helpMenu->addAction(actionHelp);
 
 }
 
@@ -30,3 +35,5 @@ void MainWindow::slot_aboutMenu(){
     msgBox.setModal(true); // on souhaite que la fenetre soit modale i.e qu'on ne puisse plus cliquer ailleurs
     msgBox.exec();
 }
+
+

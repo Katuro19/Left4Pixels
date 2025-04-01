@@ -15,12 +15,14 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"));
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
+    Entity* wall = new Entity(nullptr,QStringLiteral("../Resources/Textures/Tiles/THEwall.png"),"wall");
 
     
     (*superCube).SetId(QStringLiteral("Cube"));
     (*superCube).setWeapon(sword);
     (*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
+    (*wall).SetId(QStringLiteral("THEWall"));
 
     this->player = superCube;
 
@@ -29,12 +31,17 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     this->Entities.push_back(superCube);
-    sword->moveBy(-10, 0); // Déplace de +10 pixels en X (vers la droite)
+    sword->moveBy(-10, 0); // move the sword
 
     //this->Entities.push_back(sword);
     this->Entities.push_back(zombie);
     zombie->moveBy(-100,0);
-    zombie->SetDirection(1,0);
+
+
+    this->Entities.push_back(wall);
+    wall->moveBy(0,100);
+
+    //zombie->SetDirection(1,0);
 
     
     LoadEntities();
@@ -54,9 +61,23 @@ Scene::~Scene() {
 
 void Scene::update(){
 
+    views().first()->centerOn(player);
+
+    //Calculation for collisions :
+    QPointF oldPos = player->pos(); //get current pos
+
+    QPointF newX(player->GetDirection().x(),0);
+    QPointF newY(0,player->GetDirection().y());
+
+    QPointF nextPositionX = player->pos() + newX * player->GetSpeed(); //Get the future position on X
+    QPointF nextPositionY = player->pos() + newY * player->GetSpeed(); //Get the future position on Y
+    
+    // ------------------
+
 
     for(Entity* entity : Entities){
-        ProvidePlayerMovement(entity);
+        ProvidePlayerMovement(entity,nextPositionX,nextPositionY);
+
 
         if(entity->IsMoving()){ //if the entity move
 
@@ -65,9 +86,11 @@ void Scene::update(){
 
     }
 
+    player->setPos(oldPos); //Because the player is moved while doing collision calculation, we set it back to its original position
     player->UpdateMovement();
 
 }
+
 
 
 //This is only for the player
@@ -101,39 +124,30 @@ void Scene::UpdateDirection() {
 
 }
 
-void Scene::ProvidePlayerMovement(Entity* entity){ //This will check the position of the player with the next entity and decide how to move the player in consequence
+void Scene::ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY){ //This will check the position of the player with the next entity and decide how to move the player in consequence
     if(entity->GetEntityType() == "player" || entity->GetEntityType() == "tile"){ //Colliding with itself or a floor
         return;
     }
 
 
-    QPointF oldPos = player->pos(); //get current pos
-
-    QPointF newX(player->GetDirection().x(),0);
-    QPointF newY(0,player->GetDirection().y());
-
-    QPointF nextPositionX = player->pos() + newX * player->GetSpeed(); //Get the future position on X
-    QPointF nextPositionY = player->pos() + newY * player->GetSpeed(); //Get the future position on Y
-
     player->setPos(nextPositionX); //Check what if the player is on X (future)
     if(player->collidesWithItem(entity)){ //Collide on x
         player->SetDirection(0,player->GetDirection().y());
         
-        if(entity->GetEntityType() == "runner"){
-            delete player;
-        }
+        // if(entity->GetEntityType() == "runner"){
+        //     delete player;
+        // }
     }
 
     player->setPos(nextPositionY); //Check what if the player is on Y (future)
     if(player->collidesWithItem(entity)){ //Collide on y
         player->SetDirection(player->GetDirection().x(),0);
 
-        if(entity->GetEntityType() == "runner"){
-            delete player;
-        }
+        // if(entity->GetEntityType() == "runner"){
+        //     delete player;
+        // }
     }
     
-    player->setPos(oldPos);
     
 
 }
