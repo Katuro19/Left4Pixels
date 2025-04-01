@@ -11,6 +11,7 @@ private:
     float attack_speed;
 
 
+
 public:
 
     explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Entity* weapon = nullptr, float attack_speed = 1.0);

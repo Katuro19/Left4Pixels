@@ -7,6 +7,7 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QMessageBox>
+#include <QPainter>
 
 #include "Scene.h"
 

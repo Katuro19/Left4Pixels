@@ -119,12 +119,13 @@ void Scene::UpdateDirection() {
     if (pressedKeys.contains(Qt::Key_Left))  dx -= 1.0f;
     if (pressedKeys.contains(Qt::Key_Right)) dx += 1.0f;
     
-    // Patch the navigation bug (being faster in diagonals)
+    //Patch the navigation bug (being faster in diagonals)
     float magnitude = std::sqrt(dx*dx + dy*dy);
     if (magnitude > 0) {
         dx /= magnitude;
         dy /= magnitude;
     }
+
 
     qDebug() << dx << dy;
 
