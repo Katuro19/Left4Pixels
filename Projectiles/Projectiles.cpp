@@ -13,7 +13,7 @@ void Projectile::setDamage(int damage) {
 void Projectile::setBreakble(bool isBreakble) {
     this->isBreakble = isBreakble;
 }
-void Projectile::setPeirces(int peirces) {
+void Projectile::setPierces(int peirces) {
     this->peirces = peirces;
 }
 void Projectile::setBounces(int bounces) {
@@ -31,7 +31,7 @@ int Projectile::getDamage() const {
 bool Projectile::getBreakble() const {
     return this->isBreakble;
 }
-int Projectile::getPeirces() const {
+int Projectile::getPierces() const {
     return this->peirces;
 }
 int Projectile::getBounces() const {
