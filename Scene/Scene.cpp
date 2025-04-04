@@ -93,7 +93,7 @@ void Scene::update(){
 
 }
 
-void Scene::CameraUpdate(Entity* entity){
+void Scene::CameraUpdate(Entity* entity) const {
     views().first()->centerOn(entity);
 
 }
@@ -111,7 +111,7 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
 
 }
 
-void Scene::UpdateDirection() {
+void Scene::UpdateDirection() const {
     float dx = 0.0f;
     float dy = 0.0f;
     if (pressedKeys.contains(Qt::Key_Up))    dy -= 1.0f;
@@ -134,7 +134,7 @@ void Scene::UpdateDirection() {
 
 }
 
-void Scene::ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY){ //This will check the position of the player with the next entity and decide how to move the player in consequence
+void Scene::ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY) const{ //This will check the position of the player with the next entity and decide how to move the player in consequence
     if(entity->GetEntityType() == "player" || entity->GetEntityType() == "tile"){ //Colliding with itself or a floor
         return;
     }

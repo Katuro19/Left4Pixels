@@ -48,16 +48,16 @@ public:
     //virtual ~Entity();
 
 
-    void TriggerVisibility(bool visible=true){
+    void TriggerVisibility(const bool visible=true){
         this->setVisible(visible);
         this->active = visible;
     }
 
-    void SetId(QString name){ //Set the ID.
+    void SetId(const QString name){ //Set the ID.
         this->identifier = name;
     }
 
-    void SetDirection(float dx, float dy, bool preventMoving=false){ //Save the direction and trigger isMoving. Using the preventMoving (to true) you can prevent the movement start
+    void SetDirection(const float dx,const float dy,const bool preventMoving=false){ //Save the direction and trigger isMoving. Using the preventMoving (to true) you can prevent the movement start
         this->direction = QPointF(dx, dy);
         if(!preventMoving){
             this->isMoving = true;
@@ -68,7 +68,7 @@ public:
         return this->direction;
     }
 
-    void SetMovement(bool willMove){
+    void SetMovement(const bool willMove){
         this->isMoving = willMove;
     }
 
@@ -82,7 +82,7 @@ public:
         return this->isMoving;
     }
 
-    void SetUid(int UID){
+    void SetUid(const int UID){
         this->uid = UID;
     };
 
@@ -90,7 +90,7 @@ public:
         return this->uid;
     }
 
-    void SetSpeed(float newSpeed){
+    void SetSpeed(const float newSpeed){
         this->speed = newSpeed;
     }
 

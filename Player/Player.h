@@ -19,7 +19,7 @@ public:
     ~Player();
 
     void setWeapon(Entity* weapon);
-    Entity* getWeapon();
+    Entity* getWeapon() const;
     
 
     void setAttackSpeed(float attack_speed);

@@ -4,7 +4,7 @@
 
 
 
-Entity::Entity(QGraphicsItem* parent, QString filePath, QString entityType) : QGraphicsPixmapItem(parent), entityType(entityType), active(true){
+Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType) : QGraphicsPixmapItem(parent), entityType(entityType), active(true){
     qDebug() << "Creating entity of type" << this->entityType << "...";
 
     SetDefaultSpeed();

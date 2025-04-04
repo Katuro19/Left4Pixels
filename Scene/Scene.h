@@ -20,12 +20,12 @@ class Scene : public QGraphicsScene {
     Q_OBJECT
 
 public:
-    Scene(QObject* parent = nullptr);
+    explicit Scene(QObject* parent = nullptr);
     virtual ~Scene();
 
     Player* player;
 
-    void CameraUpdate(Entity* entity);
+    void CameraUpdate(Entity* entity) const;
 
 
 
@@ -37,12 +37,12 @@ protected:
     QTimer* timer;
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
-    void UpdateDirection();
-    void ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY);
+    void UpdateDirection() const;
+    void ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY) const;
 
 
 private:
-    QVector<Entity*> Entities; //Will store every entities on the scene
+    QVector<Entity*> Entities; //Will store every entity on the scene
     void LoadEntities(); //Load entities
     QSet<int> pressedKeys; //This is used for smooth movements
 
