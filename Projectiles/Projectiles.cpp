@@ -1,38 +1,39 @@
 #include "Projectiles.h"
 
 
-Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType, int damage, bool isBreakble, int peirces, int bounces, int HP, QPointF target) : Entity(parent, filePath, entityType), damage(damage), isBreakble(isBreakble), peirces(peirces),bounces(bounces), HP(HP), target(target) {
+Projectile::Projectile(QGraphicsItem* parent,const QString filePath, const QString entityType, const QPointF target, const int damage, const bool isBreakable, const int pierces,const int bounces,const int HP,const float speed ) :
+Entity(parent, filePath, entityType), damage(damage), isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), speed(speed) {
 
 }
 Projectile::~Projectile() {
 
 }
-void Projectile::setDamage(int damage) {
+void Projectile::setDamage(const int damage) {
     this->damage = damage;
 }
-void Projectile::setBreakble(bool isBreakble) {
-    this->isBreakble = isBreakble;
+void Projectile::setBreakable(const bool isBreakable) {
+    this->isBreakable = isBreakable;
 }
-void Projectile::setPierces(int peirces) {
-    this->peirces = peirces;
+void Projectile::setPierces(const int pierces) {
+    this->pierces = pierces;
 }
-void Projectile::setBounces(int bounces) {
+void Projectile::setBounces(const int bounces) {
     this->bounces = bounces;
 }
-void Projectile::setHP(int HP) {
+void Projectile::setHP(const int HP) {
     this->HP = HP;
 }
-void Projectile::setTarget(QPointF target) {
+void Projectile::setTarget(const QPointF target) {
     this->target = target;
 }
 int Projectile::getDamage() const {
     return this->damage;
 }
-bool Projectile::getBreakble() const {
-    return this->isBreakble;
+bool Projectile::getBreakable() const {
+    return this->isBreakable;
 }
 int Projectile::getPierces() const {
-    return this->peirces;
+    return this->pierces;
 }
 int Projectile::getBounces() const {
     return this->bounces;
