@@ -38,7 +38,6 @@ protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void UpdateDirection() const;
-    void ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY) const;
 
 
 private:

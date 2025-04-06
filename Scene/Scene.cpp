@@ -13,7 +13,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
-    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"item");
+    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
     Entity* wall = new Entity(nullptr,QStringLiteral("../Resources/Textures/Tiles/THEwall.png"),"wall");
 
@@ -60,33 +60,15 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
-
-    //Calculation for collisions :
-    QPointF oldPos = player->pos(); //get current pos
-
-    QPointF newX(player->GetDirection().x(),0);
-    QPointF newY(0,player->GetDirection().y());
-
-    QPointF nextPositionX = player->pos() + newX * player->GetSpeed(); //Get the future position on X
-    QPointF nextPositionY = player->pos() + newY * player->GetSpeed(); //Get the future position on Y
-    
-    // ------------------
+    for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
 
 
-    for(Entity* entity : Entities){
-        ProvidePlayerMovement(entity,nextPositionX,nextPositionY);
-
-
-        if(entity->IsMoving()){ //if the entity move
+        if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
         } 
         entity->UpdateMovement(); //Update the movement if needed
 
     }
-
-
-    player->setPos(oldPos); //Because the player is moved while doing collision calculation, we set it back to its original position
-    player->UpdateMovement();
     
     CameraUpdate(player);
 
@@ -127,34 +109,16 @@ void Scene::UpdateDirection() const {
     }
 
 
-    qDebug() << dx << dy;
+
 
     this->player->SetDirection(dx,dy);
-    this->player->SetMovement(!pressedKeys.isEmpty());
+    this->player->SetMovement(!pressedKeys.isEmpty()); //This tells us if the player is moving
+
+    qDebug() << dx << dy;
+    qDebug() << this->player->IsMoving();
 
 }
 
-void Scene::ProvidePlayerMovement(Entity* entity, QPointF nextPositionX, QPointF nextPositionY) const{ //This will check the position of the player with the next entity and decide how to move the player in consequence
-    if(entity->GetEntityType() == "player" || entity->GetEntityType() == "tile"){ //Colliding with itself or a floor
-        return;
-    }
-
-
-    else{
-        player->setPos(nextPositionX); //Check what if the player is on X (future)
-        if(player->collidesWithItem(entity)){ //Collide on x
-            player->SetDirection(0,player->GetDirection().y());
-        }
-    
-        player->setPos(nextPositionY); //Check what if the player is on Y (future)
-        if(player->collidesWithItem(entity)){ //Collide on y
-            player->SetDirection(player->GetDirection().x(),0);
-        }    
-    }
-
-    
-
-}
 
 
 void Scene::LoadEntities(){

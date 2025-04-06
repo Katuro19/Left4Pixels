@@ -48,6 +48,12 @@ public:
     //virtual ~Entity();
 
 
+
+
+    enum { Type = QGraphicsItem::UserType + 1 }; //This create a new type for QT itself : Now, QT functions will know what is an entity. This allow us to do "safe casts", mostly when checking for collisions
+    int type() const override { return Type; } //We are ovveriding the qt basic function, so that when QT check the type of this item, it show as "Entity" instead of QGraphicsPixmapItem. Should return 65537
+
+
     void TriggerVisibility(const bool visible=true){
         this->setVisible(visible);
         this->active = visible;
@@ -72,11 +78,9 @@ public:
         this->isMoving = willMove;
     }
 
-    void UpdateMovement(){
-        if(this->isMoving){
-            setPos(pos() + direction * speed); //Move using current position + speed, use SetDirection
-        }
-    }
+    void UpdateMovement(int steps = 1);
+
+    bool PreventMovementCollision(); //Return true if one of the collision is wrong
 
     bool IsMoving(){
         return this->isMoving;
