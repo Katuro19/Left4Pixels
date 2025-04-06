@@ -8,6 +8,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QPainter>
+#include <QLabel>
 
 #include "Scene.h"
 
@@ -17,7 +18,6 @@ class MainWindow : public QMainWindow {
 private :
     Scene* mainScene;
     QGraphicsView* mainView;
-    QMenu* helpMenu;
 
 
 public:
@@ -26,8 +26,7 @@ public:
 
 
 
-public slots:
-    void slot_aboutMenu();
+    
 };
 
 

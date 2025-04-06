@@ -46,7 +46,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     
     LoadEntities();
 
-
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(16); //60 FPS
@@ -79,6 +78,7 @@ void Scene::CameraUpdate(Entity* entity) const {
     views().first()->centerOn(entity);
 
 }
+
 
 //This is only for the player
 void Scene::keyPressEvent(QKeyEvent* event) {

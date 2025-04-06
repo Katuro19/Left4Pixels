@@ -8,6 +8,7 @@
 #include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QGraphicsView>
+#include <QDateTime>
 
 
 #include <vector>
@@ -28,7 +29,6 @@ public:
     void CameraUpdate(Entity* entity) const;
 
 
-
 public slots:
     void update();
 
@@ -44,6 +44,7 @@ private:
     QVector<Entity*> Entities; //Will store every entity on the scene
     void LoadEntities(); //Load entities
     QSet<int> pressedKeys; //This is used for smooth movements
+
 
 };
 
