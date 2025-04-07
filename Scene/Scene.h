@@ -28,6 +28,7 @@ public:
 
     void CameraUpdate(Entity* entity) const;
 
+    void AddEntity(Entity* entity, bool reposition = false, QPointF spawnLocation = QPointF(0,0));
 
 public slots:
     void update();
@@ -38,11 +39,11 @@ protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void UpdateDirection() const;
+    int totalEntitySpawned = 0;
 
 
 private:
     QVector<Entity*> Entities; //Will store every entity on the scene
-    void LoadEntities(); //Load entities
     QSet<int> pressedKeys; //This is used for smooth movements
 
 

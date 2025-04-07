@@ -14,7 +14,7 @@ private:
 
 public:
 
-    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Entity* weapon = nullptr, float attack_speed = 1.0);
+    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "player", Entity* weapon = nullptr, float attack_speed = 1.0);
    
     ~Player();
 
@@ -26,8 +26,8 @@ public:
     float getAttackSpeed() const;
 
     
-    void setHitpoints(int HP);
-    int getHitpoints() const;
+    void setHealthpoints(int HP);
+    int getHealthpoints() const;
 
 
 };

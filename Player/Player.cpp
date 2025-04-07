@@ -7,23 +7,31 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, Enti
 Player::~Player() {
 
 }
-void Player::setWeapon(Entity* weapon) {
-    this->Weapon = weapon;
-}
+
 
 void Player::setAttackSpeed(const float attack_speed) {
     this->attack_speed = attack_speed;
-}
-void Player::setHitpoints(const int HP) {
-    this->HP = HP;
-}
-Entity* Player::getWeapon() const {
-    return this->Weapon;
 }
 
 float Player::getAttackSpeed() const {
     return this->attack_speed;
 }
-int Player::getHitpoints() const {
+
+
+void Player::setHealthpoints(const int HP) {
+    this->HP = HP;
+}
+
+int Player::getHealthpoints() const {
     return this->HP;
 }
+
+
+void Player::setWeapon(Entity* weapon) {
+    this->Weapon = weapon;
+}
+
+Entity* Player::getWeapon() const {
+    return this->Weapon;
+}
+

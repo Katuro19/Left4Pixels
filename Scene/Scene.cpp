@@ -1,15 +1,8 @@
 #include "Scene.h"
 
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
-    /*
-    qgri = new QGraphicsRectItem(10, 100, 300, 200);
-    this->addItem(qgri);
 
-    superCube = new QGraphicsRectItem(10, -500, 50, 50);
-    //qgti = new QGraphicsTextItem("CIR2 Nantes", superCube); //Exemple pour ajouter un objet DANS le deuxieme cadre
-
-    this->addItem(superCube);
-    */
+    QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for these ones.
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
@@ -27,24 +20,23 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     this->player = superCube;
 
     //(*zombie).TriggerVisibility(false);
-
-
-
-    this->Entities.push_back(superCube);
-    sword->moveBy(-10, 0); // move the sword
-
-    //this->Entities.push_back(sword);
-    this->Entities.push_back(zombie);
-    zombie->moveBy(-100,0);
-
-
-    this->Entities.push_back(wall);
-    wall->moveBy(0,100);
-
     //zombie->SetDirection(1,0);
 
+
+
+    sword->moveBy(-10, 0); // move the sword
+    zombie->moveBy(-100,0);
+    wall->moveBy(0,100);
     
-    LoadEntities();
+    toPreLoad.push_back(player);
+    toPreLoad.push_back(zombie);
+    toPreLoad.push_back(wall);
+    toPreLoad.push_back(sword);
+
+
+    for(Entity* entity : toPreLoad) {
+        this->AddEntity(entity);
+    }
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -60,8 +52,6 @@ Scene::~Scene() {
 
 void Scene::update(){
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
-
-
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
         } 
@@ -121,13 +111,20 @@ void Scene::UpdateDirection() const {
 
 
 
-void Scene::LoadEntities(){
-    int vectorSize = Entities.size();
-    int counter = 1;
-    for (Entity* entity : Entities) {
-        qDebug() << qPrintable(QString("Loading entities (%1/%2)").arg(counter).arg(vectorSize));
-        entity->SetUid(counter - 1);
-        this->addItem(entity);
-        counter++;
-    }
+
+void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
+    /*
+        WARNING : AddEntity already push in the entities list ! no need to do it anywhere else !!
+    
+    */
+
+    qDebug() << "Spawning entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << this->totalEntitySpawned;
+    entity->SetUid(this->totalEntitySpawned);
+    this->addItem(entity);
+    this->Entities.push_back(entity); //Add the new entity to the list, so that it will be called in the update loop !
+
+    if(reposition)
+        entity->setPos(spawnLocation);
+
+    this->totalEntitySpawned++;
 }

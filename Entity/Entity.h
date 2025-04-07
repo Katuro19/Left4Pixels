@@ -63,9 +63,16 @@ public:
         this->identifier = name;
     }
 
+    QString GetId(){
+        return this->identifier;
+    }
+
     void SetDirection(const float dx,const float dy,const bool preventMoving=false){ //Save the direction and trigger isMoving. Using the preventMoving (to true) you can prevent the movement start
         this->direction = QPointF(dx, dy);
-        if(!preventMoving){
+        if(this->direction.x() + this->direction.y() == 0){
+            this->isMoving = false;
+        }
+        else if(!preventMoving){
             this->isMoving = true;
         }
     }
