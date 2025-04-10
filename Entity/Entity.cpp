@@ -42,7 +42,7 @@ void Entity::LoadTexture(const QString &imagePath){
 
 
 void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
-    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" ){
+    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" || this->entityType == "water"){
         SetSpeed(0);
     }
     else if(this->entityType == "player"){
@@ -77,12 +77,13 @@ void Entity::UpdateMovement(int steps){
         bool canMove;
 
         //First, for X
-        for(int i=0 ; i < entitySpeed; i++){ //Knowing that the number of pixel we are moving is direction * speed, we need to this for a number of times equal to the speed
+        for(float i=0 ; i < entitySpeed/steps; i++){ //Knowing that the number of pixel we are moving is direction * speed, we need to this for a number of times equal to the speed
+            //qDebug() << "Speed :" << entitySpeed << "/ Steps :" << steps << "/ Ratio :" << entitySpeed/steps;
             QPointF currentMovement = XHolder * currentDirection.x();
             setPos(nextPos + currentMovement); //We are moving our character from 1 on X. Multiplying with GetDirection is useful if we are going backwards (negative numbers)
             canMove = !(this->PreventMovementCollision()); //We then check if we are having a collisions thats forbiden
             if(canMove){
-                nextPos += currentMovement ; //If we are allowed to move, we move one step forward
+                nextPos += currentMovement; //If we are allowed to move, we move one step forward
             }
             else{ //We are colliding smght : Lets stop the for() statement, because we hit a wall.
                 break;
@@ -93,7 +94,7 @@ void Entity::UpdateMovement(int steps){
         setPos(currentPos); //Let's not forget to reset the position after testing on X
 
         //Same, but for the Y position
-        for(int y=0 ; y < entitySpeed; y++){
+        for(float y=0 ; y < entitySpeed/steps; y++){
             QPointF currentMovement = YHolder * currentDirection.y();
             setPos(nextPos + currentMovement); 
             canMove = !(this->PreventMovementCollision());
@@ -141,7 +142,7 @@ bool Entity::PreventMovementCollision(){
             */
 
             if(myType == "player"){ //If this entity is a player
-                if (type == "wall") {
+                if (type == "wall" || type == "water") {
                     return true; //Can NOT move. the movement is PREVENTED !!
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !

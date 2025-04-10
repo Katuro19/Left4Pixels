@@ -15,6 +15,7 @@ include_directories(
     ./Player
     ./Weapon
     ./Projectiles
+    ./MapLoader
 )
 
 
@@ -22,20 +23,29 @@ include_directories(
 set(SOURCES
     main.cpp
 
-    ./Window/MainWindow.h
     ./Window/MainWindow.cpp
+    ./Window/MainWindow.h
+
     
-    ./Scene/Scene.h
     ./Scene/Scene.cpp
+    ./Scene/Scene.h
+
 
     ./Entity/Entity.h
     ./Entity/Entity.cpp
+
     ./Player/Player.cpp
     ./Player/Player.h
+
     ./Weapon/Weapon.cpp
     ./Weapon/Weapon.h
+
     ./Projectiles/Projectiles.cpp
     ./Projectiles/Projectiles.h
+
+    ./MapLoader/MapLoader.cpp
+    ./MapLoader/MapLoader.h
+
 
 )
 

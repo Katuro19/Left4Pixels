@@ -8,14 +8,11 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
-    Entity* wall = new Entity(nullptr,QStringLiteral("../Resources/Textures/Tiles/THEwall.png"),"wall");
 
-    
     (*superCube).SetId(QStringLiteral("Cube"));
     (*superCube).setWeapon(sword);
     (*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
-    (*wall).SetId(QStringLiteral("THEWall"));
 
     this->player = superCube;
 
@@ -23,16 +20,15 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     //zombie->SetDirection(1,0);
 
 
-
     sword->moveBy(-10, 0); // move the sword
     zombie->moveBy(-100,0);
-    wall->moveBy(0,100);
     
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
-    toPreLoad.push_back(wall);
     toPreLoad.push_back(sword);
 
+
+    MapLoader* mapLoader = new MapLoader("Lotus", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);

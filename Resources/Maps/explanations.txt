@@ -1,0 +1,33 @@
+Each map will be a txt with codes looking like this :
+
+w00 w00 w00 w00 t12 t22 t22 t12 t12
+w00 w00 t12 t12 t22 t22 t22 t12 t12 
+
+...
+
+With each code representing a texture of 32 * 32 in the game files
+Code can also use letters (so having wA1 for exemple)
+theres no limit for maps size, but code only are 2 letters/numbers
+Invalid codes will be replaced by the default texture
+Some codes will have special use, such as doors unlocking with a special item, but this will be handled by the map generation itself and then in the scene update.
+{
+
+    w : Wall
+    t : Tile
+    a : Water
+
+}
+
+If nothing is given, wall will be used by default
+
+
+Each map will have a config.txt file containing different informations :
+    - Map size (in tiles)
+    - Player spawn position (tile !!)
+
+Note that the first tile will always be placed in 0;0 and then go 32 by 32 in different directions based on the map size
+
+
+Exemple of config :
+    - 100 150 0 20 
+    -> Map of 100 * 150 tiles (so 32 * 100 pixels wide, if our texture is 32*32 pixels), with the player spawning on the very left of the map, at the 20th tile starting from the top of the map
