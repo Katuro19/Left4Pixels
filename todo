@@ -1,8 +1,8 @@
 URGENT :
     - Make a game (maybe?)
     - fix fps problem (ifykyk)
+    - Fix collision + rotation problem
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
-    - Make an easy way to load maps (using txt file?)
     - Make use of the "step" option in the collision system to save performances
 
 KINDA IMPORTANT :

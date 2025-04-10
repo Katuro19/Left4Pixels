@@ -5,7 +5,8 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for these ones.
 
 
-    Player* superCube = new Player(nullptr,QStringLiteral("randomPath"),"player");
+    Player* superCube = new Player(nullptr,QStringLiteral("../Resources/Characters/Player/player.png"),"player");
+    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Characters/Player/hands.png"),"cosmetic");
     Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
 
@@ -18,11 +19,12 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     //(*zombie).TriggerVisibility(false);
     //zombie->SetDirection(1,0);
-
-
     sword->moveBy(-10, 0); // move the sword
     zombie->moveBy(-100,0);
     
+
+    player->setTransformOriginPoint(13,13);
+
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
     toPreLoad.push_back(sword);
@@ -47,6 +49,22 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
+
+    /////////////////////////////////////////////////////////
+    //CODE TEMPORAIRE !!
+    QPointF mousePos = this->views().first()->mapToScene(this->views().first()->mapFromGlobal(QCursor::pos()));
+    // Récupérer la position de l'objet joueur
+    QPointF playerPos = player->pos();
+
+    // Calculer l'angle entre l'objet (joueur) et la souris
+    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
+
+    // Appliquer la rotation à l'objet joueur
+    player->setRotation(angle);  // Appliquer la rotation
+    /////////////////////////////////////////////////////////
+
+
+
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
@@ -56,6 +74,7 @@ void Scene::update(){
     }
     
     CameraUpdate(player);
+
 
 
 }
