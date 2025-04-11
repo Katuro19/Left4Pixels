@@ -57,8 +57,10 @@ void Player::UpdateMovement(int steps){
 
     // Appliquer la rotation à l'objet joueur
     qDebug() << "angle !" << angle;
-    Clothing->setRotation(angle);  // Appliquer la rotation
-    Weapon->setRotation(angle);  // Appliquer la rotation
+    if(Clothing != nullptr)
+        Clothing->setRotation(angle);  // Appliquer la rotation
+    if(Weapon != nullptr)
+        Weapon->setRotation(angle);  // Appliquer la rotation
     Entity::UpdateMovement(steps);
     /////////////////////////////////////////////////////////
  

@@ -11,14 +11,13 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
 
     (*superCube).SetId(QStringLiteral("Cube"));
-    (*superCube).setWeapon(hands);
     //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
 
     this->player = superCube;
 
     //superCube->setWeapon(sword);
-    superCube->setCloth(hands);
+    superCube->setWeapon(hands);
     superCube->SetScene(*this);
 
     //(*zombie).TriggerVisibility(false);

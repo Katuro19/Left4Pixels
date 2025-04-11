@@ -1,7 +1,7 @@
 URGENT :
     - Make a game (maybe?)
     - fix fps problem (ifykyk)
-    - Fix collision + rotation problem
+    - Use the Clothing var to put a clothing on the player, so that it can rotate too !
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
     - Make use of the "step" option in the collision system to save performances
 

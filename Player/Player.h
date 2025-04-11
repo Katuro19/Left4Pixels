@@ -9,8 +9,8 @@ class Scene; //Forward declaration
 class Player: public Entity {
 private:
 
-    Entity* Weapon;
-    Entity* Clothing;
+    Entity* Weapon = nullptr;
+    Entity* Clothing = nullptr;
 
     int HP;
     float attack_speed;
