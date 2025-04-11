@@ -37,8 +37,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     toPreLoad.push_back(zombie);
     toPreLoad.push_back(hands);
     toPreLoad.push_back(outfit);
+    toPreLoad.push_back(projectile);
     //toPreLoad.push_back(sword);
-    AddEntity(projectile,true,projectile->getStartingPos());
+    //AddEntity(projectile,true,projectile->getStartingPos());
     projectile->updateDirection();
 
 
