@@ -9,6 +9,8 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
 
     SetDefaultSpeed();
 
+    this->setTransformationMode(Qt::FastTransformation);
+
     if(!filePath.isEmpty()){
         this->LoadTexture(filePath);
     }

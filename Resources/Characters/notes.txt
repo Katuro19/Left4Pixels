@@ -1,1 +1,3 @@
 Player & weapons should be 29 * 29 to align with the center!
+
+Weapon should be centered, as the game already move them to the player hands (10 pixels on the right of the center point)
