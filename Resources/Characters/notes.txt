@@ -1,0 +1,1 @@
+Player & weapons should be 29 * 29 to align with the center!

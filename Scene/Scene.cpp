@@ -6,28 +6,32 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("../Resources/Characters/Player/player.png"),"player");
-    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Characters/Player/hands.png"),"cosmetic");
-    Entity* sword = new Entity(superCube,QStringLiteral("../Resources/Textures/Objects/supersecretweapon.png"),"weapon");
+    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/hands.png"),"cosmetic");
+    //Entity* sword = new Entity(hands,QStringLiteral("../Resources/Weapons/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
 
     (*superCube).SetId(QStringLiteral("Cube"));
     (*superCube).setWeapon(sword);
-    (*sword).SetId(QStringLiteral("Sword"));
+    //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
 
     this->player = superCube;
 
+    //superCube->setWeapon(sword);
+    superCube->setCloth(hands);
+    superCube->SetScene(*this);
+
     //(*zombie).TriggerVisibility(false);
     //zombie->SetDirection(1,0);
-    sword->moveBy(-10, 0); // move the sword
+    //sword->moveBy(-10, 0); // move the sword
     zombie->moveBy(-100,0);
     
 
-    player->setTransformOriginPoint(13,13);
+    //player->setTransformOriginPoint(13,13);
 
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
-    toPreLoad.push_back(sword);
+    //toPreLoad.push_back(sword);
 
 
     MapLoader* mapLoader = new MapLoader("Lotus", *this);
@@ -50,18 +54,6 @@ Scene::~Scene() {
 
 void Scene::update(){
 
-    /////////////////////////////////////////////////////////
-    //CODE TEMPORAIRE !!
-    QPointF mousePos = this->views().first()->mapToScene(this->views().first()->mapFromGlobal(QCursor::pos()));
-    // Récupérer la position de l'objet joueur
-    QPointF playerPos = player->pos();
-
-    // Calculer l'angle entre l'objet (joueur) et la souris
-    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
-
-    // Appliquer la rotation à l'objet joueur
-    player->setRotation(angle);  // Appliquer la rotation
-    /////////////////////////////////////////////////////////
 
 
 
@@ -142,4 +134,9 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
         entity->setPos(spawnLocation);
 
     this->totalEntitySpawned++;
+}
+
+
+void Scene::SetPlayerPos(QPointF playerPos){
+    this->player->setPos(playerPos);
 }

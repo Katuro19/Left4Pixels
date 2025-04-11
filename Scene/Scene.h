@@ -18,6 +18,9 @@
 #include "Player.h"
 #include "MapLoader.h"
 
+
+class Player; //Forward declaration
+
 class Scene : public QGraphicsScene {
     Q_OBJECT
 
@@ -31,9 +34,7 @@ public:
 
     void AddEntity(Entity* entity, bool reposition = false, QPointF spawnLocation = QPointF(0,0));
 
-    void SetPlayerPos(QPointF playerPos){
-        this->player->setPos(playerPos);
-    }
+    void SetPlayerPos(QPointF playerPos);
 
 public slots:
     void update();

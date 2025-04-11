@@ -85,7 +85,7 @@ public:
         this->isMoving = willMove;
     }
 
-    void UpdateMovement(int steps = 1);
+    virtual void UpdateMovement(int steps = 1); //virtual, because player need to override this function
 
     bool PreventMovementCollision(); //Return true if one of the collision is wrong
 

@@ -13,6 +13,14 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
         this->LoadTexture(filePath);
     }
 
+    //this ensure that the child will have the same rotation point as their parent !
+    if (this->parentItem()) {
+        QPointF parentCenter = this->parentItem()->boundingRect().center();
+        QPointF localCenter = this->mapFromItem(this->parentItem(), parentCenter);
+        this->setTransformOriginPoint(localCenter);
+    }
+    
+
 }
 
 

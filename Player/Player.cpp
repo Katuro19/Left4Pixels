@@ -35,3 +35,31 @@ Entity* Player::getWeapon() const {
     return this->Weapon;
 }
 
+void Player::setCloth(Entity* cloth) {
+    this->Clothing = cloth;
+}
+
+Entity* Player::getCloth() const {
+    return this->Clothing;
+}
+
+
+void Player::UpdateMovement(int steps){
+
+    /////////////////////////////////////////////////////////
+    //CODE TEMPORAIRE !!
+    QPointF mousePos = mainScene->views().first()->mapToScene(mainScene->views().first()->mapFromGlobal(QCursor::pos()));
+    // Récupérer la position de l'objet joueur
+    QPointF playerPos = this->pos();
+
+    // Calculer l'angle entre l'objet (joueur) et la souris
+    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
+
+    // Appliquer la rotation à l'objet joueur
+    qDebug() << "angle !" << angle;
+    Clothing->setRotation(angle);  // Appliquer la rotation
+    Weapon->setRotation(angle);  // Appliquer la rotation
+    Entity::UpdateMovement(steps);
+    /////////////////////////////////////////////////////////
+ 
+}
