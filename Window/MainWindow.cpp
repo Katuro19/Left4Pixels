@@ -18,8 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     mainView->scale(2.0, 2.0);  // Zoom x2
-    mainView->setRenderHint(QPainter::SmoothPixmapTransform, false);
-    mainView->setRenderHint(QPainter::Antialiasing, false);
+
 
 
 

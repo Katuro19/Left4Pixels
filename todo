@@ -1,14 +1,13 @@
 URGENT :
     - Make a game (maybe?)
     - fix fps problem (ifykyk)
-    - Use the Clothing var to put a clothing on the player, so that it can rotate too !
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
     - Make use of the "step" option in the collision system to save performances
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
     - Fix the camera shake when going in diagonals
-
+    - Find a way to remove the sharps edge when turning as a player
 
 MEH :
     - Make projectiles
