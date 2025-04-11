@@ -17,6 +17,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "MapLoader.h"
+#include "Projectiles.h"
 
 
 class Player; //Forward declaration

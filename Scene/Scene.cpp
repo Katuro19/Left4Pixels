@@ -1,17 +1,15 @@
 #include "Scene.h"
 
-#include "Projectiles.h"
 
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
-
-    QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for these ones.
+    QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("../Resources/Characters/Player/player.png"),"player");
     Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon");
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
-    Projectile* projectile = new Projectile(nullptr);
+    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{-900,-900},0,false,0,0,100,0);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
@@ -29,7 +27,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     //zombie->SetDirection(1,0);
     //sword->moveBy(-10, 0); // move the sword
     zombie->moveBy(-100,0);
-    
+
+
+
 
     //player->setTransformOriginPoint(13,13);
 
@@ -38,7 +38,8 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     toPreLoad.push_back(hands);
     toPreLoad.push_back(outfit);
     //toPreLoad.push_back(sword);
-    toPreLoad.push_back(projectile);
+    AddEntity(projectile,true,projectile->getStartingPos());
+    projectile->updateDirection();
 
 
     MapLoader* mapLoader = new MapLoader("Lotus", *this);
@@ -61,6 +62,9 @@ Scene::~Scene() {
 
 void Scene::update(){
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
+        if ( entity->GetEntityType() == "projectile"){
+            qDebug() << "Direction : x =" << entity->pos().x() << ", y = " << entity->pos().y();
+        }
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
         } 

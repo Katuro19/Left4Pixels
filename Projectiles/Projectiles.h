@@ -38,6 +38,8 @@ public:
     QPointF getTarget() const;
     void setTarget(QPointF target);
 
+    void updateDirection();
+
 
 };
 

@@ -56,11 +56,11 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner" || this->entityType == "projectile"){
+    else if(this->entityType == "runner"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
-        SetSpeed(5.0);
+        SetSpeed(0.0);
     }
     else {
         QString errorMessage = "Entity type " + (this->entityType) + " does not exist or is not defined in Entity::SetDefaultSpeed()";
@@ -92,7 +92,7 @@ void Entity::UpdateMovement(int steps){
             //qDebug() << "Speed :" << entitySpeed << "/ Steps :" << steps << "/ Ratio :" << entitySpeed/steps;
             QPointF currentMovement = XHolder * currentDirection.x();
             setPos(nextPos + currentMovement); //We are moving our character from 1 on X. Multiplying with GetDirection is useful if we are going backwards (negative numbers)
-            canMove = !(this->PreventMovementCollision()); //We then check if we are having a collisions thats forbiden
+            canMove = !(this->PreventMovementCollision()); //We then check if we are having a collisions that's forbidden
             if(canMove){
                 nextPos += currentMovement; //If we are allowed to move, we move one step forward
             }
@@ -112,7 +112,7 @@ void Entity::UpdateMovement(int steps){
             if(canMove){
                 nextPos += currentMovement; 
             }
-            else{ 
+            else{
                 break;
             }
         }
@@ -121,7 +121,7 @@ void Entity::UpdateMovement(int steps){
         this->setPos(nextPos); //Finally, we move !
     }
     else{
-        //If an Entity have no speed, that doesnt mean we should not check its collisions, except for things like walls or tiles !
+        //If an Entity have no speed, that doesn't mean we should not check its collisions, except for things like walls or tiles !
         QString tempType = this->GetEntityType();
 
         if(tempType == "wall" || tempType == "tile"){
@@ -178,6 +178,6 @@ bool Entity::PreventMovementCollision(){
         }
     }
 
-    return false; //if it went through every collisions safely, return false, mean that we can move !!
+    return false; //if it went through every collision safely, return false, mean that we can move !!
 
 }

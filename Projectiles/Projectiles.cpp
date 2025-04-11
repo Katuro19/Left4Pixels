@@ -53,3 +53,10 @@ void Projectile::setStartingPos(QPointF pos) {
 QPointF Projectile::getStartingPos() const {
     return this->startPos;
 }
+
+void Projectile::updateDirection() {
+    const qreal angle = std::atan2(this->target.y() - this->pos().y(), this->target.x() - this->pos().x());
+    QPointF direction = {qCos(angle),qSin(angle)};
+    qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
+    this->SetDirection(direction.x(),direction.y());
+}
