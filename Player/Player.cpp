@@ -46,22 +46,18 @@ Entity* Player::getCloth() const {
 
 void Player::UpdateMovement(int steps){
 
-    /////////////////////////////////////////////////////////
-    //CODE TEMPORAIRE !!
+    // Get the mouse and player pos
     QPointF mousePos = mainScene->views().first()->mapToScene(mainScene->views().first()->mapFromGlobal(QCursor::pos()));
-    // Récupérer la position de l'objet joueur
     QPointF playerPos = this->pos();
 
-    // Calculer l'angle entre l'objet (joueur) et la souris
+    // Get the angle between the player and the mouse
     qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
 
-    // Appliquer la rotation à l'objet joueur
-    qDebug() << "angle !" << angle;
+    // Apply rotation : We move the objects attached to the player, but not theplayer itself, to avoid wrong collisions !
     if(Clothing != nullptr)
-        Clothing->setRotation(angle);  // Appliquer la rotation
+        Clothing->setRotation(angle); 
     if(Weapon != nullptr)
-        Weapon->setRotation(angle);  // Appliquer la rotation
+        Weapon->setRotation(angle); 
     Entity::UpdateMovement(steps);
-    /////////////////////////////////////////////////////////
  
 }
