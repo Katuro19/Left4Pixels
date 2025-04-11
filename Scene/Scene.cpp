@@ -59,19 +59,7 @@ Scene::~Scene() {
 
 void Scene::update(){
 
-    /////////////////////////////////////////////////////////
-    //CODE TEMPORAIRE !!
-    QPointF mousePos = this->views().first()->mapToScene(this->views().first()->mapFromGlobal(QCursor::pos()));
-    // Récupérer la position de l'objet joueur
-    QPointF playerPos = player->pos();
-
-    // Calculer l'angle entre l'objet (joueur) et la souris
-    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
-
-    // Appliquer la rotation à l'objet joueur
-    player->setRotation(angle);  // Appliquer la rotation
-    /////////////////////////////////////////////////////////
-
+    
 
 
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
