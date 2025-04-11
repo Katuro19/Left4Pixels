@@ -2,8 +2,11 @@
 
 
 MapLoader::MapLoader(QString mapName, Scene &scene) : mainScene(scene){ 
+    qDebug() << "-------------------------------------------------------------------";
     qDebug() << "Now loading" << mapName;
     ReadMapFile(mapName.toStdString());
+    qDebug() << "End of map loading";
+    qDebug() << "-------------------------------------------------------------------";
 }
 
 

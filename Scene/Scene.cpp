@@ -8,7 +8,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     Player* superCube = new Player(nullptr,QStringLiteral("../Resources/Characters/Player/player.png"),"player");
-    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/hands.png"),"cosmetic");
+    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/hands.png"),"cosmetic");
     //Entity* sword = new Entity(hands,QStringLiteral("../Resources/Weapons/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
     Projectile* projectile = new Projectile(nullptr);
