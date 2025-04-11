@@ -11,13 +11,17 @@ private:
     int HP;
     float speed;
     QPointF target;
+    QPointF startPos;
 public:
-    Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile",  QPointF target = {0,0}, int damage = 10, bool isBreakable = true, int pierces = 0,int bounces = 0, int HP = 50, float speed = 1);
+    Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile",  QPointF target = {0,0},QPointF startPos = {0,0}, int damage = 10, bool isBreakable = true, int pierces = 0,int bounces = 0, int HP = 50, float speed = 1);
 
     ~Projectile();
 
     void setDamage(int damage);
     int getDamage() const;
+
+    void setStartingPos(QPointF pos);
+    QPointF getStartingPos() const;
 
     bool getBreakable() const;
     void setBreakable(bool isBreakable);

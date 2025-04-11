@@ -1,9 +1,11 @@
 #include "Projectiles.h"
 
 
-Projectile::Projectile(QGraphicsItem* parent,const QString filePath, const QString entityType, const QPointF target, const int damage, const bool isBreakable, const int pierces,const int bounces,const int HP,const float speed ) :
-Entity(parent, filePath, entityType), damage(damage), isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), speed(speed) {
-
+Projectile::Projectile(QGraphicsItem* parent,const QString filePath, const QString entityType, const QPointF target, QPointF startPos,const int damage, const bool isBreakable, const int pierces,const int bounces,const int HP,const float speed ) :
+Entity(parent, filePath, entityType), damage(damage), isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), startPos(startPos),speed(speed) {
+    if (parent != nullptr) {
+        this->setStartingPos(parent->pos());
+    }
 }
 Projectile::~Projectile() {
 
@@ -43,4 +45,11 @@ int Projectile::getHP() const {
 }
 QPointF Projectile::getTarget() const {
     return this->target;
+}
+
+void Projectile::setStartingPos(QPointF pos) {
+    this->startPos = pos;
+}
+QPointF Projectile::getStartingPos() const {
+    return this->startPos;
 }

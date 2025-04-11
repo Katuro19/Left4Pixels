@@ -56,7 +56,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner"){
+    else if(this->entityType == "runner" || this->entityType == "projectile"){
         SetSpeed(1.0);
     }
     else {

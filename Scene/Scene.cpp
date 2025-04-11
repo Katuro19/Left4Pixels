@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "Projectiles.h"
+
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for these ones.
@@ -9,10 +11,12 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/hands.png"),"cosmetic");
     //Entity* sword = new Entity(hands,QStringLiteral("../Resources/Weapons/supersecretweapon.png"),"weapon");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
+    Projectile* projectile = new Projectile(nullptr);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
+    (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
 
@@ -31,6 +35,8 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
     //toPreLoad.push_back(sword);
+    //toPreLoad.push_back(sword);
+    toPreLoad.push_back(projectile);
 
 
     MapLoader* mapLoader = new MapLoader("Lotus", *this);
@@ -53,6 +59,18 @@ Scene::~Scene() {
 
 void Scene::update(){
 
+    /////////////////////////////////////////////////////////
+    //CODE TEMPORAIRE !!
+    QPointF mousePos = this->views().first()->mapToScene(this->views().first()->mapFromGlobal(QCursor::pos()));
+    // Récupérer la position de l'objet joueur
+    QPointF playerPos = player->pos();
+
+    // Calculer l'angle entre l'objet (joueur) et la souris
+    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
+
+    // Appliquer la rotation à l'objet joueur
+    player->setRotation(angle);  // Appliquer la rotation
+    /////////////////////////////////////////////////////////
 
 
 
