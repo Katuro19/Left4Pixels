@@ -9,7 +9,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon");
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic");
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
-    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{-900,-900},0,false,0,0,100,0);
+    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
@@ -64,7 +64,8 @@ Scene::~Scene() {
 void Scene::update(){
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if (entity->GetEntityType() == "projectile"){
-            //qDebug() << "Direction : x =" << entity->pos().x() << ", y = " << entity->pos().y();
+            //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
+            qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
         }
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
