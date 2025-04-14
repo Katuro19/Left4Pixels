@@ -24,7 +24,7 @@ public:
     Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile",  QPointF target = {0,0},QPointF startPos = {0,0}, int damage = 10, bool isBreakable = true, int pierces = 0,int bounces = 0, int HP = 50, float speed = 1);
 
     ~Projectile(){
-        qDebug() << "projectil delete debug";
+        qDebug() << "Projectile delete debug";
     }
 
     void setDamage(int damage);

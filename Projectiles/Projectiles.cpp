@@ -57,16 +57,17 @@ QPointF Projectile::getStartingPos() const {
 void Projectile::updateDirection() {
     const qreal angle = std::atan2(this->target.y() - this->pos().y(), this->target.x() - this->pos().x());
     QPointF direction = {qCos(angle),qSin(angle)};
-    qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
+    //qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
     this->SetDirection(direction.x(),direction.y());
 }
+
 
 void Projectile::UpdateMovement(int steps){
     this->HP--;
     if(this->HP <= 0){
         mainScene->DeleteEntity(this);
-        qDebug() << "Finishing projectile update movment delete";
-        return;
+        qDebug() << "Finishing projectile update movement delete";
+    } else {
+        Entity::UpdateMovement(steps);
     }
-    Entity::UpdateMovement(steps);
 }

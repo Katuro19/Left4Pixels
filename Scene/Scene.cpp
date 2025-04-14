@@ -64,7 +64,8 @@ Scene::~Scene() {
 void Scene::update(){
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if (entity->GetEntityType() == "projectile"){
-            qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
+            //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
+            //qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
         }
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
@@ -146,14 +147,20 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
 
 
 void Scene::DeleteEntity(Entity* entity){
-    qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << entity->GetUid();
-    this->removeItem(entity); //Remove from scene
-    qDebug() << "oui";
-    // Trouver et supprimer
+    if (!entity) {
+        qDebug() << "Entity is null!";
+        return;
+    }
+
+    qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() << "with UID" << entity->GetUid();
+    this->removeItem(entity);
+
     auto it = std::find(Entities.begin(), Entities.end(), entity);
     if (it != Entities.end()) {
-        delete *it;               // Libère la mémoire
-        Entities.erase(it);       // Enlève du vector
+        Entities.erase(it);
+        delete *it;
+    } else {
+        qDebug() << "Entity not found in Entities vector!";
     }
 
 }

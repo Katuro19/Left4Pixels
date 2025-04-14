@@ -48,7 +48,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-        qDebug() << "here";
+        qDebug() << "Entity delete debug";
     }
 
 
