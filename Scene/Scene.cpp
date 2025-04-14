@@ -64,7 +64,6 @@ Scene::~Scene() {
 void Scene::update(){
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if (entity->GetEntityType() == "projectile"){
-            //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
             qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
         }
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
