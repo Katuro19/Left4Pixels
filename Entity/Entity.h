@@ -47,7 +47,9 @@ public:
     */
     //virtual ~Entity();
 
-
+    ~Entity(){
+        qDebug() << "here";
+    }
 
 
     enum { Type = QGraphicsItem::UserType + 1 }; //This create a new type for QT itself : Now, QT functions will know what is an entity. This allow us to do "safe casts", mostly when checking for collisions

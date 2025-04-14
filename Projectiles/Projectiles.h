@@ -1,6 +1,12 @@
 #ifndef PROJECTILES_H
 #define PROJECTILES_H
 #include "Entity.h"
+#include "Scene.h"
+
+
+class Scene; //Forward declaration
+
+
 
 class Projectile : public Entity {
 private:
@@ -12,10 +18,14 @@ private:
     float speed;
     QPointF target;
     QPointF startPos;
+    Scene* mainScene;
+
 public:
     Projectile(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "projectile",  QPointF target = {0,0},QPointF startPos = {0,0}, int damage = 10, bool isBreakable = true, int pierces = 0,int bounces = 0, int HP = 50, float speed = 1);
 
-    ~Projectile();
+    ~Projectile(){
+        qDebug() << "projectil delete debug";
+    }
 
     void setDamage(int damage);
     int getDamage() const;
@@ -40,6 +50,12 @@ public:
 
     void updateDirection();
 
+    
+    void SetScene(Scene &scene){
+        this->mainScene = &scene;
+    }
+
+    void UpdateMovement(int steps = 1) override;
 
 };
 

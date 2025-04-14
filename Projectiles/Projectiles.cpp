@@ -1,15 +1,14 @@
 #include "Projectiles.h"
 
 
+
 Projectile::Projectile(QGraphicsItem* parent,const QString filePath, const QString entityType, const QPointF target, QPointF startPos,const int damage, const bool isBreakable, const int pierces,const int bounces,const int HP,const float speed ) :
 Entity(parent, filePath, entityType), damage(damage), isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), startPos(startPos),speed(speed) {
     if (parent != nullptr) {
         this->setStartingPos(parent->pos());
     }
 }
-Projectile::~Projectile() {
 
-}
 void Projectile::setDamage(const int damage) {
     this->damage = damage;
 }
@@ -59,4 +58,14 @@ void Projectile::updateDirection() {
     QPointF direction = {qCos(angle),qSin(angle)};
     qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
     this->SetDirection(direction.x(),direction.y());
+}
+
+void Projectile::UpdateMovement(int steps){
+    this->HP--;
+    if(this->HP <= 0){
+        mainScene->DeleteEntity(this);
+        qDebug() << "Finishing projectile update movment delete";
+        return;
+    }
+    Entity::UpdateMovement(steps);
 }
