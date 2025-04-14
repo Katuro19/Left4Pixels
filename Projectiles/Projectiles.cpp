@@ -6,6 +6,7 @@ Entity(parent, filePath, entityType), damage(damage), isBreakable(isBreakable), 
     if (parent != nullptr) {
         this->setStartingPos(parent->pos());
     }
+    this->setPos(startPos);
 }
 Projectile::~Projectile() {
 

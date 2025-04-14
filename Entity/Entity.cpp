@@ -60,7 +60,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
-        SetSpeed(0.0);
+        SetSpeed(5.0);
     }
     else {
         QString errorMessage = "Entity type " + (this->entityType) + " does not exist or is not defined in Entity::SetDefaultSpeed()";
