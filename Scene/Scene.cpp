@@ -11,7 +11,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 nullptr,      // weapon
                 1.0,          // attack_speed
                 this);        // scene
-                
+
     Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon", this);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
@@ -23,28 +23,20 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-
-    //superCube->setWeapon(sword);
     superCube->setWeapon(hands);
     superCube->setCloth(outfit);
 
-    //(*zombie).TriggerVisibility(false);
-    //zombie->SetDirection(1,0);
-    //sword->moveBy(-10, 0); // move the sword
     zombie->moveBy(-100,0);
 
 
 
-
-    //player->setTransformOriginPoint(13,13);
 
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
     toPreLoad.push_back(hands);
     toPreLoad.push_back(outfit);
     toPreLoad.push_back(projectile);
-    //toPreLoad.push_back(sword);
-    //AddEntity(projectile,true,projectile->getStartingPos());
+
     projectile->updateDirection();
 
 

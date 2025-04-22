@@ -20,6 +20,13 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
         this->LoadTexture(filePath);
     }
 
+
+    // if(entityType == "cosmetic"){
+    //     this->setScale(0.056);
+    //     this->setTransformOriginPoint(parent->boundingRect().center());
+    //     this->setPos(2, 0);
+    // }
+
     //this ensure that the child will have the same rotation point as their parent !
     if (this->parentItem()) {
         QPointF parentCenter = this->parentItem()->boundingRect().center();
