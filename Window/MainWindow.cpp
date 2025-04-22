@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setCentralWidget(mainView);
     this->setWindowTitle("Left4Pixels");
 
-    mainView->setSceneRect(-500, -500, 1000, 1000);  // Taille de la scène
+    mainView->setSceneRect(-500, -500, 2000, 2000);  // Taille de la scène
     mainView->setFixedSize(1000, 1000);        // Taille de la fenêtre
     mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

@@ -142,13 +142,13 @@ void Entity::UpdateMovement(int steps){
 
 bool Entity::PreventMovementCollision(){
     QList<QGraphicsItem *> collisions = this->collidingItems(); //We get all the collisions
+    QString myType = this->GetEntityType();
 
     for (QGraphicsItem* item : collisions) {
         if (item->type() == Entity::Type) { //Check if its an entity, thanks to the preparations in Entity.h
             Entity* entity = static_cast<Entity*>(item); // We can cast here thanks to the type definition in the entity.h
     
             QString type = entity->GetEntityType(); //Grab what entity type we hit
-            QString myType = this->GetEntityType();
 
             // qDebug() << "Me (" << this->GetId() << ") of type" << myType << "is colliding with" << entity->GetId() << "of type" << type;
 
@@ -159,8 +159,11 @@ bool Entity::PreventMovementCollision(){
             */
 
             if(myType == "player"){ //If this entity is a player
-                if (type == "wall" || type == "water") {
+                SetSpeed(GetBaseSpeed()); //We reset speed everytime
+                if (type == "wall") {
                     return true; //Can NOT move. the movement is PREVENTED !!
+                } else if (type=="water") { 
+                    SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
                 } else if (type == "runner"){
@@ -178,6 +181,12 @@ bool Entity::PreventMovementCollision(){
             else if(myType == "weapon"){
                 if(type == "runner"){
                     qDebug() << "Hell yea";
+                }
+            }
+
+            else if(myType == "projectile"){
+                if(type == "wall"){
+                    parentScene->DeleteEntity(this);
                 }
             }
 

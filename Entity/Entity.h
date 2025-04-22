@@ -52,7 +52,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-        
+
     }
 
 
@@ -115,6 +115,10 @@ public:
         return this->speed;
     }
 
+    float GetBaseSpeed(){
+        return this->baseSpeed;
+    }
+
     QString GetEntityType(){
         return this->entityType;
     }
@@ -135,7 +139,8 @@ private:
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.
-    float speed = 3.0; //Default speed
+    float speed = 3.0; //Default speed, and mostly current speed
+    float baseSpeed = 3.0; //The base speed should never be edited.
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
 

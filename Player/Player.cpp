@@ -69,6 +69,8 @@ void Player::UpdateMovement(int steps){
         Clothing->setRotation(angle); 
     if(Weapon != nullptr)
         Weapon->setRotation(angle); 
+
+
     Entity::UpdateMovement(steps);
  
 }
