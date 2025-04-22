@@ -5,11 +5,17 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
 
 
-    Player* superCube = new Player(nullptr,QStringLiteral("../Resources/Characters/Player/player.png"),"player");
-    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon");
-    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic");
-    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner");
-    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1);
+    Player* superCube = new Player(nullptr,
+                QStringLiteral("../Resources/Characters/Player/player.png"),
+                "player",
+                nullptr,      // weapon
+                1.0,          // attack_speed
+                this);        // scene
+                
+    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon", this);
+    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
+    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
+    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
@@ -21,7 +27,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     //superCube->setWeapon(sword);
     superCube->setWeapon(hands);
     superCube->setCloth(outfit);
-    superCube->SetScene(*this);
 
     //(*zombie).TriggerVisibility(false);
     //zombie->SetDirection(1,0);
@@ -56,9 +61,11 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
 Scene::~Scene() {
+    qDebug() << "Destroying scene...";
     for (Entity* entity : Entities) {
-        delete entity; 
+        DeleteEntity(entity);
     }
+    qDebug() << "Scene destroyed";
 }
 
 void Scene::update(){
@@ -120,8 +127,8 @@ void Scene::UpdateDirection() const {
     this->player->SetDirection(dx,dy);
     this->player->SetMovement(!pressedKeys.isEmpty()); //This tells us if the player is moving
 
-    qDebug() << dx << dy;
-    qDebug() << this->player->IsMoving();
+    //qDebug() << dx << dy;
+    //qDebug() << this->player->IsMoving();
 
 }
 
@@ -153,16 +160,16 @@ void Scene::DeleteEntity(Entity* entity){
     }
 
     qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() << "with UID" << entity->GetUid();
-    this->removeItem(entity);
 
-    auto it = std::find(Entities.begin(), Entities.end(), entity);
-    if (it != Entities.end()) {
-        Entities.erase(it);
-        delete *it;
-    } else {
-        qDebug() << "Entity not found in Entities vector!";
+    int entityUid = entity->GetUid();
+    this->removeItem(entity); //remove from scene !
+
+    for (auto it = Entities.begin(); it != Entities.end(); ++it) {
+        if ((*it)->GetUid() == entityUid) {
+            Entities.erase(it); //Delete from the vector list, so thta we wont try to update it for exemple 
+            break;
+        }
     }
-
 }
 
 

@@ -3,25 +3,24 @@
 #include "Entity.h"
 #include "Scene.h"
 
-
 class Scene; //Forward declaration
 
-class Player: public Entity {
-private:
-
-    Entity* Weapon = nullptr;
-    Entity* Clothing = nullptr;
-
-    int HP;
-    float attack_speed;
-
-    Scene* mainScene;
-
-
-public:
-
-    explicit Player(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "player", Entity* weapon = nullptr, float attack_speed = 1.0);
-   
+class Player : public Entity {
+    private:
+        Entity* Weapon = nullptr;
+        Entity* Clothing = nullptr;
+        int HP;
+        float attack_speed;
+    
+    public:
+        // Constructeur de Player
+        explicit Player(QGraphicsItem* parent = nullptr,
+                        QString filePath = "",
+                        QString entityType = "player",
+                        Entity* weapon = nullptr,
+                        float attack_speed = 1.0,
+                        Scene* scene = nullptr); 
+    
     ~Player();
 
     void setWeapon(Entity* weapon);
@@ -37,10 +36,6 @@ public:
     int getHealthpoints() const;
 
     void UpdateMovement(int steps = 1) override;
-
-    void SetScene(Scene &scene){
-        this->mainScene = &scene;
-    }
 
 };
 

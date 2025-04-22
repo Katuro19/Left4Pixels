@@ -18,6 +18,10 @@
 
 
 
+class Scene; //Forward declaration
+
+
+
 class Entity : public QGraphicsPixmapItem {
 /*
     Entity will be the parent for every object on the scene
@@ -35,7 +39,7 @@ class Entity : public QGraphicsPixmapItem {
 
 
 public:
-    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall");
+    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Scene* scene = nullptr);
     /*
         PARAMETERS :
         -> parent : decide who is the parent (another entity usually). Can be empty. note that this entity will be attached to the parent
@@ -48,7 +52,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-        qDebug() << "Entity delete debug";
+        
     }
 
 
@@ -115,7 +119,9 @@ public:
         return this->entityType;
     }
 
-    
+
+protected:
+    Scene* parentScene; //useful
 
 
 private:

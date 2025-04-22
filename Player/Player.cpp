@@ -1,9 +1,13 @@
 #include "Player.h"
 
 
-Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, Entity* weapon,const float attack_speed) : Entity(parent, filePath, entityType), Weapon(weapon), attack_speed(attack_speed) {
-    this->HP= 100;
+Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, 
+        Entity* weapon, float attack_speed, Scene* scene)
+        : Entity(parent, filePath, entityType, scene), Weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
+
+    this->HP = 100;
 }
+
 Player::~Player() {
 
 }
@@ -54,7 +58,7 @@ Entity* Player::getCloth() const {
 void Player::UpdateMovement(int steps){
 
     // Get the mouse and player pos
-    QPointF mousePos = mainScene->views().first()->mapToScene(mainScene->views().first()->mapFromGlobal(QCursor::pos()));
+    QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
     QPointF playerPos = this->pos();
 
     // Get the angle between the player and the mouse

@@ -1,13 +1,20 @@
 #include "Entity.h"
+#include "Scene.h"
+
 
 #define DEFAULT_PATH "../Resources/Textures/default.png"
 
 
 
-Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType) : QGraphicsPixmapItem(parent), entityType(entityType), active(true){
+Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType, Scene* scene) : QGraphicsPixmapItem(parent), entityType(entityType), active(true), parentScene(scene){
     qDebug() << "Creating entity of type" << this->entityType << "...";
+    if(!scene){
+        throw std::runtime_error("FATAL : no scene was defined in the declaration of this entity. Please check how you define this entity again.");
+    }
 
     SetDefaultSpeed();
+
+
 
     if(!filePath.isEmpty()){
         this->LoadTexture(filePath);
@@ -22,7 +29,6 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
     
 
 }
-
 
 
 void Entity::LoadTexture(const QString &imagePath){
