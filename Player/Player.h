@@ -7,10 +7,12 @@ class Scene; //Forward declaration
 
 class Player : public Entity {
     private:
-        Entity* Weapon = nullptr;
         Entity* Clothing = nullptr;
         int HP;
         float attack_speed;
+
+        Entity* Weapon = nullptr;
+        QString weaponName;
     
     public:
         // Constructeur de Player
@@ -23,7 +25,7 @@ class Player : public Entity {
     
     ~Player();
 
-    void setWeapon(Entity* weapon);
+    void setWeapon(Entity* weapon, QString name);
     Entity* getWeapon() const;
   
     void setCloth(Entity* cloth);

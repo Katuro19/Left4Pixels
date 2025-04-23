@@ -130,8 +130,9 @@ void Entity::UpdateMovement(int steps){
             }
         }
 
-    
-        this->setPos(nextPos); //Finally, we move !
+        if(this){
+            this->setPos(nextPos); //Finally, we move !
+        }
     }
     else{
         //If an Entity have no speed, that doesn't mean we should not check its collisions, except for things like walls or tiles !
@@ -192,8 +193,9 @@ bool Entity::PreventMovementCollision(){
             }
 
             else if(myType == "projectile"){
-                if(type == "wall"){
+                if(type == "wall"){    
                     parentScene->DeleteEntity(this);
+                    return true;    
                 }
             }
 

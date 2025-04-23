@@ -70,7 +70,6 @@ void Projectile::UpdateMovement(int steps){
     qDebug() << this->HP;
     if(this->HP <= 0){
         parentScene->DeleteEntity(this);
-        qDebug() << "Finishing projectile update movement delete";
     } else {
         Entity::UpdateMovement(steps);
     }

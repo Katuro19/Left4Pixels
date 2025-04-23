@@ -52,7 +52,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-
+        qDebug() << "delete entity debug";
     }
 
 
@@ -122,6 +122,7 @@ public:
     QString GetEntityType(){
         return this->entityType;
     }
+
 
 
 protected:

@@ -5,14 +5,14 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
 
 
-    Player* superCube = new Player(nullptr,
-                QStringLiteral("../Resources/Characters/Player/player.png"),
-                "player",
+    Player* superCube = new Player(nullptr, //parent
+                QStringLiteral("../Resources/Characters/Player/player.png"), //image location
+                "player", //type
                 nullptr,      // weapon
                 1.0,          // attack_speed
                 this);        // scene
 
-    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/Katana.png"),"weapon", this);
+    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
     Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
@@ -23,7 +23,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands);
+    superCube->setWeapon(hands,"deagle");
     superCube->setCloth(outfit);
 
     zombie->moveBy(-100,0);
@@ -162,6 +162,7 @@ void Scene::DeleteEntity(Entity* entity){
             break;
         }
     }
+    //delete entity; -- NEED FIX
 }
 
 
