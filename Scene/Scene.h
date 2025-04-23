@@ -45,6 +45,8 @@ public slots:
 
 protected:
     QTimer* timer;
+    QElapsedTimer frameTimer;
+
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void UpdateDirection() const;
@@ -54,6 +56,8 @@ protected:
 private:
     QVector<Entity*> Entities; //Will store every entity on the scene
     QSet<int> pressedKeys; //This is used for smooth movements
+
+    void DebugFps();
 
 
 };

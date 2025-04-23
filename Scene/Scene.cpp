@@ -40,7 +40,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Lotus", *this);
+    MapLoader* mapLoader = new MapLoader("Pearl", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -49,6 +49,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(16); //60 FPS
+
+    frameTimer.start();
+
 }
 
 
@@ -61,6 +64,14 @@ Scene::~Scene() {
 }
 
 void Scene::update(){
+
+    qint64 elapsedMs = frameTimer.elapsed();      // temps depuis la dernière frame
+    frameTimer.restart();                         // remet le chrono à 0 pour la frame suivante
+    float deltaTime = elapsedMs / 1000.0f;        // converti en secondes
+    
+    DebugFps();
+
+
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if (entity->GetEntityType() == "projectile"){
             //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
@@ -69,7 +80,7 @@ void Scene::update(){
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
         } 
-        entity->UpdateMovement(); //Update the movement if needed
+        entity->UpdateMovement(deltaTime); //Update the movement if needed
 
     }
     
@@ -168,4 +179,20 @@ void Scene::DeleteEntity(Entity* entity){
 
 void Scene::SetPlayerPos(QPointF playerPos){
     this->player->setPos(playerPos);
+}
+
+void Scene::DebugFps(){
+    static int frameCount = 0;
+    static QElapsedTimer elapsedTimer;
+    
+    if (!elapsedTimer.isValid())
+        elapsedTimer.start();
+    
+    frameCount++;
+    
+    if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
+        qDebug() << "FPS:" << frameCount;
+        frameCount = 0;
+        elapsedTimer.restart();
+    }
 }

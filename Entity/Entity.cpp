@@ -83,7 +83,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
 
 
 
-void Entity::UpdateMovement(int steps){
+void Entity::UpdateMovement(float deltaTime, int steps){
 /* How does the collisions work?
 
     - If the object is moving (mean it has a direction)
@@ -91,7 +91,11 @@ void Entity::UpdateMovement(int steps){
         -> The coordinate will stop if a collision is detected, and stay at its current value
 
 */
+
     if(this->isMoving){
+
+        this->SetSpeed(deltaTime * this->GetBaseSpeed()); //this set the speed based on the current framerate
+        
         float entitySpeed = this->GetSpeed();
         QPointF currentPos = pos(); //We get the current position
         QPointF currentDirection = this->GetDirection();
@@ -142,7 +146,9 @@ void Entity::UpdateMovement(int steps){
             return;
         }
 
+
         this->PreventMovementCollision();
+
     }
 }
 
@@ -167,7 +173,7 @@ bool Entity::PreventMovementCollision(){
             */
 
             if(myType == "player"){ //If this entity is a player
-                SetSpeed(GetBaseSpeed()); //We reset speed everytime
+                //SetSpeed(GetBaseSpeed()); //We reset speed everytime
                 if (type == "wall") {
                     return true; //Can NOT move. the movement is PREVENTED !!
                 } else if (type=="water") { 

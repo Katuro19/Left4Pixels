@@ -56,7 +56,7 @@ class Projectile : public Entity {
 
         void updateDirection();
 
-        void UpdateMovement(int steps = 1) override;
+        void UpdateMovement(float deltaTime, int steps = 1) override;
 
 };
 

@@ -65,13 +65,13 @@ void Projectile::updateDirection() {
 }
 
 
-void Projectile::UpdateMovement(int steps){
+void Projectile::UpdateMovement(float deltaTime, int steps){
     this->HP--;
     qDebug() << this->HP;
     if(this->HP <= 0){
         parentScene->DeleteEntity(this);
     } else {
-        Entity::UpdateMovement(steps);
+        Entity::UpdateMovement(deltaTime, steps);
     }
 }
 

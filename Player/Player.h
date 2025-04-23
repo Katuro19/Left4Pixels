@@ -37,7 +37,7 @@ class Player : public Entity {
     void setHealthpoints(int HP);
     int getHealthpoints() const;
 
-    void UpdateMovement(int steps = 1) override;
+    void UpdateMovement(float deltaTime, int steps = 1) override;
 
 };
 

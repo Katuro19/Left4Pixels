@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QTime>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QGraphicsRectItem>
@@ -91,7 +92,7 @@ public:
         this->isMoving = willMove;
     }
 
-    virtual void UpdateMovement(int steps = 1); //virtual, because player need to override this function
+    virtual void UpdateMovement(float deltaTime, int steps = 1); //virtual, because player need to override this function
 
     bool PreventMovementCollision(); //Return true if one of the collision is wrong
 
@@ -140,8 +141,8 @@ private:
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.
-    float speed = 3.0; //Default speed, and mostly current speed
-    float baseSpeed = 3.0; //The base speed should never be edited.
+    float speed = 180.0; //Default speed, and mostly current speed
+    float baseSpeed = 180.0; //The base speed should never be edited.
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
 

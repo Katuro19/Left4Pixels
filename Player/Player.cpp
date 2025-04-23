@@ -56,7 +56,7 @@ Entity* Player::getCloth() const {
 }
 
 
-void Player::UpdateMovement(int steps){
+void Player::UpdateMovement(float deltaTime, int steps){
 
     // Get the mouse and player pos
     QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
@@ -72,6 +72,6 @@ void Player::UpdateMovement(int steps){
         Weapon->setRotation(angle); 
 
 
-    Entity::UpdateMovement(steps);
+    Entity::UpdateMovement(deltaTime, steps);
  
 }

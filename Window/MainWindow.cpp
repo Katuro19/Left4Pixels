@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     mainView->scale(2.0, 2.0);  // Zoom x2
 
+    mainView->setRenderHint(QPainter::Antialiasing);
+    mainView->setRenderHint(QPainter::SmoothPixmapTransform);
+    mainView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    mainView->setCacheMode(QGraphicsView::CacheNone); // ou CacheBackground si tu veux tester
+    
 
 
 
