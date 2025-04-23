@@ -1,7 +1,7 @@
 URGENT :
+    - Fix visual lags
     - Make a game (maybe?)
     - Make the character shoot
-    - fix fps problem (ifykyk)
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
     - Make use of the "step" option in the collision system to save performances
     - Fix the entity delete crashing (Scene.cpp -> DeleteEntity)

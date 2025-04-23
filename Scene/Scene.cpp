@@ -81,7 +81,6 @@ void Scene::update(){
 
         } 
         entity->UpdateMovement(deltaTime); //Update the movement if needed
-
     }
     
     CameraUpdate(player);
