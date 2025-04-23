@@ -6,14 +6,15 @@
 class Weapon: public Entity {
 private:
     int damage;
-    int id;
+    QString weaponName;
+
 
 public:
-    explicit Weapon(int damage, int id);
+    explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, QString name = "");
     ~Weapon();
     void setDamage(int damage);
-    void setId(int id);
     int getDamage() const;
-    int getId() const;
+    void setWeaponName(QString name);
+    QString getWeaponName() const;
 };
 #endif //WEAPON_H

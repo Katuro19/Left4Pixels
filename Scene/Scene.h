@@ -9,6 +9,9 @@
 #include <QKeyEvent>
 #include <QGraphicsView>
 #include <QDateTime>
+#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
+
 
 
 #include <vector>
@@ -49,6 +52,8 @@ protected:
 
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
     void UpdateDirection() const;
     int totalEntitySpawned = 0;
 

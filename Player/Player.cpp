@@ -2,8 +2,8 @@
 
 
 Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, 
-        Entity* weapon, float attack_speed, Scene* scene)
-        : Entity(parent, filePath, entityType, scene), Weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
+        Weapon* weapon, float attack_speed, Scene* scene)
+        : Entity(parent, filePath, entityType, scene), weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
 
     this->HP = 100;
 }
@@ -31,10 +31,10 @@ int Player::getHealthpoints() const {
 }
 
 
-void Player::setWeapon(Entity* weapon, QString name) {
-    this->Weapon = weapon;
-    this->Weapon->moveBy(10,0);
-    this->weaponName = name;
+void Player::setWeapon(Weapon *weapon, QString name) {
+    this->weapon = weapon;
+    this->weapon->moveBy(10,0);
+    this->weapon->setWeaponName(name);
 
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();
@@ -43,8 +43,8 @@ void Player::setWeapon(Entity* weapon, QString name) {
 
 }
 
-Entity* Player::getWeapon() const {
-    return this->Weapon;
+Weapon* Player::getWeapon() const {
+    return this->weapon;
 }
 
 void Player::setCloth(Entity* cloth) {
@@ -68,8 +68,8 @@ void Player::UpdateMovement(float deltaTime, int steps){
     // Apply rotation : We move the objects attached to the player, but not theplayer itself, to avoid wrong collisions !
     if(Clothing != nullptr)
         Clothing->setRotation(angle); 
-    if(Weapon != nullptr)
-        Weapon->setRotation(angle); 
+    if(weapon != nullptr)
+        weapon->setRotation(angle);
 
 
     Entity::UpdateMovement(deltaTime, steps);

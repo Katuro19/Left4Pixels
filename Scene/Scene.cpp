@@ -12,7 +12,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 1.0,          // attack_speed
                 this);        // scene
 
-    Entity* hands = new Entity(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this);
+    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, "deagle");
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
     Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
@@ -99,14 +99,37 @@ void Scene::CameraUpdate(Entity* entity) const {
 void Scene::keyPressEvent(QKeyEvent* event) {
     pressedKeys.insert(event->key());
     UpdateDirection();
-
 }
 
 void Scene::keyReleaseEvent(QKeyEvent* event) {
     pressedKeys.remove(event->key());
     UpdateDirection();
-
 }
+
+void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
+        QPointF mousePos = event->scenePos();
+        if (player->getWeapon() != nullptr) {
+            QString weapon_name = (player->getWeapon())->getWeaponName();
+            if (weapon_name == "deagle"){
+                qDebug() << "Shooting with deagle";
+                // Create a new projectile
+                Projectile* projectile = new Projectile(nullptr, "../Resources/Items/image.png", "projectile", mousePos, player->pos(), 0, false, 0, 0, 100, 1, this);
+                projectile->updateDirection();
+                this->AddEntity(projectile);
+            }
+        }
+    }
+}
+
+
+void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
+        QPointF mousePos = event->scenePos();
+
+    }
+}
+
 
 void Scene::UpdateDirection() const {
     float dx = 0.0f;

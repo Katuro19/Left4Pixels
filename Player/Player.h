@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include "Entity.h"
 #include "Scene.h"
+#include "Weapon.h"
 
 class Scene; //Forward declaration
 
@@ -11,22 +12,21 @@ class Player : public Entity {
         int HP;
         float attack_speed;
 
-        Entity* Weapon = nullptr;
-        QString weaponName;
+        Weapon* weapon = nullptr;
     
     public:
         // Constructeur de Player
         explicit Player(QGraphicsItem* parent = nullptr,
                         QString filePath = "",
                         QString entityType = "player",
-                        Entity* weapon = nullptr,
+                        Weapon* weapon = nullptr,
                         float attack_speed = 1.0,
                         Scene* scene = nullptr); 
     
     ~Player();
 
-    void setWeapon(Entity* weapon, QString name);
-    Entity* getWeapon() const;
+    void setWeapon(Weapon* weapon, QString name);
+    Weapon* getWeapon() const;
   
     void setCloth(Entity* cloth);
     Entity* getCloth() const;

@@ -1,6 +1,6 @@
 #include "Weapon.h"
 
-Weapon::Weapon(const int damage,const int id) : damage(damage), id(id){
+Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, QString name) : Entity(parent, filePath, entityType, scene), damage(damage),weaponName(name){
 
 }
 Weapon::~Weapon() {
@@ -13,9 +13,9 @@ int Weapon::getDamage() const {
     return this->damage;
 }
 
-void Weapon::setId(const int id) {
-    this->id = id;
+void Weapon::setWeaponName(const QString name) {
+    this->weaponName = name;
 }
-int Weapon::getId() const {
-    return this->id;
+QString Weapon::getWeaponName() const {
+    return this->weaponName;
 }
