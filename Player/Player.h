@@ -1,10 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "Entity.h"
-#include "Scene.h"
 #include "Weapon.h"
+#include "Scene.h"
+
 
 class Scene; //Forward declaration
+class Weapon; //Forward declaration
 
 class Player : public Entity {
     private:

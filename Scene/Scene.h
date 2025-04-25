@@ -39,6 +39,7 @@ public:
     void AddEntity(Entity* entity, bool reposition = false, QPointF spawnLocation = QPointF(0,0));
     void DeleteEntity(Entity* entity);
 
+    void handleShooting(QPointF mousePos);
 
     void SetPlayerPos(QPointF playerPos);
 
@@ -54,6 +55,7 @@ protected:
     void keyReleaseEvent(QKeyEvent* event);
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
     void UpdateDirection() const;
     int totalEntitySpawned = 0;
 

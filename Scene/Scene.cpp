@@ -74,6 +74,7 @@ void Scene::update(){
 
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
         if (entity->GetEntityType() == "projectile"){
+            //qDebug() << entity->GetUid();
             //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
             //qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
         }
@@ -107,26 +108,34 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
-        QPointF mousePos = event->scenePos();
-        if (player->getWeapon() != nullptr) {
-            QString weapon_name = (player->getWeapon())->getWeaponName();
+    if (event->button() == Qt::LeftButton) {
+        Weapon* weapon = this->player->getWeapon();
+        if (weapon != nullptr) {
+            QString weapon_name = weapon->getWeaponName();
             if (weapon_name == "deagle"){
-                qDebug() << "Shooting with deagle";
-                // Create a new projectile
-                Projectile* projectile = new Projectile(nullptr, "../Resources/Items/image.png", "projectile", mousePos, player->pos(), 0, false, 0, 0, 100, 1, this);
-                projectile->updateDirection();
-                this->AddEntity(projectile);
+                weapon->setIsShooting(true);
             }
         }
     }
 }
 
+void Scene::handleShooting(const QPointF mousePos) {
+    Projectile* projectile = new Projectile(nullptr, "../Resources/Items/image.png", "projectile", mousePos, player->pos(), 0, false, 0, 0, 100, 1, this);
+    this->AddEntity(projectile);
+}
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
-        QPointF mousePos = event->scenePos();
-
+    if (event->button() == Qt::LeftButton){
+        Weapon* weapon = nullptr;
+        if (this->player != nullptr){
+            weapon = this->player->getWeapon();
+            //qDebug() << "All is good";
+        }else{
+            qDebug() << "Player is null, in mouseReleaseEvent()";
+        }
+        if (weapon != nullptr){
+            weapon->setIsShooting(false);
+        }
     }
 }
 

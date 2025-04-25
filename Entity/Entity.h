@@ -11,6 +11,7 @@
 #include <QBitmap>
 #include <QRegion>
 #include <QPointF>
+#include <QCursor>
 
 
 #include <iostream>
