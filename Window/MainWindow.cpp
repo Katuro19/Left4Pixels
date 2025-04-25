@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    mainView->scale(2.0, 2.0);  // Zoom x2
+    mainView->scale(1.0, 1.0);  // Zoom x2
 
 
 

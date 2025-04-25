@@ -40,4 +40,11 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
         }
     }
     Entity::UpdateMovement(deltaTime, steps); // Call the base class method to handle movement
+
+}
+
+
+
+void Weapon::SetMagazine(int magSize){
+    this->magazine = magSize;
 }

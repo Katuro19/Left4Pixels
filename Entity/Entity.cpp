@@ -23,17 +23,21 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
 
     // if(entityType == "cosmetic"){
     //     this->setScale(0.056);
-    //     this->setTransformOriginPoint(parent->boundingRect().center());
-    //     this->setPos(2, 0);
-    // }
 
-    //this ensure that the child will have the same rotation point as their parent !
+    //     QPointF parentCenter = this->parentItem()->boundingRect().center();
+
+    //     //this->setOffset(-1 * (this->boundingRect().center()));
+    //     this->setPos(parentCenter - this->boundingRect().center());
+
+    //     this->setTransformOriginPoint(this->boundingRect().center());
+
+    // }
+    
     if (this->parentItem()) {
         QPointF parentCenter = this->parentItem()->boundingRect().center();
         QPointF localCenter = this->mapFromItem(this->parentItem(), parentCenter);
         this->setTransformOriginPoint(localCenter);
     }
-    
 
 }
 
@@ -203,7 +207,11 @@ bool Entity::PreventMovementCollision(){
                     parentScene->DeleteEntity(this);
                     return true;    
                 }
+                if(type == "runner"){
+                    parentScene->DeleteEntity(entity);
+                }
             }
+            
 
         }
     }

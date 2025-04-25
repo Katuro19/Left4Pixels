@@ -33,15 +33,27 @@ int Player::getHealthpoints() const {
 
 void Player::setWeapon(Weapon *weapon, QString name) {
     this->weapon = weapon;
-    this->weapon->moveBy(10,0);
+    this->weapon->moveBy(20,0);
     this->weapon->setWeaponName(name);
-
+    this->SetSpeedByName(weapon, name);
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();
     QPointF localCenter = weapon->mapFromItem(weapon->parentItem(), parentCenter);
     weapon->setTransformOriginPoint(localCenter);
 
 }
+
+
+void Player::SetSpeedByName(Weapon *weapon, QString weaponName){
+    if(weaponName == "deagle"){
+        this->setAttackSpeed(100);
+        weapon->SetMagazine(10);
+        qDebug() << "here !";
+        weapon->SetSpeed(40);
+    }
+
+}
+
 
 Weapon* Player::getWeapon() const {
     return this->weapon;

@@ -130,11 +130,13 @@ public:
 protected:
     Scene* parentScene; //useful
 
+    int HP;
+
 
 private:
 
-    QString entityType; //Will be used to detect a collision type
     int uid; //uid, in case...
+    QString entityType; //Will be used to detect a collision type
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
 
     QString filePath;
@@ -142,8 +144,8 @@ private:
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.
-    float speed = 180.0; //Default speed, and mostly current speed
-    float baseSpeed = 180.0; //The base speed should never be edited.
+    float speed = 360.0; //Default speed, and mostly current speed
+    float baseSpeed = 360.0; //The base speed should never be edited.
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
 

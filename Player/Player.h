@@ -11,7 +11,6 @@ class Weapon; //Forward declaration
 class Player : public Entity {
     private:
         Entity* Clothing = nullptr;
-        int HP;
         float attack_speed;
 
         Weapon* weapon = nullptr;
@@ -35,11 +34,13 @@ class Player : public Entity {
 
     void setAttackSpeed(float attack_speed);
     float getAttackSpeed() const;
+    void SetSpeedByName(Weapon *weapon, QString weaponName);
 
     void setHealthpoints(int HP);
     int getHealthpoints() const;
 
     void UpdateMovement(float deltaTime, int steps = 1) override;
+
 
 };
 

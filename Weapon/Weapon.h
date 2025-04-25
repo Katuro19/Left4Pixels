@@ -15,6 +15,7 @@ private:
     QElapsedTimer fireRateTimer;
     float fireCooldown = 300.0f; // cooldown en millisecondes (300ms entre deux tirs)
 
+    int magazine=15;
 
 public:
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, QString name = "");
@@ -25,5 +26,8 @@ public:
     bool getIsShooting() const;
     void setIsShooting(bool shoot);
     QString getWeaponName() const;
+
+    void SetMagazine(int magSize);
+
 };
 #endif //WEAPON_H

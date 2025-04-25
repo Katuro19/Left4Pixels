@@ -40,7 +40,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Pearl", *this);
+    MapLoader* mapLoader = new MapLoader("Lotus", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -120,7 +120,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void Scene::handleShooting(const QPointF mousePos) {
-    Projectile* projectile = new Projectile(nullptr, "../Resources/Items/image.png", "projectile", mousePos, player->pos(), 0, false, 0, 0, 100, 1, this);
+    Projectile* projectile = new Projectile(nullptr, "../Resources/Items/image.png", "projectile", mousePos, player->pos(), 0, false, 0, 0, 100, player->getWeapon()->GetSpeed(), this);
     this->AddEntity(projectile);
 }
 

@@ -28,7 +28,7 @@ class MapLoader{
         void ReadMapFile(std::string mapName);
         void PlaceTile(QString tileType, QString tileName, int xPos, int yPos);
 
-        int textureSize = 32;
+        int textureSize = 64;
 
         Scene &mainScene;
 };
