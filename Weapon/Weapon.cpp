@@ -29,7 +29,7 @@ void Weapon::setIsShooting(const bool shoot) {
 }
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
-    if (shoot){
+    if (shoot){ 
         if (!parentScene->views().isEmpty()) {
             float cooldownMs = 1000.0f / parentScene->player->getAttackSpeed();
             if (fireRateTimer.elapsed() >= cooldownMs) {
