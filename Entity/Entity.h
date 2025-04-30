@@ -54,7 +54,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-        qDebug() << "delete entity debug";
+        qDebug() << "Entity : Destructor called";
     }
 
 
@@ -129,6 +129,14 @@ public:
         return this->verbose;
     }
 
+    void TriggerDelete(){
+        this->toDelete = true;
+    }
+
+    bool WillDelete(){
+        return this->toDelete;
+    }
+
 
 protected:
     Scene* parentScene; //useful
@@ -143,6 +151,8 @@ private:
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
 
     bool verbose;
+
+    bool toDelete = false;
 
     QString filePath;
     bool active;

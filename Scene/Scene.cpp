@@ -74,21 +74,22 @@ void Scene::update(){
 
 
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
-        
-        // if (entity->GetEntityType() == "projectile"){
-        //     qDebug() << entity->GetUid();
-        //     qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
-        //     qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
-        // }
-        if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
+        if(entity->WillDelete()){ this->DeleteEntity(entity); } //Delete the entity if tagged with toDelete
+        else{
+            // if (entity->GetEntityType() == "projectile"){
+            //     qDebug() << entity->GetUid();
+            //     qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
+            //     qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
+            // }
+            if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
-        } 
-        entity->UpdateMovement(deltaTime); //Update the movement if needed
+            } 
+            entity->UpdateMovement(deltaTime); //Update the movement if needed
+        }
+
     }
     
     CameraUpdate(player);
-
-
 
 }
 
@@ -210,9 +211,7 @@ void Scene::DeleteEntity(Entity* entity){
         }
     }
 
-    qDebug() << "Vector list done !";
-
-    delete entity; // -- NEED FIX
+    delete entity;
 }
 
 

@@ -2,8 +2,8 @@
 
 
 Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, 
-        Weapon* weapon, float attack_speed, Scene* scene)
-        : Entity(parent, filePath, entityType, scene), weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
+        Weapon* weapon, float attack_speed, Scene* scene, bool verbose)
+        : Entity(parent, filePath, entityType, scene, verbose), weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
 
     this->HP = 100;
 }

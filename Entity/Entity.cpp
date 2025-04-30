@@ -211,11 +211,11 @@ bool Entity::PreventMovementCollision(){
 
             else if(myType == "projectile"){
                 if(type == "wall"){    
-                    parentScene->DeleteEntity(this);
+                    this->TriggerDelete();
                     return true;    
                 }
                 if(type == "runner"){
-                    parentScene->DeleteEntity(entity);
+                    entity->TriggerDelete();
                 }
             }
             

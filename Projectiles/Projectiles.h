@@ -27,10 +27,11 @@ class Projectile : public Entity {
             int bounces = 0,
             int HP = 50,
             float speed = 1,
-            Scene* scene = nullptr);  // Ajout de Scene* comme paramètre
+            Scene* scene = nullptr,
+            bool verbose = false);  // Ajout de Scene* comme paramètre
 
         ~Projectile(){
-            qDebug() << "Projectile delete debug";
+            qDebug() << "Projectile: Destructor called";
         }
 
         void setDamage(int damage);

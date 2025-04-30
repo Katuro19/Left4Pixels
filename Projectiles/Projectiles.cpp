@@ -3,8 +3,8 @@
 
 Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType,
     QPointF target, QPointF startPos, int damage, bool isBreakable,
-    int pierces, int bounces, int HP, float speed, Scene* scene)
-    : Entity(parent, filePath, entityType, scene),  isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), startPos(startPos),speed(speed)  // Auto call of entity for the scene !
+    int pierces, int bounces, int HP, float speed, Scene* scene, bool verbose)
+    : Entity(parent, filePath, entityType, scene, verbose),  isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), startPos(startPos),speed(speed)  // Auto call of entity for the scene !
 {
     this->setPos(startPos);
     this->updateDirection();
@@ -68,7 +68,9 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
     this->HP--;
     //qDebug() << this->HP;
     if(this->HP <= 0){
-        parentScene->DeleteEntity(this);
+        this->TriggerDelete();
+        //parentScene->DeleteEntity(this);
+
     } else {
         //qDebug() << "Projectile pos =" << this->pos() << " target =" << this->target;
         Entity::UpdateMovement(deltaTime, steps);

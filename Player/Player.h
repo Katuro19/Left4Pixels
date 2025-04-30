@@ -22,7 +22,8 @@ class Player : public Entity {
                         QString entityType = "player",
                         Weapon* weapon = nullptr,
                         float attack_speed = 1.0,
-                        Scene* scene = nullptr); 
+                        Scene* scene = nullptr,
+                        bool verbose = false); 
     
     ~Player();
 
