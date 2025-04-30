@@ -1,6 +1,6 @@
 URGENT :
     - Make a game (maybe?)
-    - Make the character shoot
+    - Fix the shooting speed of the player using deltatime
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
     - Make use of the "step" option in the collision system to save performances
     - Fix water speed

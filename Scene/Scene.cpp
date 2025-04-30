@@ -10,17 +10,18 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 "player", //type
                 nullptr,      // weapon
                 1.0,          // attack_speed
-                this);        // scene
+                this,         // Scene (this)
+                true);        // verbose
 
     Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, "deagle");
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
-    Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
+    // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
-    (*projectile).SetId(QStringLiteral("Projectile"));
+    // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
     superCube->setWeapon(hands,"deagle");
@@ -35,9 +36,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     toPreLoad.push_back(zombie);
     toPreLoad.push_back(hands);
     toPreLoad.push_back(outfit);
-    toPreLoad.push_back(projectile);
 
-    projectile->updateDirection();
+    // toPreLoad.push_back(projectile);
+    // projectile->updateDirection();
 
 
     MapLoader* mapLoader = new MapLoader("Lotus", *this);
@@ -73,11 +74,12 @@ void Scene::update(){
 
 
     for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
-        if (entity->GetEntityType() == "projectile"){
-            //qDebug() << entity->GetUid();
-            //qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
-            //qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
-        }
+        
+        // if (entity->GetEntityType() == "projectile"){
+        //     qDebug() << entity->GetUid();
+        //     qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
+        //     qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
+        // }
         if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
 
         } 
@@ -175,7 +177,9 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
     
     */
 
-    qDebug() << "Spawning entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << this->totalEntitySpawned;
+    if(entity->IsVerbose())
+        qDebug() << "Spawning entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << this->totalEntitySpawned;
+
     entity->SetUid(this->totalEntitySpawned);
     this->addItem(entity);
     this->Entities.push_back(entity); //Add the new entity to the list, so that it will be called in the update loop !
@@ -189,14 +193,15 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
 
 void Scene::DeleteEntity(Entity* entity){
     if (!entity) {
-        qDebug() << "Entity is null!";
         return;
     }
 
-    qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() << "with UID" << entity->GetUid();
+    if(entity->IsVerbose())
+        qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() << "with UID" << entity->GetUid();
 
     int entityUid = entity->GetUid();
     this->removeItem(entity); //remove from scene !
+
 
     for (auto it = Entities.begin(); it != Entities.end(); ++it) {
         if ((*it)->GetUid() == entityUid) {
@@ -204,7 +209,10 @@ void Scene::DeleteEntity(Entity* entity){
             break;
         }
     }
-    //delete entity; -- NEED FIX
+
+    qDebug() << "Vector list done !";
+
+    delete entity; // -- NEED FIX
 }
 
 

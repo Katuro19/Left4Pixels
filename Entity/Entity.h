@@ -41,7 +41,7 @@ class Entity : public QGraphicsPixmapItem {
 
 
 public:
-    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Scene* scene = nullptr);
+    Entity(QGraphicsItem* parent = nullptr, QString filePath = "", QString entityType = "wall", Scene* scene = nullptr, bool verbose = false);
     /*
         PARAMETERS :
         -> parent : decide who is the parent (another entity usually). Can be empty. note that this entity will be attached to the parent
@@ -125,6 +125,9 @@ public:
         return this->entityType;
     }
 
+    bool IsVerbose(){
+        return this->verbose;
+    }
 
 
 protected:
@@ -138,6 +141,8 @@ private:
     int uid; //uid, in case...
     QString entityType; //Will be used to detect a collision type
     QString identifier = "default_id"; //This is not a must have, its mostly for debug purpose and to know what object we are talking about
+
+    bool verbose;
 
     QString filePath;
     bool active;
