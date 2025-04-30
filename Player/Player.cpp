@@ -46,7 +46,7 @@ void Player::setWeapon(Weapon *weapon, QString name) {
 
 void Player::SetSpeedByName(Weapon *weapon, QString weaponName){
     if(weaponName == "deagle"){
-        weapon->SetBaseRps(1000);
+        weapon->SetBaseRps(1);
         weapon->SetMagazine(10);
         //We can also modify player speed based on his weapon
     }

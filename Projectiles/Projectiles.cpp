@@ -74,8 +74,6 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
     if (GetInternTimer() <= 0.0f) {
         HP--; //We remove HP every second
 
-        qDebug() << "aie aie aie" << HP;
-
 
         float cooldownSecs = 0.05f; //The cooldown is one sec : one second = 1 HP less !
 

@@ -18,6 +18,7 @@ KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
     - Fix the camera shake when going in diagonals
     - Find a way to remove the sharps edge when turning as a player
+    - Fix lots of RPS still shooting faster
 
 MEH :
     - Make achivements

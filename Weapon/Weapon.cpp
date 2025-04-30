@@ -62,13 +62,12 @@ float Weapon::GetSpeedBoost() {
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
     float cooldownTimer = GetInternTimer() - (deltaTime * this->GetSpeedBoost());
+    //qDebug() << cooldownTimer;
     SetInternTimer(cooldownTimer);
 
 
     if (shoot) {
         if (!parentScene->views().isEmpty()) {
-
-
 
             //this->SetRps(this->GetBaseRps() * deltaTime); //Not really useful
 
@@ -76,6 +75,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
 
             if (GetInternTimer() <= 0.0f) {
                 // Calculer la position du curseur de la souris
+                
                 QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
 
                 parentScene->handleShooting(mousePos);
