@@ -54,7 +54,7 @@ public:
     //virtual ~Entity();
 
     ~Entity(){
-        qDebug() << "Entity : Destructor called";
+        //qDebug() << "Entity : Destructor called";
     }
 
 

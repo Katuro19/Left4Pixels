@@ -37,7 +37,7 @@ public:
     void CameraUpdate(Entity* entity) const;
 
     void AddEntity(Entity* entity, bool reposition = false, QPointF spawnLocation = QPointF(0,0));
-    void DeleteEntity(Entity* entity);
+    void DeleteEntity(int index);
 
     void handleShooting(QPointF mousePos);
 

@@ -31,7 +31,7 @@ class Projectile : public Entity {
             bool verbose = false);  // Ajout de Scene* comme paramètre
 
         ~Projectile(){
-            qDebug() << "Projectile: Destructor called";
+            //qDebug() << "Projectile: Destructor called";
         }
 
         void setDamage(int damage);

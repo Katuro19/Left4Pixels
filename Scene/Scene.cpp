@@ -58,39 +58,37 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 Scene::~Scene() {
     qDebug() << "Destroying scene...";
-    for (Entity* entity : Entities) {
-        DeleteEntity(entity);
+
+    for (int i = Entities.size() - 1; i >= 0; --i) {
+        DeleteEntity(i);
     }
+
     qDebug() << "Scene destroyed";
 }
 
-void Scene::update(){
+void Scene::update() {
+    qint64 elapsedMs = frameTimer.elapsed(); // temps depuis la dernière frame
+    frameTimer.restart();                    // remet le chrono à 0
+    float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
 
-    qint64 elapsedMs = frameTimer.elapsed();      // temps depuis la dernière frame
-    frameTimer.restart();                         // remet le chrono à 0 pour la frame suivante
-    float deltaTime = elapsedMs / 1000.0f;        // converti en secondes
-    
     DebugFps();
 
+    for (int i = 0; i < Entities.size(); ++i) {
+        Entity* entity = Entities[i];
+        
+        if (entity->WillDelete()) {
+            DeleteEntity(i); // nouvelle fonction plus directe
+            --i; // important : on revient en arrière car on a enlevé un élément
+        } else {
+            if (entity->IsMoving()) {
+                // à toi de jouer si tu veux du contenu ici :)
+            }
 
-    for(Entity* entity : Entities){ // Important note : only pushed entities (during the scene creation) are detected here.
-        if(entity->WillDelete()){ this->DeleteEntity(entity); } //Delete the entity if tagged with toDelete
-        else{
-            // if (entity->GetEntityType() == "projectile"){
-            //     qDebug() << entity->GetUid();
-            //     qDebug() << "Direction : x =" << entity->GetDirection().x() << ", y = " << entity->GetDirection().y();
-            //     qDebug() << "Position : x =" << entity->pos().x() << ", y = " << entity->pos().y();
-            // }
-            if(entity->IsMoving()){ //if the entity move, maybe do something special idk...
-
-            } 
-            entity->UpdateMovement(deltaTime); //Update the movement if needed
+            entity->UpdateMovement(deltaTime);
         }
-
     }
-    
-    CameraUpdate(player);
 
+    CameraUpdate(player);
 }
 
 void Scene::CameraUpdate(Entity* entity) const {
@@ -192,27 +190,22 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
 }
 
 
-void Scene::DeleteEntity(Entity* entity){
-    if (!entity) {
-        return;
-    }
+void Scene::DeleteEntity(int index) {
+    if (index < 0 || index >= Entities.size()) return; //If index is invalid, we get out !
 
-    if(entity->IsVerbose())
-        qDebug() << "Deleting entity" << entity->GetId() << "of type" << entity->GetEntityType() << "with UID" << entity->GetUid();
+    Entity* entity = Entities[index]; //We grab our entity
+    if (!entity) return; //If no entity, we get out 
 
-    int entityUid = entity->GetUid();
-    this->removeItem(entity); //remove from scene !
+    if (entity->IsVerbose())
+        qDebug() << "Deleting entity" << entity->GetId()
+                 << "of type" << entity->GetEntityType()
+                 << "with UID" << entity->GetUid();
 
-
-    for (auto it = Entities.begin(); it != Entities.end(); ++it) {
-        if ((*it)->GetUid() == entityUid) {
-            Entities.erase(it); //Delete from the vector list, so thta we wont try to update it for exemple 
-            break;
-        }
-    }
-
+    this->removeItem(entity); // remove from QGraphicsScene
+    Entities.erase(Entities.begin() + index); // Remove using the index directly taken from the main update
     delete entity;
 }
+
 
 
 void Scene::SetPlayerPos(QPointF playerPos){
