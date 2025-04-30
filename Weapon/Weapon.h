@@ -12,10 +12,10 @@ private:
     QString weaponName;
     void UpdateMovement(float deltaTime, int steps) override;
     bool shoot = false;
-    QElapsedTimer fireRateTimer;
-    float fireCooldown = 300.0f; // cooldown en millisecondes (300ms entre deux tirs)
 
-    int magazine=15;
+    float RPS; //Round per sec - attack speed, in fact
+    float baseRPS;
+    int magazine=0;
 
 public:
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, QString name = "");
@@ -28,6 +28,14 @@ public:
     QString getWeaponName() const;
 
     void SetMagazine(int magSize);
+
+    void SetBaseRps(float newRps);
+    
+    void SetRps(float newRps);
+    
+    float GetRps();
+    
+    float GetBaseRps();
 
 };
 #endif //WEAPON_H

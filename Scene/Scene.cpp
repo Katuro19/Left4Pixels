@@ -77,13 +77,12 @@ void Scene::update() {
         Entity* entity = Entities[i];
         
         if (entity->WillDelete()) {
-            DeleteEntity(i); // nouvelle fonction plus directe
-            --i; // important : on revient en arrière car on a enlevé un élément
+            DeleteEntity(i); // Delete entity using the index
+            --i; // REmove one : This is to prevent crashes when checking the Entities list, since removing one item move everything to the left !!
         } else {
-            if (entity->IsMoving()) {
-                // à toi de jouer si tu veux du contenu ici :)
-            }
-
+            // if (entity->IsMoving()) { //Used for animations! (one day)
+              
+            // }
             entity->UpdateMovement(deltaTime);
         }
     }
@@ -113,9 +112,11 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         Weapon* weapon = this->player->getWeapon();
         if (weapon != nullptr) {
             QString weapon_name = weapon->getWeaponName();
+
             if (weapon_name == "deagle"){
                 weapon->setIsShooting(true);
             }
+
         }
     }
 }
