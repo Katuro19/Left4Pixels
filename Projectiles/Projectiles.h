@@ -10,8 +10,7 @@ class Projectile : public Entity {
         bool isBreakable;
         int pierces;
         int bounces;
-        int HP;
-        float speed;
+        int HP; //note : by default, projectile will loose 1 HP per second
         QPointF target;
         QPointF startPos;
 
@@ -25,7 +24,7 @@ class Projectile : public Entity {
             bool isBreakable = true,
             int pierces = 0,
             int bounces = 0,
-            int HP = 50,
+            int HP = 1,
             float speed = 1,
             Scene* scene = nullptr,
             bool verbose = false);  // Ajout de Scene* comme paramètre

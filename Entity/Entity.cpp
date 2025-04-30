@@ -186,7 +186,7 @@ bool Entity::PreventMovementCollision(){
             if(myType == "player"){ //If this entity is a player
                 //SetSpeed(GetBaseSpeed()); //We reset speed everytime
                 if (type == "wall") {
-                    return true; //Can NOT move. the movement is PREVENTED !!
+                    return false; //Can NOT move. the movement is PREVENTED !!
                 } else if (type=="water") { 
                     SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
                 } else if (type == "item") {

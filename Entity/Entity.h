@@ -117,6 +117,11 @@ public:
         return this->speed;
     }
 
+    void SetBaseSpeed(float newSpeed){
+        this->baseSpeed = newSpeed;
+        this->speed = newSpeed;
+    }
+
     float GetBaseSpeed(){
         return this->baseSpeed;
     }
@@ -138,6 +143,14 @@ public:
     }
 
 
+    void SetInternTimer(float time){
+        this->internTimer = time;
+    }
+
+    float GetInternTimer(){
+        return this->internTimer;
+    }
+
 protected:
     Scene* parentScene; //useful
 
@@ -156,6 +169,8 @@ private:
 
     QString filePath;
     bool active;
+
+    float internTimer = 0.0f; //Can be used or not for different purposes.
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.

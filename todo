@@ -1,13 +1,18 @@
 URGENT :
     - Make a game (maybe?)
-    - Fix the shooting speed of the player using deltatime
+
     - Make a zombie AI with a pathfinder (flood fill ? -> maybe waypoints into A*)
+        - Maybe not
+
     - Make use of the "step" option in the collision system to save performances
     - Fix water speed (and include weapon speed debuff)
+
     - Change projectile texture orientation
     - Smooth the way weapns are managed : make a global file that will record every stats in any way whatsoever instead of checking everything with 'if name = ??'
         -> Include the Scene::mousePressEvent
         -> Include the Player::SetWeapon (& Player::SetSpeedByName)
+    
+    - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
