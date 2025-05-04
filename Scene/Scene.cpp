@@ -124,7 +124,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 void Scene::handleShooting(const QPointF mousePos) {
     Projectile* projectile = new Projectile(
         nullptr, //parent
-        "../Resources/Items/image.png",  //Path
+        "../Resources/Projectiles/oui.png",  //Path
         "projectile", //Type
         mousePos, //Target
         player->pos(), //start pos
@@ -137,7 +137,7 @@ void Scene::handleShooting(const QPointF mousePos) {
         this //scene
     ); 
 
-    
+    qDebug() << "oui";
     this->AddEntity(projectile);
 }
 
