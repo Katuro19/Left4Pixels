@@ -1,5 +1,0 @@
-deagle :{
-    Attack speed : ??
-    Speed debuff : ??
-    Magazine : ??
-}

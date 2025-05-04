@@ -1,17 +1,12 @@
 #include "Weapon.h"
 
-Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, QString name) : Entity(parent, filePath, entityType, scene), damage(damage),weaponName(name){
+Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, QString name, bool verbose) : Entity(parent, filePath, entityType, scene, verbose), damage(damage),weaponName(name){
     this->SetSpeedBoost(1.0);
 }
 Weapon::~Weapon() {
 
 }
-void Weapon::setDamage(const int damage) {
-    this->damage = damage;
-}
-int Weapon::getDamage() const {
-    return this->damage;
-}
+
 
 void Weapon::setWeaponName(const QString name) {
     this->weaponName = name;
@@ -45,6 +40,22 @@ void Weapon::SetMagazine(int magSize){
     this->magazine = magSize;
 }
 
+void Weapon::SetDamage(int newDamage){
+    this->damage = newDamage;
+}
+
+void Weapon::SetErrorAngle(float newAngle) {
+    this->errorAngle = newAngle;
+}
+
+void Weapon::SetBulletSpeed(int newBulletSpeed) {
+    this->bulletSpeed = newBulletSpeed;
+}
+
+void Weapon::SetReloadTime(float newReloadTime) {
+    this->reloadTime = newReloadTime;
+}
+
 float Weapon::GetRps() {
     return this->RPS;
 }
@@ -57,7 +68,21 @@ float Weapon::GetSpeedBoost() {
     return this->speedBoost;
 }
 
+int Weapon::GetDamage() {
+    return this->damage;
+}
 
+float Weapon::GetErrorAngle() {
+    return this->errorAngle;
+}
+
+int Weapon::GetBulletSpeed() {
+    return this->bulletSpeed;
+}
+
+float Weapon::GetReloadTime() {
+    return this->reloadTime;
+}
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
@@ -72,6 +97,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
             //this->SetRps(this->GetBaseRps() * deltaTime); //Not really useful
 
             //qDebug() << "RPS : " << this->GetRps();
+            //qDebug() << GetInternTimer();
 
             if (GetInternTimer() <= 0.0f) {
                 // Calculer la position du curseur de la souris
@@ -94,5 +120,65 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
 }
 
 
+
+
+void Weapon::LoadWeaponStats(QString name) {
+    //Prepare to load the weapon file
+    QString fileName = "../Resources/Weapons/Stats/" + name + ".txt";
+    QFile file(fileName);
+
+    if (!file.exists()) {
+        qWarning() << "Name is invalid:" << fileName;
+        return;
+    }
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Error with file :" << fileName;
+        return;
+    }
+
+    QTextStream in(&file);
+
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();  // Remove spaces
+
+        //If #, we dont read
+        if (line.startsWith("#") || line.isEmpty()) {
+            continue;
+        }
+
+        //We split
+        QStringList values = line.split(";");
+
+        if (values.size() == 7) {
+            // We convert stats
+            SetDamage(values[0].toInt());
+            SetBaseRps(values[1].toFloat());
+            SetSpeedBoost(values[2].toFloat());
+            SetMagazine(values[3].toInt());
+            SetBulletSpeed(values[4].toInt());
+            SetReloadTime(values[5].toFloat());
+            SetErrorAngle(values[6].toFloat());
+
+
+            if(this->IsVerbose()){
+                qDebug() << "Damages:" << GetDamage();
+                qDebug() << "RPS:" << GetRps();
+                qDebug() << "Speed debuff :" << GetSpeedBoost();
+                qDebug() << "Magazine size:" << this->magazine;
+                qDebug() << "Bullet speed:" << GetBulletSpeed();
+                qDebug() << "Reload Time:" << GetReloadTime();
+                qDebug() << "Angle:" << GetErrorAngle();
+
+
+            }
+
+        } else {
+            qWarning() << "Invalid line :"<< line;
+        }
+    }
+
+    file.close();
+}
 
 

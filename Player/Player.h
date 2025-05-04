@@ -35,7 +35,6 @@ class Player : public Entity {
 
     void setAttackSpeed(float attack_speed);
     float getAttackSpeed() const;
-    void SetSpeedByName(Weapon *weapon, QString weaponName);
 
     void setHealthpoints(int HP);
     int getHealthpoints() const;

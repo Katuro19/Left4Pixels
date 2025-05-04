@@ -35,7 +35,7 @@ void Player::setWeapon(Weapon *weapon, QString name) {
     this->weapon = weapon;
     this->weapon->moveBy(20,0);
     this->weapon->setWeaponName(name);
-    this->SetSpeedByName(weapon, name);
+    this->weapon->LoadWeaponStats(name);
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();
     QPointF localCenter = weapon->mapFromItem(weapon->parentItem(), parentCenter);
@@ -44,14 +44,7 @@ void Player::setWeapon(Weapon *weapon, QString name) {
 }
 
 
-void Player::SetSpeedByName(Weapon *weapon, QString weaponName){
-    if(weaponName == "deagle"){
-        weapon->SetBaseRps(1);
-        weapon->SetMagazine(10);
-        //We can also modify player speed based on his weapon
-    }
 
-}
 
 
 Weapon* Player::getWeapon() const {

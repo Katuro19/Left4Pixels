@@ -1,0 +1,14 @@
+Order is : 
+    Damage, 
+    RPS, 
+    Speed boost (float, so 0.1 for only 10% of value, 1 for same value, etc), 
+    magazine, 
+    bullet speed, 
+    reload time (can be float), 
+    errorAngle
+
+Separator is ;
+
+Note that a weapon with 0 RPS is considered melee
+
+Line with an # will be ignored

@@ -1,0 +1,4 @@
+#This is a random text
+
+
+10; 2; 1; 5; 1700; 2.5; 0

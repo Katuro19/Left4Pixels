@@ -13,7 +13,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, "deagle");
+    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, "deagle", true);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
     Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
@@ -124,7 +124,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 void Scene::handleShooting(const QPointF mousePos) {
     Projectile* projectile = new Projectile(
         nullptr, //parent
-        "../Resources/Projectiles/oui.png",  //Path
+        "blabla",  //Path
         "projectile", //Type
         mousePos, //Target
         player->pos(), //start pos
@@ -137,7 +137,6 @@ void Scene::handleShooting(const QPointF mousePos) {
         this //scene
     ); 
 
-    qDebug() << "oui";
     this->AddEntity(projectile);
 }
 
