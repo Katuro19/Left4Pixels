@@ -169,6 +169,8 @@ bool Entity::PreventMovementCollision(){
     QList<QGraphicsItem *> collisions = this->collidingItems(); //We get all the collisions
     QString myType = this->GetEntityType();
 
+    float defaultSpeedModifier = this->GetDefaultSpeedModifier();
+
     for (QGraphicsItem* item : collisions) {
         if (item->type() == Entity::Type) { //Check if its an entity, thanks to the preparations in Entity.h
             Entity* entity = static_cast<Entity*>(item); // We can cast here thanks to the type definition in the entity.h
@@ -186,12 +188,12 @@ bool Entity::PreventMovementCollision(){
             if(myType == "player"){ //If this entity is a player
                 //SetSpeed(GetBaseSpeed()); //We reset speed everytime
                 if (type == "wall") {
-                    return false; //Can NOT move. the movement is PREVENTED !!
+                    return true; //Can NOT move. the movement is PREVENTED !!
                 } else if(type == "tile"){
-                    this->SetSpeedModifier(1);
+                    this->SetSpeedModifier(defaultSpeedModifier);
                 } else if (type=="water") { 
                     //SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
-                    this->SetSpeedModifier(0.7);
+                    this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
                 } else if (type == "runner"){

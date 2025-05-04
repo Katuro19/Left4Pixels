@@ -74,7 +74,7 @@ void Player::UpdateMovement(float deltaTime, int steps){
         Clothing->setRotation(angle); 
     if(weapon != nullptr)
         weapon->setRotation(angle);
-
+        this->SetDefaultSpeedModifier(weapon->GetSpeedBoost());
 
     Entity::UpdateMovement(deltaTime, steps);
  

@@ -1,4 +1,5 @@
-#This is a random text
+
+#DMG, RPS, Speed debuff(.%), Magazine, bullet speed, reload time, spread (°)
 
 
 10; 2; 1; 5; 1700; 2.5; 0
