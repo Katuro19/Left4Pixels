@@ -111,12 +111,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         Weapon* weapon = this->player->getWeapon();
         if (weapon != nullptr) {
-            QString weapon_name = weapon->getWeaponName();
 
-            if (weapon_name == "deagle"){
+            if(weapon->GetRps() != 0){ //If the rps is 0, its a melee weapon
                 weapon->setIsShooting(true);
             }
-
         }
     }
 }

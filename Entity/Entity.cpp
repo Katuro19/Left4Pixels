@@ -74,7 +74,7 @@ void Entity::LoadTexture(const QString &imagePath){
 
 
 void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
-    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" || this->entityType == "water" || this->entityType == "cosmetic"){
+    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" || this->entityType == "water" || this->entityType == "cosmetic" || this->entityType == "melee"){
         SetSpeed(0);
     }
     else if(this->entityType == "player"){
@@ -106,8 +106,8 @@ void Entity::UpdateMovement(float deltaTime, int steps){
     if(this->isMoving){
 
         this->SetSpeed(deltaTime * this->GetBaseSpeed()); //this set the speed based on the current framerate
-        
-        float entitySpeed = this->GetSpeed();
+
+        float entitySpeed = this->GetSpeed() * this->GetSpeedModifier();
         QPointF currentPos = pos(); //We get the current position
         QPointF currentDirection = this->GetDirection();
         QPointF XHolder(1,0);
@@ -187,8 +187,11 @@ bool Entity::PreventMovementCollision(){
                 //SetSpeed(GetBaseSpeed()); //We reset speed everytime
                 if (type == "wall") {
                     return false; //Can NOT move. the movement is PREVENTED !!
+                } else if(type == "tile"){
+                    this->SetSpeedModifier(1);
                 } else if (type=="water") { 
-                    SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
+                    //SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
+                    this->SetSpeedModifier(0.7);
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
                 } else if (type == "runner"){

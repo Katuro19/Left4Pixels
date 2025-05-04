@@ -151,6 +151,14 @@ public:
         return this->internTimer;
     }
 
+    void SetSpeedModifier(float modifier){
+        this->speedModifier = modifier;
+    }
+
+    float GetSpeedModifier(){
+        return this->speedModifier;
+    }
+
 protected:
     Scene* parentScene; //useful
 
@@ -175,6 +183,7 @@ private:
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.
     float speed = 360.0; //Default speed, and mostly current speed
+    float speedModifier = 1; //This is a multiplier for the speed
     float baseSpeed = 360.0; //The base speed should never be edited.
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
