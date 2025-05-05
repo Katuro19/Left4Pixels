@@ -67,6 +67,9 @@ Scene::~Scene() {
 }
 
 void Scene::update() {
+
+    if (isPaused) return; //Permet de mettre en pause le jeu si on fait échap
+
     qint64 elapsedMs = frameTimer.elapsed(); // temps depuis la dernière frame
     frameTimer.restart();                    // remet le chrono à 0
     float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
@@ -103,6 +106,10 @@ void Scene::keyPressEvent(QKeyEvent* event) {
 }
 
 void Scene::keyReleaseEvent(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Escape) {
+        togglePause();
+        return;
+    }
     pressedKeys.remove(event->key());
     UpdateDirection();
 }
@@ -238,5 +245,32 @@ void Scene::DebugFps(){
         qDebug() << "FPS:" << frameCount;
         frameCount = 0;
         elapsedTimer.restart();
+    }
+}
+
+
+void Scene::togglePause() {
+    isPaused = !isPaused;
+
+    if (isPaused) {
+        // Affiche un fond semi-transparent
+        pauseOverlay = addRect(sceneRect(), QPen(Qt::NoPen), QBrush(QColor(0, 0, 0, 150)));
+        pauseMenuItems.push_back(pauseOverlay);
+
+        // Ajouter un bouton Reprendre
+        QGraphicsTextItem* resumeText = addText("Reprendre (R)", QFont("Arial", 24));
+        resumeText->setDefaultTextColor(Qt::white);
+        resumeText->setPos(400, 300);
+        pauseMenuItems.push_back(resumeText);
+
+        // Connecte la touche R pour reprendre
+        // Tu peux aussi faire des boutons cliquables comme ton menu principal
+    } else {
+        for (QGraphicsItem* item : pauseMenuItems) {
+            removeItem(item);
+            delete item;
+        }
+        pauseMenuItems.clear();
+        pauseOverlay = nullptr;
     }
 }

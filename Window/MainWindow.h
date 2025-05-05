@@ -3,31 +3,26 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
-#include <QMenu>
-#include <QMenuBar>
-#include <QAction>
-#include <QMessageBox>
-#include <QPainter>
-#include <QLabel>
+#include <QGraphicsScene>
 
 #include "Scene.h"
+#include "Menus.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
-private :
-    Scene* mainScene;
-    QGraphicsView* mainView;
-
-
 public:
-    MainWindow(QWidget* parent = nullptr);
-    virtual ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
+private:
+    QGraphicsView *mainView;
+    QGraphicsScene *menuScene;
+    Scene *mainScene;
+    Menus *menus;
 
-
-    
+    void setupMenuScene();
+    void startGame();
 };
 
-
-#endif //MAINWINDOW_H
+#endif // MAINWINDOW_H

@@ -1,33 +1,53 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
-{
+#include <QGraphicsTextItem>
+#include <QApplication>
+#include <QFont>
+#include <QBrush>
+#include <QDebug>
 
-    this->mainScene = new Scene;
-    this->mainView = new QGraphicsView;
-
-    this->mainView->setScene(mainScene);
-    this->mainView->setBackgroundBrush(QBrush(QColor(200, 200, 200))); 
-
-    this->setCentralWidget(mainView);
-    this->setWindowTitle("Left4Pixels");
-
-    mainView->setSceneRect(-500, -500, 2500, 2500);  // Taille de la scène
-    mainView->setFixedSize(1000, 1000);        // Taille de la fenêtre
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+      menuScene(nullptr),
+      mainScene(nullptr),
+      menus(nullptr) {// Setup view
+    
+    mainView = new QGraphicsView(this);
+    mainView->setRenderHint(QPainter::Antialiasing);
+    mainView->setFixedSize(1000, 1000);
     mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setCentralWidget(mainView);
+    setWindowTitle("Left4Pixels");
+    setFixedSize(1000, 1000);
 
-    mainView->scale(1.0, 1.0);  // Zoom x2
-
-
-
+    setupMenuScene();
 }
 
+void MainWindow::setupMenuScene() {
+    if (menuScene)
+        delete menuScene;
 
-MainWindow::~MainWindow(){
+    menuScene = new QGraphicsScene(0, 0, 1000, 1000, this);
+    menus = new Menus(menuScene, this);
 
+    mainView->setScene(menuScene);
+
+    menus->afficherMenuPrincipal([this]() {
+        startGame();
+    });
 }
 
+void MainWindow::startGame() {
+    if (mainScene)
+        delete mainScene;
 
+    mainScene = new Scene(this);
+    mainScene->setSceneRect(-500, -500, 2500, 2500);
+    mainView->setScene(mainScene);
+}
 
-
+MainWindow::~MainWindow() {
+    delete mainScene;
+    delete menuScene;
+}

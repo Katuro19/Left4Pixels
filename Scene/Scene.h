@@ -66,7 +66,10 @@ private:
 
     void DebugFps();
 
-
+    bool isPaused = false;
+    QGraphicsRectItem* pauseOverlay = nullptr;
+    QVector<QGraphicsItem*> pauseMenuItems;
+    void togglePause();
 };
 
 
