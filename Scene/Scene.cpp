@@ -86,7 +86,7 @@ void Scene::update() {
             // if (entity->IsMoving()) { //Used for animations! (one day)
               
             // }
-            entity->UpdateMovement(deltaTime,5);
+            entity->UpdateMovement(deltaTime);
         }
     }
 
