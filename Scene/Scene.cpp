@@ -52,6 +52,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     timer->start(16); //60 FPS
 
     frameTimer.start();
+    menus = new Menus(this, parent);
 
 }
 
@@ -68,7 +69,9 @@ Scene::~Scene() {
 
 void Scene::update() {
 
-    if (isPaused) return; //Permet de mettre en pause le jeu si on fait échap
+    if (isPaused){  //Permet de mettre en pause le jeu si on fait echap
+        return;
+    }
 
     qint64 elapsedMs = frameTimer.elapsed(); // temps depuis la dernière frame
     frameTimer.restart();                    // remet le chrono à 0
@@ -115,13 +118,42 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    // Vérifier d'abord si nous sommes en pause - si oui, ne pas traiter les clics pour le joueur
+    if (isPaused) {
+        // Passer l'événement au gestionnaire par défaut pour que les CustomButtons puissent le recevoir
+        QGraphicsScene::mousePressEvent(event);
+        return;
+    }
+
+    // Si nous ne sommes pas en pause, traiter normalement pour le joueur
     if (event->button() == Qt::LeftButton) {
         Weapon* weapon = this->player->getWeapon();
         if (weapon != nullptr) {
-
-            if(weapon->GetRps() != 0){ //If the rps is 0, its a melee weapon
+            if(weapon->GetRps() != 0) { //If the rps is 0, it's a melee weapon
                 weapon->setIsShooting(true);
             }
+        }
+    }
+}
+
+void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    // Vérifier d'abord si nous sommes en pause - si oui, ne pas traiter les clics pour le joueur
+    if (isPaused) {
+        // Passer l'événement au gestionnaire par défaut pour que les CustomButtons puissent le recevoir
+        QGraphicsScene::mouseReleaseEvent(event);
+        return;
+    }
+
+    // Si nous ne sommes pas en pause, traiter normalement pour le joueur
+    if (event->button() == Qt::LeftButton) {
+        Weapon* weapon = nullptr;
+        if (this->player != nullptr) {
+            weapon = this->player->getWeapon();
+        } else {
+            qDebug() << "Player is null, in mouseReleaseEvent()";
+        }
+        if (weapon != nullptr) {
+            weapon->setIsShooting(false);
         }
     }
 }
@@ -140,26 +172,10 @@ void Scene::handleShooting(const QPointF mousePos) {
         10, //HP
         1700, //Speed
         this //scene
-    ); 
+    );
 
     this->AddEntity(projectile);
 }
-
-void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    if (event->button() == Qt::LeftButton){
-        Weapon* weapon = nullptr;
-        if (this->player != nullptr){
-            weapon = this->player->getWeapon();
-            //qDebug() << "All is good";
-        }else{
-            qDebug() << "Player is null, in mouseReleaseEvent()";
-        }
-        if (weapon != nullptr){
-            weapon->setIsShooting(false);
-        }
-    }
-}
-
 
 void Scene::UpdateDirection() const {
     float dx = 0.0f;
@@ -242,7 +258,7 @@ void Scene::DebugFps(){
     frameCount++;
     
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
-        qDebug() << "FPS:" << frameCount;
+        //qDebug() << "FPS:" << frameCount;
         frameCount = 0;
         elapsedTimer.restart();
     }
@@ -250,27 +266,26 @@ void Scene::DebugFps(){
 
 
 void Scene::togglePause() {
+    qDebug() << "togglePause appelé. isPaused avant:" << isPaused;
+
     isPaused = !isPaused;
+    qDebug() << "isPaused après:" << isPaused;
 
     if (isPaused) {
-        // Affiche un fond semi-transparent
-        pauseOverlay = addRect(sceneRect(), QPen(Qt::NoPen), QBrush(QColor(0, 0, 0, 150)));
-        pauseMenuItems.push_back(pauseOverlay);
-
-        // Ajouter un bouton Reprendre
-        QGraphicsTextItem* resumeText = addText("Reprendre (R)", QFont("Arial", 24));
-        resumeText->setDefaultTextColor(Qt::white);
-        resumeText->setPos(400, 300);
-        pauseMenuItems.push_back(resumeText);
-
-        // Connecte la touche R pour reprendre
-        // Tu peux aussi faire des boutons cliquables comme ton menu principal
-    } else {
-        for (QGraphicsItem* item : pauseMenuItems) {
-            removeItem(item);
-            delete item;
-        }
-        pauseMenuItems.clear();
-        pauseOverlay = nullptr;
+        // Afficher le menu de pause
+        menus->afficherMenuPause(player->pos(),
+            [this]() {
+                qDebug() << "Callback Reprendre appelé";
+                isPaused = false;
+                qDebug() << "isPaused mis à:" << isPaused;
+            },
+            []() { qDebug() << "Sauvegarder (non implémenté)"; },
+            []() { qDebug() << "Charger une partie (non implémenté)"; },
+            []() { qApp->quit(); }
+        );
+    }
+    else {
+        qDebug() << "Masquage du menu de pause";
+        menus->masquerMenuPause();
     }
 }

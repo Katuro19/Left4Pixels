@@ -1,51 +1,141 @@
 #include "Menus.h"
-#include <QGraphicsSimpleTextItem>
-#include <QFont>
-#include <QBrush>
-#include <QPen>
-#include <QDebug>
-#include <QApplication>
-
 
 Menus::Menus(QGraphicsScene *scene, QObject *parent)
-    : QObject(parent), scene(scene) {}
+    : scene(scene), parent(parent) {}
 
-void Menus::ajouterBouton(const QString &texte, const QPointF &pos, std::function<void()> callback) {
-    auto *bouton = new BoutonInteractif(texte, callback);
-    bouton->setPos(pos);
-    scene->addItem(bouton);
-}
-
-void Menus::afficherMenuPrincipal(std::function<void()> startCallback) {
-    scene->clear();
-    scene->setBackgroundBrush(QColor(30, 30, 30));
-
-    QGraphicsTextItem *title = new QGraphicsTextItem("Left4Pixels - Menu Principal");
-    QFont titleFont("Arial", 24, QFont::Bold);
-    title->setFont(titleFont);
+void Menus::ajouterTitre(const QString &texte) {
+    QGraphicsTextItem *title = new QGraphicsTextItem(texte);
+    QFont font("Arial", 24, QFont::Bold);
+    title->setFont(font);
     title->setDefaultTextColor(Qt::white);
     title->setPos(500 - title->boundingRect().width() / 2, 100);
     scene->addItem(title);
-
-    ajouterBouton("Nouvelle Partie", QPointF(400, 250), startCallback);
-    ajouterBouton("Quitter", QPointF(400, 330), []() {
-        qApp->quit();
-    });
 }
 
-void Menus::afficherMenuPause(std::function<void()> resumeCallback) {
+void Menus::ajouterBouton(const QString &texte, int x, int y, std::function<void()> callback) {
+    QGraphicsRectItem *button = new QGraphicsRectItem(0, 0, 200, 50);
+    button->setBrush(QBrush(Qt::darkGray));
+    button->setPen(QPen(Qt::white));
+    button->setPos(x, y);
+
+    // Mettre un Z-index élevé pour le bouton visuel
+    button->setZValue(99);
+
+    QGraphicsTextItem *label = new QGraphicsTextItem(texte, button);
+    QFont font("Arial", 16);
+    label->setFont(font);
+    label->setDefaultTextColor(Qt::white);
+    label->setPos(100 - label->boundingRect().width() / 2, 10);
+
+    // Créer un bouton cliquable avec un Z-index ENCORE PLUS élevé
+    CustomButton *clickable = new CustomButton(callback);
+    clickable->setRect(0, 0, 200, 50);
+    clickable->setBrush(Qt::NoBrush);
+    clickable->setPen(Qt::NoPen);
+    clickable->setPos(x, y);
+
+    // Z-index plus élevé que le fond ET que le bouton visuel
+    clickable->setZValue(101);
+
+    // S'assurer que le bouton accepte les événements de souris
+    clickable->setAcceptedMouseButtons(Qt::LeftButton);
+
+    scene->addItem(button);
+    scene->addItem(clickable);
+
+    // Si nous sommes en train de créer des boutons pour le menu pause, ajoutons-les à la liste
+    if (!elementsPause.isEmpty()) {
+        elementsPause.append(button);
+        elementsPause.append(clickable);
+    }
+}
+
+void Menus::afficherMenuPrincipal(std::function<void()> nouvellePartieCallback) {
     scene->clear();
-    scene->setBackgroundBrush(QColor(30, 30, 30, 180)); // léger fond transparent
+    scene->setBackgroundBrush(QColor(30, 30, 30));
+    ajouterTitre("Left4Pixels - Menu Principal");
 
-    QGraphicsTextItem *title = new QGraphicsTextItem("Pause");
-    QFont titleFont("Arial", 20, QFont::Bold);
-    title->setFont(titleFont);
-    title->setDefaultTextColor(Qt::white);
-    title->setPos(500 - title->boundingRect().width() / 2, 150);
-    scene->addItem(title);
-
-    ajouterBouton("Reprendre", QPointF(400, 250), resumeCallback);
-    ajouterBouton("Quitter", QPointF(400, 330), []() {
+    ajouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
+    ajouterBouton("Quitter", 400, 330, []() {
         qApp->quit();
     });
 }
+
+
+
+void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onCharger,std::function<void()> onQuitter) {
+    if (!elementsPause.isEmpty()) return;
+
+    // Définir la taille du menu de pause
+    int largeurMenu = 2500;
+    int hauteurMenu = 2500;
+
+    // Créer un fond centré sur le joueur
+    fondPause = new QGraphicsRectItem(
+        centre.x() - largeurMenu/2,
+        centre.y() - hauteurMenu/2,
+        largeurMenu,
+        hauteurMenu
+    );
+    fondPause->setBrush(QColor(0, 0, 0, 200));
+    fondPause->setPen(QPen(Qt::white));
+
+    // Z-index plus bas pour le fond
+    fondPause->setZValue(98);
+
+    scene->addItem(fondPause);
+    elementsPause.append(fondPause);
+
+    QGraphicsTextItem* titre = new QGraphicsTextItem("Pause");
+    QFont font("Arial", 24, QFont::Bold);
+    titre->setFont(font);
+    titre->setDefaultTextColor(Qt::white);
+    titre->setPos(centre.x() - titre->boundingRect().width() / 2, centre.y() - hauteurMenu/2 + 20);
+    titre->setZValue(99);
+    scene->addItem(titre);
+    elementsPause.append(titre);
+
+    // Utiliser ajouterBouton pour créer chaque bouton
+    ajouterBouton("Reprendre", centre.x() - 100, centre.y() - 80, [this, onReprendre]() {
+        qDebug() << "Bouton Reprendre cliqué";
+        masquerMenuPause();
+        onReprendre();
+    });
+
+    ajouterBouton("Sauvegarder", centre.x() - 100, centre.y() - 10, [this, onSauvegarder]() {
+        qDebug() << "Bouton Sauvegarder cliqué";
+        onSauvegarder();
+    });
+
+    ajouterBouton("Charger", centre.x() - 100, centre.y() + 60, [this, onCharger]() {
+        qDebug() << "Bouton Charger cliqué";
+        onCharger();
+    });
+
+    ajouterBouton("Quitter", centre.x() - 100, centre.y() + 130, [this, onQuitter]() {
+        qDebug() << "Bouton Quitter cliqué";
+        onQuitter();
+    });
+}
+
+void Menus::masquerMenuPause() {
+    if (elementsPause.isEmpty()) return;
+    for (auto* item : elementsPause) {
+        if (auto* button = dynamic_cast<CustomButton*>(item)) {
+            button->setAcceptedMouseButtons(Qt::NoButton);
+        }
+    }
+
+    for (auto* item : elementsPause) {
+        scene->removeItem(item);
+        delete item;
+    }
+
+    elementsPause.clear();
+    fondPause = nullptr;
+
+    qDebug() << "Menu pause masqué";
+}
+
+
+

@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <qcoreapplication.h>
 
 
 
@@ -19,6 +20,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Menus.h"
 #include "MapLoader.h"
 #include "Projectiles.h"
 
@@ -42,6 +44,8 @@ public:
     void handleShooting(QPointF mousePos);
 
     void SetPlayerPos(QPointF playerPos);
+
+    void SwapIsPaused(){this->isPaused = !this->isPaused;}
 
 public slots:
     void update();
@@ -67,9 +71,9 @@ private:
     void DebugFps();
 
     bool isPaused = false;
-    QGraphicsRectItem* pauseOverlay = nullptr;
     QVector<QGraphicsItem*> pauseMenuItems;
     void togglePause();
+    Menus* menus = nullptr;
 };
 
 

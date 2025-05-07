@@ -47,10 +47,10 @@ set(SOURCES
     ./MapLoader/MapLoader.cpp
     ./MapLoader/MapLoader.h
 
-    ./Menus/MenuButton.cpp
-    ./Menus/MenuButton.h
     ./Menus/Menus.cpp
     ./Menus/Menus.h
+    ./Menus/CustomButton.cpp
+    ./Menus/CustomButton.h
 
 )
 
