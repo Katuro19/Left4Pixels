@@ -23,6 +23,7 @@
 #include "Menus.h"
 #include "MapLoader.h"
 #include "Projectiles.h"
+#include "Enemies.h"
 
 
 class Player; //Forward declaration

@@ -5,7 +5,8 @@ Order is :
     magazine, 
     bullet speed, 
     reload time (can be float), 
-    errorAngle
+    errorAngle,
+    bullet HP
 
 Separator is ;
 

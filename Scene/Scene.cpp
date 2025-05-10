@@ -15,7 +15,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, "deagle", true);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
-    Entity* zombie = new Entity(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
+    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
@@ -159,18 +159,20 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void Scene::handleShooting(const QPointF mousePos) {
+    Weapon *weapon = this->player->getWeapon();
+
     Projectile* projectile = new Projectile(
         nullptr, //parent
         "blabla",  //Path
         "projectile", //Type
         mousePos, //Target
         player->pos(), //start pos
-        0,  //Damage
+        weapon->GetDamage(),  //Damage
         false, //Is breakable?
         0, //pierces
         0, //bounces
-        10, //HP
-        1700, //Speed
+        weapon->GetBulletLife(), //HP
+        weapon->GetBulletSpeed(), //Speed
         this //scene
     );
 
@@ -258,7 +260,7 @@ void Scene::DebugFps(){
     frameCount++;
     
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
-        //qDebug() << "FPS:" << frameCount;
+        qDebug() << "FPS:" << frameCount;
         frameCount = 0;
         elapsedTimer.restart();
     }

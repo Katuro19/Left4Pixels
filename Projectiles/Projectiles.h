@@ -10,7 +10,6 @@ class Projectile : public Entity {
         bool isBreakable;
         int pierces;
         int bounces;
-        int HP; //note : by default, projectile will loose 1 HP per second
         QPointF target;
         QPointF startPos;
 
@@ -47,9 +46,6 @@ class Projectile : public Entity {
 
         int getBounces() const;
         void setBounces(int bounces);
-
-        int getHP() const;
-        void setHP(int HP);
 
         QPointF getTarget() const;
         void setTarget(QPointF target);

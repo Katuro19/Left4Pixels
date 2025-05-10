@@ -192,7 +192,6 @@ bool Entity::PreventMovementCollision(){
                 } else if(type == "tile"){
                     this->SetSpeedModifier(defaultSpeedModifier);
                 } else if (type=="water") { 
-                    //SetSpeed(GetBaseSpeed()/3); //Important : player speed is reset in Player.cpp, in the UpdateMovement function
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
@@ -216,11 +215,8 @@ bool Entity::PreventMovementCollision(){
 
             else if(myType == "projectile"){
                 if(type == "wall"){    
-                    this->TriggerDelete();
-                    return true;    
-                }
-                if(type == "runner"){
-                    entity->TriggerDelete();
+                    this->ReduceHp(10);
+                     
                 }
             }
             

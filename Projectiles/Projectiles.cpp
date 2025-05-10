@@ -4,11 +4,12 @@
 Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType,
     QPointF target, QPointF startPos, int damage, bool isBreakable,
     int pierces, int bounces, int HP, float speed, Scene* scene, bool verbose)
-    : Entity(parent, filePath, entityType, scene, verbose),  isBreakable(isBreakable), pierces(pierces),bounces(bounces), HP(HP), target(target), startPos(startPos)  // Auto call of entity for the scene !
+    : Entity(parent, filePath, entityType, scene, verbose),  isBreakable(isBreakable), pierces(pierces),bounces(bounces), target(target), startPos(startPos)  // Auto call of entity for the scene !
 {
     this->setPos(startPos);
     this->updateDirection();
     this->SetBaseSpeed(speed);
+    this->SetHp(HP);
 
 }
 
@@ -23,9 +24,6 @@ void Projectile::setPierces(const int pierces) {
 }
 void Projectile::setBounces(const int bounces) {
     this->bounces = bounces;
-}
-void Projectile::setHP(const int HP) {
-    this->HP = HP;
 }
 void Projectile::setTarget(const QPointF target) {
     this->target = target;
@@ -42,9 +40,7 @@ int Projectile::getPierces() const {
 int Projectile::getBounces() const {
     return this->bounces;
 }
-int Projectile::getHP() const {
-    return this->HP;
-}
+
 QPointF Projectile::getTarget() const {
     return this->target;
 }
@@ -72,10 +68,9 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
     SetInternTimer(cooldownTimer);
 
     if (GetInternTimer() <= 0.0f) {
-        HP--; //We remove HP every second
+        this->ReduceHp(); //We remove HP every second
 
-
-        float cooldownSecs = 0.05f; //The cooldown is one sec : one second = 1 HP less !
+        float cooldownSecs = 0.05f; //small cooldown before loosing HP again
 
         SetInternTimer(cooldownSecs);
 

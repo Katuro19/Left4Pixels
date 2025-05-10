@@ -56,6 +56,10 @@ void Weapon::SetReloadTime(float newReloadTime) {
     this->reloadTime = newReloadTime;
 }
 
+void Weapon::SetBulletLife(int newBulletLife){
+    this->bulletLife = newBulletLife;
+}
+
 float Weapon::GetRps() {
     return this->RPS;
 }
@@ -83,6 +87,12 @@ int Weapon::GetBulletSpeed() {
 float Weapon::GetReloadTime() {
     return this->reloadTime;
 }
+
+int Weapon::GetBulletLife(){
+    return this->bulletLife;
+}
+
+
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
@@ -150,7 +160,7 @@ void Weapon::LoadWeaponStats(QString name) {
         //We split
         QStringList values = line.split(";");
 
-        if (values.size() == 7) {
+        if (values.size() == 8) {
             // We convert stats
             SetDamage(values[0].toInt());
             SetBaseRps(values[1].toFloat());
@@ -159,6 +169,8 @@ void Weapon::LoadWeaponStats(QString name) {
             SetBulletSpeed(values[4].toInt());
             SetReloadTime(values[5].toFloat());
             SetErrorAngle(values[6].toFloat());
+            SetBulletLife(values[7].toInt());
+
 
 
             if(this->IsVerbose()){
@@ -169,6 +181,8 @@ void Weapon::LoadWeaponStats(QString name) {
                 qDebug() << "Bullet speed:" << GetBulletSpeed();
                 qDebug() << "Reload Time:" << GetReloadTime();
                 qDebug() << "Angle:" << GetErrorAngle();
+                qDebug() << "Bullet HP:" << GetBulletLife();
+
 
 
             }

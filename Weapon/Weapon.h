@@ -28,6 +28,7 @@ private:
     int bulletSpeed;
     float errorAngle;
     float reloadTime;
+    int bulletLife;
 
 
 public:
@@ -64,6 +65,9 @@ public:
     
     float GetReloadTime();
     void SetReloadTime(float newReloadTime);
+
+    int GetBulletLife();
+    void SetBulletLife(int newBulletLife);
 
 };
 #endif //WEAPON_H

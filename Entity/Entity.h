@@ -167,6 +167,17 @@ public:
         return this->defaultSpeedModifier;
     }
 
+    void SetHp(int newHp){
+        this->HP = newHp;
+    }
+
+    void ReduceHp(int value=1){
+        this->HP -= value;
+    }
+
+    int GetHp(){
+        return this->HP;
+    }
 
 protected:
     Scene* parentScene; //useful
