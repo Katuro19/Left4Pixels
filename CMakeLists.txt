@@ -17,6 +17,7 @@ include_directories(
     ./Projectiles
     ./MapLoader
     ./Menus
+    ./Enemies
 )
 
 
@@ -27,10 +28,8 @@ set(SOURCES
     ./Window/MainWindow.cpp
     ./Window/MainWindow.h
 
-    
     ./Scene/Scene.cpp
     ./Scene/Scene.h
-
 
     ./Entity/Entity.h
     ./Entity/Entity.cpp
@@ -51,6 +50,10 @@ set(SOURCES
     ./Menus/Menus.h
     ./Menus/CustomButton.cpp
     ./Menus/CustomButton.h
+
+    ./Enemies/Enemies.cpp
+    ./Enemies/Enemies.h
+
 
 )
 

@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Left4Pixels");
     setFixedSize(1000, 1000);
 
-    setupMenuScene();
+    startGame();
+    //setupMenuScene();
 }
 
 void MainWindow::setupMenuScene() {
