@@ -17,7 +17,6 @@
 class Weapon: public Entity {
 private:
     int damage;
-    QString weaponName;
     void UpdateMovement(float deltaTime, int steps) override;
     bool shoot = false;
 
@@ -32,12 +31,10 @@ private:
 
 
 public:
-    explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, QString name = "", bool verbose=false);
+    explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);
     ~Weapon();
-    void setWeaponName(QString name);
     bool getIsShooting() const;
     void setIsShooting(bool shoot);
-    QString getWeaponName() const;
 
 
     void LoadWeaponStats(QString name);

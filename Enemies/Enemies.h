@@ -18,7 +18,9 @@ class Enemy : public Entity {
                         QString filePath = "",
                         QString entityType = "runner",
                         Scene* scene = nullptr,
-                        bool verbose = false); 
+                        bool verbose = false,
+                        int baseHp = 1
+                    ); 
     
     ~Enemy();
 

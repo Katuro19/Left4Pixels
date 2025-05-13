@@ -10,7 +10,7 @@ URGENT :
 
     - Change projectile texture orientation (make a projectile texture maybe)
     
-    - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA)
+    - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA) (and fix the bullet not going toward where we aim)
 
     - Upscale everything to 256 * 256 (dont forget the map loader default size)
 

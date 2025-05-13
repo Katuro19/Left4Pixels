@@ -1,19 +1,12 @@
 #include "Weapon.h"
 
-Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, QString name, bool verbose) : Entity(parent, filePath, entityType, scene, verbose), damage(damage),weaponName(name){
+Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, bool verbose) : Entity(parent, filePath, entityType, scene, verbose), damage(damage){
     this->SetSpeedBoost(1.0);
 }
 Weapon::~Weapon() {
 
 }
 
-
-void Weapon::setWeaponName(const QString name) {
-    this->weaponName = name;
-}
-QString Weapon::getWeaponName() const {
-    return this->weaponName;
-}
 
 bool Weapon::getIsShooting() const {
     return this->shoot;
