@@ -300,3 +300,7 @@ int Scene::getSpawnedEntities() {
 bool Scene::getIsPaused() {
     return this->isPaused;
 }
+
+QString Scene::getMapName() {
+    return this->map_name;
+}

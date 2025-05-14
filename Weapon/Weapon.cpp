@@ -85,6 +85,17 @@ int Weapon::GetBulletLife(){
     return this->bulletLife;
 }
 
+QString Weapon::GetName() {
+    return this->name;
+}
+
+void Weapon::SetName(QString name) {
+    this->name = name;
+}
+
+int Weapon::GetMagazine() const {
+    return this->magazine;
+}
 
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {

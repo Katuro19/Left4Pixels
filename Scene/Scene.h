@@ -48,10 +48,15 @@ public:
 
     void SwapIsPaused(){this->isPaused = !this->isPaused;}
 
-public slots:
-    void update();
     int getSpawnedEntities();
     bool getIsPaused();
+    QString getMapName();
+
+
+
+public slots:
+    void update();
+
 
 
 protected:
@@ -77,6 +82,8 @@ private:
     QVector<QGraphicsItem*> pauseMenuItems;
     void togglePause();
     Menus* menus = nullptr;
+
+    QString map_name;
 };
 
 

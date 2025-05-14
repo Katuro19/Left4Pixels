@@ -19,15 +19,16 @@ void Saves::SaveGame(Scene *scene) {
     fprintf(file, scene->getIsPaused() + "\n");
     fprintf(file, "}\n");
     fprintf(file, " \"Map\": {\n");
-    fprintf(file, ",\n");
+    fprintf(file,  "%s\n",scene->getMapName().toStdString().c_str());
     fprintf(file, "}\n");
     fprintf(file, " \"Player\": {\n");
-    fprintf(file, ",\n");
+    fprintf(file, "(%.0f;%.0f)\n",scene->player->pos().x(),scene->player->pos().y());
     fprintf(file, ",\n");
     fprintf(file, "\n");
     fprintf(file, "}\n");
     fprintf(file, " \"Weapon\": {\n");
-    fprintf(file, "\n");
+    fprintf(file, "%s,\n", scene->player->getWeapon()->GetName().toStdString().c_str());
+    fprintf(file, "%d\n", scene->player->getWeapon()->GetMagazine());
     fprintf(file, "}\n");
 
 

@@ -28,6 +28,7 @@ private:
     float errorAngle;
     float reloadTime;
     int bulletLife;
+    QString name;
 
 
 public:
@@ -39,7 +40,7 @@ public:
 
     void LoadWeaponStats(QString name);
 
-
+    int GetMagazine() const;
     void SetMagazine(int magSize);
 
     float GetRps();
@@ -65,6 +66,12 @@ public:
 
     int GetBulletLife();
     void SetBulletLife(int newBulletLife);
+
+    QString GetName();
+    void SetName(QString name);
+
+
+
 
 };
 #endif //WEAPON_H
