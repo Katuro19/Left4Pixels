@@ -89,7 +89,7 @@ int Weapon::GetBulletLife(){
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
-    float cooldownTimer = GetInternTimer() - (deltaTime * this->GetSpeedBoost());
+    float cooldownTimer = GetInternTimer() - (deltaTime);
     //qDebug() << cooldownTimer;
     SetInternTimer(cooldownTimer);
 
@@ -127,7 +127,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
 
 void Weapon::LoadWeaponStats(QString name) {
     //Prepare to load the weapon file
-    QString fileName = "../Resources/Weapons/Stats/" + name + ".txt";
+    QString fileName = "../Resources/WeaponsStats/Stats/" + name + ".txt";
     QFile file(fileName);
 
     if (!file.exists()) {

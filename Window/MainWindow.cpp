@@ -45,6 +45,7 @@ void MainWindow::startGame() {
 
     mainScene = new Scene(this);
     mainScene->setSceneRect(-500, -500, 2500, 2500);
+    mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
 }
 

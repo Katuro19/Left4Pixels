@@ -10,3 +10,4 @@ Enemy::Enemy(QGraphicsItem* parent, QString filePath, QString entityType, Scene*
 Enemy::~Enemy() {
 
 }
+

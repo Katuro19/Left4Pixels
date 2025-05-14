@@ -6,16 +6,16 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
     Player* superCube = new Player(nullptr, //parent
-                QStringLiteral("../Resources/Characters/Player/player.png"), //image location
+                QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
                 "player", //type
                 nullptr,      // weapon
                 1.0,          // attack_speed
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Weapons/deagle.png"),"weapon", this, 10, true);
-    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Cosmetics/sunglasses.png"),"cosmetic", this);
-    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Characters/runner.png"),"runner", this);
+    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/deagle.png"),"weapon", this, 10, true);
+    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/sunglasses.png"),"cosmetic", this);
+    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/runner.png"),"runner", this);
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));

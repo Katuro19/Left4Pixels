@@ -202,10 +202,10 @@ private:
 
     QPointF direction; //Direction can stock the 2D movement of an entity.
     bool isMoving=false; //Decide if an entity is mooving or no.
-    float speed = 360.0; //Default speed, and mostly current speed
+    float speed = 1440.0; //Default speed, and mostly current speed
     float speedModifier = 1; //This is a multiplier for the speed
     float defaultSpeedModifier = 1; //This variable is useful for player entities, since their default speed modifier may be modified because of the weapon.
-    float baseSpeed = 360.0; //The base speed should never be edited.
+    float baseSpeed = 1440.0; //The base speed should never be edited.
 
     void LoadTexture(const QString &imagePath); //Load the texture in path
 
