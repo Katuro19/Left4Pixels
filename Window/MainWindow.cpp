@@ -6,8 +6,7 @@
 #include <QBrush>
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
       menuScene(nullptr),
       mainScene(nullptr),
       menus(nullptr) {// Setup view
@@ -15,8 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
     mainView = new QGraphicsView(this);
     mainView->setRenderHint(QPainter::Antialiasing);
     mainView->setFixedSize(1000, 1000);
+
     mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //mainView->setDragMode(QGraphicsView::NoDrag);
+
     setCentralWidget(mainView);
     setWindowTitle("Left4Pixels");
     setFixedSize(1000, 1000);
@@ -44,7 +46,7 @@ void MainWindow::startGame() {
         delete mainScene;
 
     mainScene = new Scene(this);
-    mainScene->setSceneRect(-500, -500, 2500, 2500);
+    mainScene->setSceneRect(0, 0, 3000, 3000);
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
 }

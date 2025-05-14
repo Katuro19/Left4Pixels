@@ -163,7 +163,7 @@ void Scene::handleShooting(const QPointF mousePos) {
 
     Projectile* projectile = new Projectile(
         nullptr, //parent
-        "blabla",  //Path
+        "../Resources/Textures/Projectiles/deagle_bullet.png",  //Path
         "projectile", //Type
         mousePos, //Target
         player->pos(), //start pos
@@ -182,10 +182,10 @@ void Scene::handleShooting(const QPointF mousePos) {
 void Scene::UpdateDirection() const {
     float dx = 0.0f;
     float dy = 0.0f;
-    if (pressedKeys.contains(Qt::Key_Up))    dy -= 1.0f;
-    if (pressedKeys.contains(Qt::Key_Down))  dy += 1.0f;
-    if (pressedKeys.contains(Qt::Key_Left))  dx -= 1.0f;
-    if (pressedKeys.contains(Qt::Key_Right)) dx += 1.0f;
+    if (pressedKeys.contains(Qt::Key_Z))    dy -= 1.0f;
+    if (pressedKeys.contains(Qt::Key_S))  dy += 1.0f;
+    if (pressedKeys.contains(Qt::Key_Q))  dx -= 1.0f;
+    if (pressedKeys.contains(Qt::Key_D)) dx += 1.0f;
     
     //Patch the navigation bug (being faster in diagonals)
     float magnitude = std::sqrt(dx*dx + dy*dy);

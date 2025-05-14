@@ -33,7 +33,7 @@ int Player::getHealthpoints() const {
 
 void Player::setWeapon(Weapon *weapon, QString name) {
     this->weapon = weapon;
-    this->weapon->moveBy(20,0);
+    this->weapon->moveBy(100,0);
     this->weapon->LoadWeaponStats(name);
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();

@@ -12,7 +12,7 @@ URGENT :
     
     - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA) (and fix the bullet not going toward where we aim)
 
-    - Upscale everything to 256 * 256 (dont forget the map loader default size)
+    - Set a timer by second using current hour
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)

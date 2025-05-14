@@ -54,7 +54,7 @@ QPointF Projectile::getStartingPos() const {
 
 void Projectile::updateDirection() {
     const qreal angle = std::atan2(this->target.y() - this->startPos.y(), this->target.x() - this->startPos.x());
-    this->setRotation(angle);
+    //this->setRotation(angle);
     QPointF direction = {qCos(angle),qSin(angle)};
     //qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
     this->SetDirection(direction.x(),direction.y());
@@ -63,6 +63,14 @@ void Projectile::updateDirection() {
 
 
 void Projectile::UpdateMovement(float deltaTime, int steps){
+
+    QRectF sceneBounds = this->parentScene->sceneRect(); // taille logique de la scène
+    QRectF itemBounds = this->sceneBoundingRect();
+
+    if (!sceneBounds.intersects(itemBounds)) {
+        this->TriggerDelete();
+    }
+
 
     float cooldownTimer = GetInternTimer() - deltaTime; //Only deltaTime because nothing affects the projectile
     SetInternTimer(cooldownTimer);
