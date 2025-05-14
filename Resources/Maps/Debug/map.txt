@@ -1,0 +1,12 @@
+tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1
+tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1 tG1
+tG1 tG1 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 
+tG1 tG1 wW0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 wW0 tG0 aA0 aA0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 wW0 tG0 aA0 aA0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 tG0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 tG0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 wW0 wW0 wW0 wW0 tG0 tG0 tG0 wW0 wW0 wW0
+tG1 tG1 wW0 aA0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 wW0 aA0 tG0 tG0 tG0 tG0 tG0 tG0 tG0 wW0 
+tG1 tG1 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 wW0 

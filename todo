@@ -22,7 +22,7 @@ KINDA IMPORTANT :
     - Fix lots of RPS still shooting faster
     - Make a menu screen at the start of the game (easy with another scene)
 
-    - Use projectile HP and stats file to make some weapon able to shoot through walls
+    - change texture to only load them one time (use a fixed array) 
 
 MEH :
     - Make achievements

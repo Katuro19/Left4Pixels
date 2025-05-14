@@ -41,7 +41,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Pearl", *this);
+    MapLoader* mapLoader = new MapLoader("Debug", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -157,6 +157,8 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
         }
     }
 }
+
+
 
 void Scene::handleShooting(const QPointF mousePos) {
     Weapon *weapon = this->player->getWeapon();
