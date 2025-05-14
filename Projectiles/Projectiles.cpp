@@ -67,9 +67,7 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
     QRectF sceneBounds = this->parentScene->sceneRect(); // taille logique de la scène
     QRectF itemBounds = this->sceneBoundingRect();
 
-    if (!sceneBounds.intersects(itemBounds)) {
-        this->TriggerDelete();
-    }
+    if (!sceneBounds.intersects(itemBounds)) {this->TriggerDelete();}
 
 
     float cooldownTimer = GetInternTimer() - deltaTime; //Only deltaTime because nothing affects the projectile
