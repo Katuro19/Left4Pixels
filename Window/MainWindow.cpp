@@ -51,6 +51,17 @@ void MainWindow::startGame() {
     mainView->setScene(mainScene);
 }
 
+void MainWindow::LoadGame(Scene* scene) {
+    if (mainScene)
+        delete mainScene;
+    mainScene = scene;
+    mainScene->setSceneRect(-500, -500, 2500, 2500);
+    scene->player->setPos(scene->player->pos().x(), scene->player->pos().y());
+}
+
+
+
+
 MainWindow::~MainWindow() {
     delete mainScene;
     delete menuScene;

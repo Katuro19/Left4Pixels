@@ -50,6 +50,8 @@ public:
 
 public slots:
     void update();
+    int getSpawnedEntities();
+    bool getIsPaused();
 
 
 protected:

@@ -291,3 +291,10 @@ void Scene::togglePause() {
         menus->masquerMenuPause();
     }
 }
+int Scene::getSpawnedEntities() {
+    return this->totalEntitySpawned;
+}
+
+bool Scene::getIsPaused() {
+    return this->isPaused;
+}

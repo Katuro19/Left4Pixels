@@ -21,6 +21,7 @@ private:
     Scene *mainScene;
     Menus *menus;
 
+    void LoadGame(Scene* scene);
     void setupMenuScene();
     void startGame();
 };
