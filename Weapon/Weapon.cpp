@@ -117,13 +117,24 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
                 
                 QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
 
+                int shotToDo = 1;
                 if(cooldownSecs < deltaTime){
                     bulletPerShot += deltaTime/cooldownSecs;
                     //qDebug() << "Delta time / cooldown :" << deltaTime << "/" << cooldownSecs;
 
-                    //qDebug() << bulletPerShot;
+                    shotToDo = int(bulletPerShot);
+                    bulletPerShot -= shotToDo;
+                    //qDebug() << "Shot to do :" << shotToDo;
+                    //qDebug() << "Bullet per shot" << bulletPerShot;
+
                 }
-                parentScene->handleShooting(mousePos);
+
+                //qDebug() << "Starting ...";
+                for(int i=0; i < shotToDo; i++){
+                    //qDebug() << "Shooting";
+                    parentScene->handleShooting(mousePos);
+                }
+                
                 
 
                 SetInternTimer(0);
