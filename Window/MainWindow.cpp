@@ -23,8 +23,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     setWindowTitle("Left4Pixels");
     setFixedSize(1000, 1000);
 
-    startGame();
-    //setupMenuScene();
+    setupMenuScene();
 }
 
 void MainWindow::setupMenuScene() {
@@ -35,13 +34,11 @@ void MainWindow::setupMenuScene() {
     menus = new Menus(menuScene, this);
 
     mainView->setScene(menuScene);
-
-    menus->afficherMenuPrincipal([this]() {
-        startGame();
-    });
+    menus->AjouterMainWindow(this);
+    menus->afficherMenuPrincipal(StartGame("lotus", "story"));
 }
 
-void MainWindow::startGame() {
+std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     if (mainScene)
         delete mainScene;
 
@@ -49,7 +46,9 @@ void MainWindow::startGame() {
     mainScene->setSceneRect(0, 0, 3000, 3000);
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
+    return nullptr;
 }
+
 
 void MainWindow::LoadGame(Scene* scene) {
     if (mainScene)

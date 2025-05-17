@@ -9,7 +9,7 @@ CustomButton::CustomButton(std::function<void()> callback) : callback(callback) 
 }
 
 void CustomButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    qDebug() << "CustomButton: mousePressEvent";
+    //qDebug() << "CustomButton: mousePressEvent";
     // Marquer l'événement comme accepté pour empêcher sa propagation à la scène
     event->accept();
 
@@ -19,7 +19,7 @@ void CustomButton::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 // Gérer le relâchement du bouton de la souris
 void CustomButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    qDebug() << "CustomButton: mouseReleaseEvent";
+    //qDebug() << "CustomButton: mouseReleaseEvent";
     // Marquer l'événement comme accepté pour empêcher sa propagation à la scène
     event->accept();
 
@@ -27,7 +27,7 @@ void CustomButton::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         isPressed = false;
         // Vérifier que le relâchement se fait bien sur le bouton
         if (contains(event->pos())) {
-            qDebug() << "CustomButton: callback exécuté";
+            //qDebug() << "CustomButton: callback exécuté";
             if (callback) callback();
         }
     }
@@ -43,15 +43,4 @@ void CustomButton::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         isPressed = false;
         update();
     }
-}
-
-// Gérer les événements de survol
-void CustomButton::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
-    isHovered = true;
-    update();
-}
-
-void CustomButton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-    isHovered = false;
-    update();
 }

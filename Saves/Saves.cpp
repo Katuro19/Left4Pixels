@@ -22,8 +22,8 @@ void Saves::SaveGame(Scene *scene) {
     fprintf(file,  "%s\n",scene->getMapName().toStdString().c_str());
     fprintf(file, "}\n");
     fprintf(file, " \"Player\": {\n");
-    fprintf(file, "(%.0f;%.0f)\n",scene->player->pos().x(),scene->player->pos().y());
-    fprintf(file, ",\n");
+    fprintf(file, "(%.0f;%.0f),\n",scene->player->pos().x(),scene->player->pos().y());
+   //fprintf(file, "%s,\n",scene->player->getCloth().toStdString().c_str());
     fprintf(file, "\n");
     fprintf(file, "}\n");
     fprintf(file, " \"Weapon\": {\n");

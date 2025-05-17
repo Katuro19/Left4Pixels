@@ -8,12 +8,15 @@
 #include "Scene.h"
 #include "Menus.h"
 
+class Menus; //Forward declaration
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    std::function<void()> StartGame(QString map, QString mode);
 
 private:
     QGraphicsView *mainView;
@@ -23,7 +26,7 @@ private:
 
     void LoadGame(Scene* scene);
     void setupMenuScene();
-    void startGame();
+
 };
 
 #endif // MAINWINDOW_H

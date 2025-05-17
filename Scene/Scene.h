@@ -27,6 +27,7 @@
 
 
 class Player; //Forward declaration
+class Menus; //Forward declaration
 
 class Scene : public QGraphicsScene {
     Q_OBJECT

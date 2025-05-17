@@ -55,12 +55,43 @@ void Menus::afficherMenuPrincipal(std::function<void()> nouvellePartieCallback) 
     scene->setBackgroundBrush(QColor(30, 30, 30));
     ajouterTitre("Left4Pixels - Menu Principal");
 
+    /*
+    ajouterBouton("Story mode", 400, 250, [this]() {afficherChoixMap("Story");});
+    ajouterBouton("Wave mode", 400, 330, [this]() {afficherChoixMap("Wave");});*/
     ajouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
     ajouterBouton("Quitter", 400, 330, []() {
         qApp->quit();
     });
 }
 
+/*
+void Menus::afficherChoixMap(QString mode) {
+    scene->clear();
+    scene->setBackgroundBrush(QColor(30, 30, 30));
+    int y = 200;
+    if (mode == "Story"){
+        ajouterTitre("Choix de la map - Story mode");
+        QStringList maps = { "Map 1", "Map 2", "Map 3" };
+        for (const QString& mapName : maps) {
+            qDebug() << "1";
+            ajouterBouton(mapName, 400, y, [this, mode, mapName]() {mainWindow->StartGame(mapName, mode);});
+            qDebug() << "2";
+            y += 80;
+        }
+    }
+    if (mode == "Wave"){
+        ajouterTitre("Choix de la map - Wave mode");
+        QStringList maps = { "Map 1", "Map 2", "Map 3" };
+        for (const QString& mapName : maps) {
+            ajouterBouton(mapName, 400, y, [this, mode, mapName]() {mainWindow->StartGame(mapName, mode);});
+
+            y += 80;
+        }
+    }
+    ajouterBouton("Retour", 400, y + 40, [this]() {
+        afficherMenuPrincipal();
+    });
+}*/
 
 
 void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onCharger,std::function<void()> onQuitter) {
@@ -137,5 +168,7 @@ void Menus::masquerMenuPause() {
     qDebug() << "Menu pause masqué";
 }
 
-
+void Menus::AjouterMainWindow(MainWindow* mainWindow) {
+    this->mainWindow = mainWindow;
+}
 
