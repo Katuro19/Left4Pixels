@@ -175,7 +175,8 @@ void Scene::handleShooting(const QPointF mousePos) {
         0, //bounces
         weapon->GetBulletLife(), //HP
         weapon->GetBulletSpeed(), //Speed
-        this //scene
+        this, //scene
+        false //verbose
     );
 
     this->AddEntity(projectile);

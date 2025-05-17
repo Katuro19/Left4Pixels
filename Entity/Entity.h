@@ -184,6 +184,7 @@ protected:
 
     int HP;
 
+    static QMap<QString, QPixmap> textureCache; //This will be used to save the textures, static because every entity share it !!
 
 private:
 
