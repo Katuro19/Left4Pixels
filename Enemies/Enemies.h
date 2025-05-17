@@ -16,7 +16,7 @@ class Enemy : public Entity {
         // Constructeur de Player
         explicit Enemy(QGraphicsItem* parent = nullptr,
                         QString filePath = "",
-                        QString entityType = "runner",
+                        QString entityType = "runner", //Possile entity type : Runner, spitter,
                         Scene* scene = nullptr,
                         bool verbose = false,
                         int baseHp = 1
@@ -24,6 +24,7 @@ class Enemy : public Entity {
     
     ~Enemy();
 
+    void UpdateMovement(float deltaTime, int steps = 1) override;
 
 
 };

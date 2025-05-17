@@ -56,7 +56,7 @@ void Entity::LoadTexture(const QString &imagePath) {
 
         if (pixmap.isNull()) {
             if (this->verbose)
-                qDebug() << "❌ Failed to load image:" << imagePath << "(Entity:" << this->identifier << ")";
+                qDebug() << "⚠️ Failed to load image:" << imagePath << "(Entity:" << this->identifier << ")";
 
             // Essaye de charger la texture par défaut
             QPixmap defaultPixmap(DEFAULT_PATH);
@@ -162,7 +162,7 @@ void Entity::UpdateMovement(float deltaTime, int steps){
         //If an Entity have no speed, that doesn't mean we should not check its collisions, except for things like walls or tiles !
         QString tempType = this->GetEntityType();
 
-        if(tempType == "wall" || tempType == "tile"){
+        if(tempType == "wall" || tempType == "tile" || tempType == "grid"){
             return;
         }
 
@@ -196,7 +196,7 @@ bool Entity::PreventMovementCollision(){
 
             if(myType == "player"){ //If this entity is a player
                 //SetSpeed(GetBaseSpeed()); //We reset speed everytime
-                if (type == "wall") {
+                if (type == "wall" || type == "grid") {
                     return true; //Can NOT move. the movement is PREVENTED !!
                 } else if(type == "tile"){
                     this->SetSpeedModifier(defaultSpeedModifier);

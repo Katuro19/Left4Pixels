@@ -2,6 +2,7 @@
 
 Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, bool verbose) : Entity(parent, filePath, entityType, scene, verbose), damage(damage){
     this->SetSpeedBoost(1.0);
+    this->SetInternTimer(1000);
 }
 Weapon::~Weapon() {
 
@@ -31,6 +32,7 @@ void Weapon::SetSpeedBoost(float boost) {
 
 void Weapon::SetMagazine(int magSize){
     this->magazine = magSize;
+    this->maxMag = magSize;
 }
 
 void Weapon::SetDamage(int newDamage){
@@ -97,14 +99,23 @@ int Weapon::GetMagazine() const {
     return this->magazine;
 }
 
+void Weapon::DecreaseMagazine(){
+    this->magazine--;
+}
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
-
 
     double cooldownSecs = 1.0f / this->GetBaseRps();
     float cooldownTimer = GetInternTimer() + (deltaTime);
     //qDebug() << "Timer actuel :" << cooldownTimer;
     SetInternTimer(cooldownTimer);
+
+    if(reloadTimeout > 0){
+        reloadTimeout -= deltaTime;
+
+        if(reloadTimeout <= 0)
+            qDebug() << "Done!";
+    }
 
 
     if (shoot) {
@@ -112,7 +123,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
 
             //qDebug() << "RPS : " << this->GetRps();
 
-            if (GetInternTimer() >= cooldownSecs) {
+            if (GetInternTimer() >= cooldownSecs && reloadTimeout <= 0) {
                 // Calculer la position du curseur de la souris
                 
                 QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
@@ -133,8 +144,19 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
                 for(int i=0; i < shotToDo; i++){
                     //qDebug() << "Shooting";
                     parentScene->handleShooting(mousePos);
+                    this->DecreaseMagazine();
+                    if(this->GetMagazine() <= 0){
+                        break;
+                    }
+                }
+
+                if(this->GetMagazine() <=0){
+                    reloadTimeout = this->GetReloadTime();
+                    this->SetMagazine(maxMag);
+                    qDebug() << "Reloading...";
                 }
                 
+
                 
 
                 SetInternTimer(0);

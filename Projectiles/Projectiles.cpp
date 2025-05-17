@@ -88,6 +88,7 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
 
     } else {
         //qDebug() << "Projectile pos =" << this->pos() << " target =" << this->target;
+        this->ReduceHp(10);
         Entity::UpdateMovement(deltaTime, steps);
     }
 }

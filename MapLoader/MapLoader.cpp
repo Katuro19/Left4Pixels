@@ -104,13 +104,16 @@ void MapLoader::PlaceTile(QString tileType, QString tileName, int xPos, int yPos
 
 
     if(tileType == "w"){
-        entityType = "wall";
+        entityType = "wall"; //None
     }
     else if(tileType == "t"){
-        entityType = "tile";
+        entityType = "tile"; //Shoot and walk
     }
     else if(tileType == "a"){
-        entityType = "water";
+        entityType = "water"; //Shoot and walk
+    }
+    else if(tileType == "g"){
+        entityType = "grid"; //Able to shoot through, but not walk
     }
     else{
         throw std::runtime_error("❌ Error loading tiles: tile type " + tileType.toStdString() + " does not exist or is not defined in MapLoader::PlaceTile.");
