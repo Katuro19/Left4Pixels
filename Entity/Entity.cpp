@@ -4,6 +4,7 @@
 
 #define DEFAULT_PATH "../Resources/Textures/default.png"
 
+QMap<QString, QPixmap> Entity::textureCache;
 
 
 Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType, Scene* scene, bool verbose) : QGraphicsPixmapItem(parent), entityType(entityType), active(true), parentScene(scene), verbose(verbose){
@@ -45,30 +46,38 @@ Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entity
 }
 
 
-void Entity::LoadTexture(const QString &imagePath){
-    if(this->verbose)
-        qDebug() << "Loading texture at" << imagePath;
+void Entity::LoadTexture(const QString &imagePath) {
+    if (this->verbose)
+        qDebug() << "🔁 Loading texture at" << imagePath;
 
-    QPixmap pixmap = QPixmap(imagePath);
-    if (pixmap.isNull()) {
+    // Vérifie si la texture est déjà dans le cache
+    if (!textureCache.contains(imagePath)) {
+        QPixmap pixmap(imagePath);
 
-        if(this->verbose)
-            qDebug() << "Error loading image w/ path" << imagePath << ". (Entity" << this->identifier <<") FIX THE BUGS!";
+        if (pixmap.isNull()) {
+            if (this->verbose)
+                qDebug() << "❌ Failed to load image:" << imagePath << "(Entity:" << this->identifier << ")";
 
-        QPixmap defaultPixmap = QPixmap(DEFAULT_PATH);
+            // Essaye de charger la texture par défaut
+            QPixmap defaultPixmap(DEFAULT_PATH);
+            if (defaultPixmap.isNull()) {
+                throw std::runtime_error("❌ Couldn't load fallback texture at DEFAULT_PATH!");
+            }
 
-        if(defaultPixmap.isNull()){
-            throw std::runtime_error("Error loading default with path DEFAULT_PATH :(");
-
+            // Met dans le cache pour plus tard
+            textureCache.insert(imagePath, defaultPixmap);
+        } else {
+            textureCache.insert(imagePath, pixmap);
         }
-
-        setPixmap(defaultPixmap);
-
-    } 
-    else {
-        setPixmap(pixmap);
+    } else {
+        if (this->verbose)
+            qDebug() << "✅ Texture already in cache for:" << imagePath;
     }
+
+    // Applique la texture (depuis le cache à coup sûr)
+    setPixmap(textureCache[imagePath]);
 }
+
 
 
 
