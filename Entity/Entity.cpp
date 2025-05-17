@@ -10,10 +10,10 @@ QMap<QString, QPixmap> Entity::textureCache;
 Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType, Scene* scene, bool verbose) : QGraphicsPixmapItem(parent), entityType(entityType), active(true), parentScene(scene), verbose(verbose){
     
     if(this->verbose)
-        qDebug() << "Creating entity of type" << this->entityType << "...";
+        qDebug() << "🔄 Creating entity of type" << this->entityType << "...";
 
     if(!scene){
-        throw std::runtime_error("FATAL : no scene was defined in the declaration of this entity. Please check how you define this entity again.");
+        throw std::runtime_error("❌ FATAL : no scene was defined in the declaration of this entity. Please check how you define this entity again.");
     }
 
     SetDefaultSpeed();

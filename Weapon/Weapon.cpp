@@ -156,12 +156,12 @@ void Weapon::LoadWeaponStats(QString name) {
     QFile file(fileName);
 
     if (!file.exists()) {
-        qWarning() << "Name is invalid:" << fileName;
+        qWarning() << "❌ Name is invalid:" << fileName;
         return;
     }
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Error with file :" << fileName;
+        qWarning() << "❌ Error with file :" << fileName;
         return;
     }
 
@@ -206,7 +206,7 @@ void Weapon::LoadWeaponStats(QString name) {
             }
 
         } else {
-            qWarning() << "Invalid line :"<< line;
+            qWarning() << "❌ Invalid line :"<< line;
         }
     }
 

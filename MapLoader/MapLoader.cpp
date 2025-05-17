@@ -3,9 +3,9 @@
 
 MapLoader::MapLoader(QString mapName, Scene &scene) : mainScene(scene){ 
     qDebug() << "-------------------------------------------------------------------";
-    qDebug() << "Now loading" << mapName;
+    qDebug() << "🔁 Now loading" << mapName;
     ReadMapFile(mapName.toStdString());
-    qDebug() << "End of map loading";
+    qDebug() << "✅ End of map loading";
     qDebug() << "-------------------------------------------------------------------";
 }
 
@@ -21,7 +21,7 @@ void MapLoader::ReadMapFile(std::string mapName){ //WARNING : this only work for
     std::ifstream config("../Resources/Maps/" + mapName + "/config.txt"); //Open the map
     if(config.peek() == std::ifstream::traits_type::eof()){
         config.close();
-        throw std::runtime_error("Error loading map " + mapName + ": config.txt is empty.");
+        throw std::runtime_error("❌ Error loading map " + mapName + ": config.txt is empty.");
 
     }
 
@@ -53,7 +53,7 @@ void MapLoader::ReadMapFile(std::string mapName){ //WARNING : this only work for
 
 
     if (!file.is_open()) {
-        throw std::runtime_error("Error loading map " + mapName + ", probably path?");
+        throw std::runtime_error("❌ Error loading map " + mapName + ", probably path?");
     }
 
     QString firstPart;
@@ -113,7 +113,7 @@ void MapLoader::PlaceTile(QString tileType, QString tileName, int xPos, int yPos
         entityType = "water";
     }
     else{
-        throw std::runtime_error("Error loading tiles: tile type " + tileType.toStdString() + " does not exist or is not defined in MapLoader::PlaceTile.");
+        throw std::runtime_error("❌ Error loading tiles: tile type " + tileType.toStdString() + " does not exist or is not defined in MapLoader::PlaceTile.");
     }
 
     std::string path = "../Resources/Textures/Tiles/" + tileName.toStdString();

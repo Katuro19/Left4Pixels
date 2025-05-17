@@ -13,7 +13,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/deagle.png"),"weapon", this, 10, true);
+    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/deagle.png"),"weapon", this, 10, false);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/sunglasses.png"),"cosmetic", this);
     Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/runner.png"),"runner", this);
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
@@ -58,13 +58,13 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
 
 Scene::~Scene() {
-    qDebug() << "Destroying scene...";
+    qDebug() << "☣️ Destroying scene...";
 
     for (int i = Entities.size() - 1; i >= 0; --i) {
         DeleteEntity(i);
     }
 
-    qDebug() << "Scene destroyed";
+    qDebug() << "♻️ Scene destroyed";
 }
 
 void Scene::update() {
@@ -218,7 +218,7 @@ void Scene::AddEntity(Entity* entity, bool reposition, QPointF spawnLocation){
     */
 
     if(entity->IsVerbose())
-        qDebug() << "Spawning entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << this->totalEntitySpawned;
+        qDebug() << "⤵️ Spawning entity" << entity->GetId() << "of type" << entity->GetEntityType() <<"with UID" << this->totalEntitySpawned;
 
     entity->SetUid(this->totalEntitySpawned);
     this->addItem(entity);
@@ -238,7 +238,7 @@ void Scene::DeleteEntity(int index) {
     if (!entity) return; //If no entity, we get out 
 
     if (entity->IsVerbose())
-        qDebug() << "Deleting entity" << entity->GetId()
+        qDebug() << "🗑️ Deleting entity" << entity->GetId()
                  << "of type" << entity->GetEntityType()
                  << "with UID" << entity->GetUid();
 
