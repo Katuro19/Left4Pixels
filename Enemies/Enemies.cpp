@@ -1,10 +1,14 @@
 #include "Enemies.h"
 
 
-Enemy::Enemy(QGraphicsItem* parent, QString filePath, QString entityType, Scene* scene, bool verbose, int baseHp)
-        : Entity(parent, filePath, entityType, scene, verbose){ //Call entity for the scene !
+Enemy::Enemy(QGraphicsItem* parent, QString filePath, QString entityType, Scene* scene, bool verbose)
+    : Entity(parent, filePath, entityType, scene, verbose){ //Call entity for the scene !
 
-    this->HP = baseHp;
+    this->SetZombieStats(entityType);
+    
+
+
+    
 }
 
 Enemy::~Enemy() {
@@ -18,4 +22,9 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
     }
     Entity::UpdateMovement(deltaTime, steps);
 
+}
+
+
+void Enemy::SetZombieStats(QString type){
+    qDebug() << type;
 }

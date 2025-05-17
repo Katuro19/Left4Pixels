@@ -6,12 +6,12 @@ URGENT :
 
     - Make use of the "step" option in the collision system to save performances
 
-    - Make reloading and magazine useful
-
-    - Change projectile texture orientation (make a projectile texture maybe)
+    - Change projectile texture orientation
     
     - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA) (and fix the bullet not going toward where we aim)
+        - The angle already have setter and getter (IN THE WEAPON !!), and is set by the weapon loading.
 
+    - Fix the aiming (please)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)

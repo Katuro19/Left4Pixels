@@ -11,20 +11,21 @@ class Scene; //Forward declaration
 class Enemy : public Entity {
     private:
 
+        void SetZombieStats(QString type);
+
     
     public:
-        // Constructeur de Player
         explicit Enemy(QGraphicsItem* parent = nullptr,
                         QString filePath = "",
                         QString entityType = "runner", //Possile entity type : Runner, spitter,
                         Scene* scene = nullptr,
-                        bool verbose = false,
-                        int baseHp = 1
+                        bool verbose = false
                     ); 
     
-    ~Enemy();
+        ~Enemy();
 
-    void UpdateMovement(float deltaTime, int steps = 1) override;
+        void UpdateMovement(float deltaTime, int steps = 1) override;
+
 
 
 };
