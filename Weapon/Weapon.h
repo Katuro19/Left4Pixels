@@ -30,6 +30,8 @@ private:
     int bulletLife;
     QString name;
 
+    float bulletPerShot = 0;
+
 
 public:
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);

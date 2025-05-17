@@ -63,6 +63,7 @@ protected:
     QTimer* timer;
     QElapsedTimer frameTimer;
 
+
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -70,6 +71,7 @@ protected:
 
     void UpdateDirection() const;
     int totalEntitySpawned = 0;
+
 
 
 private:

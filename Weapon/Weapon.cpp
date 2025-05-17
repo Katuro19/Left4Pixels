@@ -100,30 +100,33 @@ int Weapon::GetMagazine() const {
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
-    float cooldownTimer = GetInternTimer() - (deltaTime);
-    //qDebug() << cooldownTimer;
+
+    double cooldownSecs = 1.0f / this->GetBaseRps();
+    float cooldownTimer = GetInternTimer() + (deltaTime);
+    //qDebug() << "Timer actuel :" << cooldownTimer;
     SetInternTimer(cooldownTimer);
 
 
     if (shoot) {
         if (!parentScene->views().isEmpty()) {
 
-            //this->SetRps(this->GetBaseRps() * deltaTime); //Not really useful
-
             //qDebug() << "RPS : " << this->GetRps();
-            //qDebug() << GetInternTimer();
 
-            if (GetInternTimer() <= 0.0f) {
+            if (GetInternTimer() >= cooldownSecs) {
                 // Calculer la position du curseur de la souris
                 
                 QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
 
+                if(cooldownSecs < deltaTime){
+                    bulletPerShot += deltaTime/cooldownSecs;
+                    //qDebug() << "Delta time / cooldown :" << deltaTime << "/" << cooldownSecs;
+
+                    //qDebug() << bulletPerShot;
+                }
                 parentScene->handleShooting(mousePos);
+                
 
-                double cooldownSecs = 1.0f / this->GetBaseRps();
-
-
-                SetInternTimer(cooldownSecs);
+                SetInternTimer(0);
 
             }
         }

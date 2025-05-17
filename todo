@@ -20,7 +20,6 @@ KINDA IMPORTANT :
     - Fix the camera shake when going in diagonals
     - Find a way to remove the sharps edge when turning as a player
     - Fix lots of RPS still shooting faster
-    - Make a menu screen at the start of the game (easy with another scene)
 
     - change texture to only load them one time (use a fixed array) 
 
