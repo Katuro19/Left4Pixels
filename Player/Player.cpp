@@ -61,6 +61,21 @@ Entity* Player::getCloth() const {
 
 void Player::UpdateMovement(float deltaTime, int steps){
 
+    float grace = GetInternTimer();
+
+    if(this->GetHp() <= 0){
+        this->SetBaseSpeed(0);
+        return;
+    }
+
+    else if(grace > 0){
+            grace -= deltaTime;
+            if(grace < 0){
+                grace = 0;
+            }
+            SetInternTimer(grace);
+    }
+
     // Get the mouse and player pos
     QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
     QPointF playerPos = this->pos();

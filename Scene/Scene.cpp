@@ -14,8 +14,12 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 true);        // verbose
 
     Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
-    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/sunglasses.png"),"cosmetic", this);
-    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"runner", this, true);
+    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
+
+
+    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
+    Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
+
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
@@ -28,11 +32,13 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     superCube->setCloth(outfit);
 
     zombie->moveBy(3 * 256 , 3 * 256);
+    zombie2->moveBy(4 * 256 , 4 * 256);
 
 
 
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
+    toPreLoad.push_back(zombie2);
     toPreLoad.push_back(hands);
     toPreLoad.push_back(outfit);
 

@@ -44,7 +44,7 @@ void Enemy::ChooseDestination(){
 void Enemy::UpdateMovement(float deltaTime, int steps){
 
     float grace = GetInternTimer();
-    if(this->HP <= 0){
+    if(this->GetHp() <= 0){
         this->TriggerDelete();
     }
     else if(grace > 0){
@@ -65,16 +65,26 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
 void Enemy::SetZombieStats(QString type){
 
 
-    int speed = 0;
+    int speed = 1;
     int hp = 1;
+    int damage = 1;
+
     Entity* outfit = nullptr;
 
     // note that the outfit type is still zombie !!
     if(type == "runner"){
-        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Characters/Zombies/runner.png"),"runner", this->parentScene);
-        speed = 750;
-        hp = 350;
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/runner.png"),"runner", this->parentScene, this->IsVerbose());
+        speed = 1500;
+        hp = 70;
+        damage = 1;
     }
+    else if(type == "basic"){
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
+        speed = 350;
+        hp = 350;
+        damage = 1;
+    }
+    
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;
         throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");
@@ -83,6 +93,7 @@ void Enemy::SetZombieStats(QString type){
 
     this->SetBaseSpeed(speed);
     this->SetHp(hp);
+    outfit->SetDamages(damage);
     this->Visual = outfit;
     
 }

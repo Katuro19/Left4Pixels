@@ -83,20 +83,20 @@ void Entity::LoadTexture(const QString &imagePath) {
 
 
 void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
-    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" || this->entityType == "water" || this->entityType == "cosmetic" || this->entityType == "melee"){
+    if(this->entityType == "wall" || this->entityType == "item" || this->entityType == "tile" || this->entityType == "weapon" || this->entityType == "water" || this->entityType == "cosmetic" || this->entityType == "melee" || this->entityType == "zombie"){
         SetSpeed(0);
     }
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner"){
+    else if(this->entityType == "runner" || this->entityType == "basic"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
         SetSpeed(5.0);
     }
     else {
-        QString errorMessage = "Entity type " + (this->entityType) + " does not exist or is not defined in Entity::SetDefaultSpeed()";
+        QString errorMessage = "❌ Entity type " + (this->entityType) + " does not exist or is not defined in Entity::SetDefaultSpeed()";
         throw std::runtime_error(errorMessage.toStdString());
     }
 }
@@ -187,8 +187,6 @@ bool Entity::PreventMovementCollision(){
             
             QString type = entity->GetEntityType(); //Grab what entity type we hit
 
-            if(type == "projectile"){
-            }
 
             // qDebug() << "Me (" << this->GetId() << ") of type" << myType << "is colliding with" << entity->GetId() << "of type" << type;
 
@@ -208,20 +206,31 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
-                } else if (type == "runner"){
-                    //qDebug() << "ouch";
+                } else if (type == "basic" || type == "runner"){
+                    if(GetInternTimer() <= 0){ //Grace !!
+                        this->ReduceHp(entity->GetDamages());
+                        qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
+                        SetInternTimer(0.5); //Long grace for player!
+                    }
                 }
                 
             }
             
-            else if(myType == "runner"){
-                if(type == "wall" || type == "player"){
+            else if(myType == "runner" || myType == "basic"){
+                if(type == "tile"){
+                    this->SetSpeedModifier(defaultSpeedModifier);
+                } else if(type == "wall"){
+                    this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
+                } else if(type == "player"){
                     return true;
                 } else if(type == "projectile"){
+                    qDebug() << "oui";
                     if(GetInternTimer() <= 0){
                         this->ReduceHp(entity->GetDamages());
                         SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
                     }
+                } else if(type == "water"){
+                    this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 }
             }
 
