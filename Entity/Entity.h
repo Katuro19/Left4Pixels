@@ -187,6 +187,8 @@ public:
         return this->damages;
     }
 
+    float usualGrace = 0; // Usual grace can be useful for enemies entity
+
 protected:
     Scene* parentScene; //useful
 
@@ -194,6 +196,8 @@ protected:
     int damages=0; //Can be used to save the damages in the entity itself, saving us some static cast in the collisions
 
     static QMap<QString, QPixmap> textureCache; //This will be used to save the textures, static because every entity share it !!
+    static QMap<Entity* , float> graceTimers; //The graceTimers list is mostly used on the player entity.
+
 
 private:
 

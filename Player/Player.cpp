@@ -61,19 +61,20 @@ Entity* Player::getCloth() const {
 
 void Player::UpdateMovement(float deltaTime, int steps){
 
-    float grace = GetInternTimer();
 
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
         return;
     }
 
-    else if(grace > 0){
-            grace -= deltaTime;
-            if(grace < 0){
-                grace = 0;
-            }
-            SetInternTimer(grace);
+    for (auto it = this->graceTimers.begin(); it != this->graceTimers.end(); ) {
+        it.value() -= deltaTime;
+
+        if (it.value() <= 0) {
+            it = graceTimers.erase(it); // efface l'entrée et avance le pointeur
+        } else {
+            ++it;
+        }
     }
 
     // Get the mouse and player pos

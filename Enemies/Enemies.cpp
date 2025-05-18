@@ -68,6 +68,7 @@ void Enemy::SetZombieStats(QString type){
     int speed = 1;
     int hp = 1;
     int damage = 1;
+    float zGrace = 1; //The grace here is the grace they will apply to the player ; In another word, its their attack speed
 
     Entity* outfit = nullptr;
 
@@ -77,12 +78,14 @@ void Enemy::SetZombieStats(QString type){
         speed = 1500;
         hp = 70;
         damage = 1;
+        zGrace = 0.3;
     }
     else if(type == "basic"){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
         speed = 350;
         hp = 350;
         damage = 1;
+        zGrace = 1.5;
     }
     
     else {
@@ -93,6 +96,7 @@ void Enemy::SetZombieStats(QString type){
 
     this->SetBaseSpeed(speed);
     this->SetHp(hp);
+    outfit->usualGrace = zGrace;
     outfit->SetDamages(damage);
     this->Visual = outfit;
     

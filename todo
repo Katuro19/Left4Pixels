@@ -17,6 +17,7 @@ KINDA IMPORTANT :
         -> Use the DebugFps() function
     - Fix the camera shake when going in diagonals
 
+    - Make zGrace a private and add the set/get
 
 MEH :
     - Make achievements

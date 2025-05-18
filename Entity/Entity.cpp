@@ -5,6 +5,7 @@
 #define DEFAULT_PATH "../Resources/Textures/default.png"
 
 QMap<QString, QPixmap> Entity::textureCache;
+QMap<Entity* , float> Entity::graceTimers;
 
 
 Entity::Entity(QGraphicsItem* parent,const QString filePath,const QString entityType, Scene* scene, bool verbose) : QGraphicsPixmapItem(parent), entityType(entityType), active(true), parentScene(scene), verbose(verbose){
@@ -207,10 +208,10 @@ bool Entity::PreventMovementCollision(){
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
                 } else if (type == "basic" || type == "runner"){
-                    if(GetInternTimer() <= 0){ //Grace !!
+                    if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
                         qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
-                        SetInternTimer(0.5); //Long grace for player!
+                        graceTimers[entity] = entity->usualGrace; //usual grace is mostly defined for enemies
                     }
                 }
                 
@@ -224,7 +225,6 @@ bool Entity::PreventMovementCollision(){
                 } else if(type == "player"){
                     return true;
                 } else if(type == "projectile"){
-                    qDebug() << "oui";
                     if(GetInternTimer() <= 0){
                         this->ReduceHp(entity->GetDamages());
                         SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
