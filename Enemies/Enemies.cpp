@@ -57,26 +57,32 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
     }
 
     this->ChooseDestination();
-    this->SetBaseSpeed(750.0); // vitesse au choix
     Entity::UpdateMovement(deltaTime, steps);
 
 }
 
 
 void Enemy::SetZombieStats(QString type){
-    this->HP = 1000;
 
+
+    int speed = 0;
+    int hp = 1;
     Entity* outfit = nullptr;
 
     // note that the outfit type is still zombie !!
     if(type == "runner"){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Characters/Zombies/runner.png"),"runner", this->parentScene);
+        speed = 750;
+        hp = 350;
     }
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;
         throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");
     }
 
+
+    this->SetBaseSpeed(speed);
+    this->SetHp(hp);
     this->Visual = outfit;
     
 }
