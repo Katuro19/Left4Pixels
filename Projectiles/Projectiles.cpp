@@ -11,6 +11,8 @@ Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityTy
     this->SetBaseSpeed(speed);
     this->SetHp(HP);
     this->setDamage(damage);
+
+    qDebug() << getDamage();
 }
 
 void Projectile::setDamage(const int damage) {

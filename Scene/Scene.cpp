@@ -24,7 +24,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,"deagle");
+    superCube->setWeapon(hands,"M249");
     superCube->setCloth(outfit);
 
     zombie->moveBy(3 * 256 , 3 * 256);
@@ -110,6 +110,11 @@ void Scene::keyPressEvent(QKeyEvent* event) {
 void Scene::keyReleaseEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Escape) {
         togglePause();
+        return;
+    }
+    else if(event->key() == Qt::Key_R){
+        qDebug() << "here";
+        this->player->getWeapon()->EmptyMagazine();
         return;
     }
     pressedKeys.remove(event->key());
@@ -205,6 +210,15 @@ void Scene::UpdateDirection() const {
     //qDebug() << dx << dy;
     //qDebug() << this->player->IsMoving();
 
+}
+
+
+int Scene::GetScore(){
+    return this->score;
+}
+
+void Scene::AddScore(int moreScore){
+    this->score += moreScore;
 }
 
 

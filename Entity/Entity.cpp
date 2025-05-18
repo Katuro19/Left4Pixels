@@ -112,6 +112,7 @@ void Entity::UpdateMovement(float deltaTime, int steps){
 
 */
 
+
     if(this->isMoving){
 
         this->SetSpeed(deltaTime * this->GetBaseSpeed()); //this set the speed based on the current framerate
@@ -216,27 +217,27 @@ bool Entity::PreventMovementCollision(){
             else if(myType == "runner"){
                 if(type == "wall"){
                     return true;
-                }
-                if(type == "projectile"){
-                    Projectile* projectile = static_cast<Projectile*>(entity);
-                    qDebug() << "Damages :" << projectile->getDamage();
-                    this->ReduceHp(projectile->getDamage());
-                    qDebug() << "ouch!";
+                } else if(type == "projectile"){
+                    if(GetInternTimer() <= 0){
+                        Projectile* projectile = static_cast<Projectile*>(entity);
+                        qDebug() << "Damages :" << projectile->getDamage();
+                        this->ReduceHp(projectile->getDamage());
+                        qDebug() << "ouch!";
+                        SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
+                    }
                 }
             }
 
-            else if(myType == "weapon"){
-                if(type == "runner"){
-                    qDebug() << "Hell yea";
-                }
-            }
 
             else if(myType == "projectile"){
                 if(type == "wall"){    
                     this->ReduceHp(10);
-                }
-                if(type == "runner"){
+
+                } else if(type == "tile" || type == "water" || type == "grid"){
+                    ;
+                } else if(type == "runner"){
                     this->ReduceHp(1);
+
                 }
             }
             

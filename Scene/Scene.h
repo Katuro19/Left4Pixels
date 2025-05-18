@@ -53,6 +53,8 @@ public:
     bool getIsPaused();
     QString getMapName();
 
+    int GetScore();
+    void AddScore(int moreScore);
 
 
 public slots:
@@ -87,6 +89,8 @@ private:
     Menus* menus = nullptr;
 
     QString map_name;
+
+    int score=0; //Kill count
 };
 
 

@@ -46,6 +46,7 @@ public:
     int GetMagazine() const;
     void SetMagazine(int magSize);
     void DecreaseMagazine();
+    void EmptyMagazine();
 
     float GetRps();
     void SetRps(float newRps);

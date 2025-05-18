@@ -103,6 +103,10 @@ void Weapon::DecreaseMagazine(){
     this->magazine--;
 }
 
+void Weapon::EmptyMagazine(){
+    this->magazine = 0;
+}
+
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
     double cooldownSecs = 1.0f / this->GetBaseRps();
@@ -117,6 +121,12 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
             qDebug() << "Done!";
     }
 
+    
+    if(this->GetMagazine() <=0){
+        reloadTimeout = this->GetReloadTime();
+        this->SetMagazine(maxMag);
+        qDebug() << "Reloading...";
+    }
 
     if (shoot) {
         if (!parentScene->views().isEmpty()) {
@@ -150,11 +160,6 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
                     }
                 }
 
-                if(this->GetMagazine() <=0){
-                    reloadTimeout = this->GetReloadTime();
-                    this->SetMagazine(maxMag);
-                    qDebug() << "Reloading...";
-                }
                 
 
                 
