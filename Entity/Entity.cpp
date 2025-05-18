@@ -183,8 +183,11 @@ bool Entity::PreventMovementCollision(){
     for (QGraphicsItem* item : collisions) {
         if (item->type() == Entity::Type) { //Check if its an entity, thanks to the preparations in Entity.h
             Entity* entity = static_cast<Entity*>(item); // We can cast here thanks to the type definition in the entity.h
-    
+            
             QString type = entity->GetEntityType(); //Grab what entity type we hit
+
+            if(type == "projectile"){
+            }
 
             // qDebug() << "Me (" << this->GetId() << ") of type" << myType << "is colliding with" << entity->GetId() << "of type" << type;
 
@@ -214,6 +217,12 @@ bool Entity::PreventMovementCollision(){
                 if(type == "wall"){
                     return true;
                 }
+                if(type == "projectile"){
+                    Projectile* projectile = static_cast<Projectile*>(entity);
+                    qDebug() << "Damages :" << projectile->getDamage();
+                    this->ReduceHp(projectile->getDamage());
+                    qDebug() << "ouch!";
+                }
             }
 
             else if(myType == "weapon"){
@@ -225,7 +234,9 @@ bool Entity::PreventMovementCollision(){
             else if(myType == "projectile"){
                 if(type == "wall"){    
                     this->ReduceHp(10);
-                     
+                }
+                if(type == "runner"){
+                    this->ReduceHp(1);
                 }
             }
             

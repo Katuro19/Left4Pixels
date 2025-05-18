@@ -17,7 +17,7 @@ class Enemy : public Entity {
     public:
         explicit Enemy(QGraphicsItem* parent = nullptr,
                         QString filePath = "",
-                        QString entityType = "runner", //Possile entity type : Runner, spitter,
+                        QString entityType = "basic", //Possile entity type : basic, runner, spitter,
                         Scene* scene = nullptr,
                         bool verbose = false
                     ); 
