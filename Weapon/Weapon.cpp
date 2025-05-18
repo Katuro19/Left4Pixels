@@ -1,8 +1,9 @@
 #include "Weapon.h"
 
-Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, bool verbose) : Entity(parent, filePath, entityType, scene, verbose), damage(damage){
+Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* scene,const int damage, bool verbose) : Entity(parent, filePath, entityType, scene, verbose){
     this->SetSpeedBoost(1.0);
     this->SetInternTimer(1000);
+    this->SetDamages(damage);
 }
 Weapon::~Weapon() {
 
@@ -35,10 +36,6 @@ void Weapon::SetMagazine(int magSize){
     this->maxMag = magSize;
 }
 
-void Weapon::SetDamage(int newDamage){
-    this->damage = newDamage;
-}
-
 void Weapon::SetErrorAngle(float newAngle) {
     this->errorAngle = newAngle;
 }
@@ -65,10 +62,6 @@ float Weapon::GetBaseRps() {
 
 float Weapon::GetSpeedBoost() {
     return this->speedBoost;
-}
-
-int Weapon::GetDamage() {
-    return this->damage;
 }
 
 float Weapon::GetErrorAngle() {
@@ -207,7 +200,7 @@ void Weapon::LoadWeaponStats(QString name) {
 
         if (values.size() == 8) {
             // We convert stats
-            SetDamage(values[0].toInt());
+            SetDamages(values[0].toInt());
             SetBaseRps(values[1].toFloat());
             SetSpeedBoost(values[2].toFloat());
             SetMagazine(values[3].toInt());
@@ -219,7 +212,7 @@ void Weapon::LoadWeaponStats(QString name) {
 
 
             if(this->IsVerbose()){
-                qDebug() << "Damages:" << GetDamage();
+                qDebug() << "Damages:" << GetDamages();
                 qDebug() << "RPS:" << GetRps();
                 qDebug() << "Speed debuff :" << GetSpeedBoost();
                 qDebug() << "Magazine size:" << this->magazine;

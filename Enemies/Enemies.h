@@ -4,6 +4,8 @@
 #include "Entity.h"
 #include "Scene.h"
 
+#include <string>  
+
 
 class Scene; //Forward declaration
 

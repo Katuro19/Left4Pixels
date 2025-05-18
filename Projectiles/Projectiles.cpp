@@ -10,14 +10,12 @@ Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityTy
     this->updateDirection();
     this->SetBaseSpeed(speed);
     this->SetHp(HP);
-    this->setDamage(damage);
 
-    qDebug() << getDamage();
+
+    this->SetDamages(damage);
 }
 
-void Projectile::setDamage(const int damage) {
-    this->damage = damage;
-}
+
 void Projectile::setBreakable(const bool isBreakable) {
     this->isBreakable = isBreakable;
 }
@@ -29,9 +27,6 @@ void Projectile::setBounces(const int bounces) {
 }
 void Projectile::setTarget(const QPointF target) {
     this->target = target;
-}
-int Projectile::getDamage() const {
-    return this->damage;
 }
 bool Projectile::getBreakable() const {
     return this->isBreakable;

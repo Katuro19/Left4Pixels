@@ -15,7 +15,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/sunglasses.png"),"cosmetic", this);
-    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runner.png"),"runner", this, true);
+    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"runner", this, true);
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
@@ -173,7 +173,7 @@ void Scene::handleShooting(const QPointF mousePos) {
         "projectile", //Type
         mousePos, //Target
         player->pos(), //start pos
-        weapon->GetDamage(),  //Damage
+        weapon->GetDamages(),  //Damage
         false, //Is breakable?
         0, //pierces
         0, //bounces

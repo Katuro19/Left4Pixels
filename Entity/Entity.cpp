@@ -209,20 +209,17 @@ bool Entity::PreventMovementCollision(){
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
                 } else if (type == "runner"){
-                    qDebug() << "ouch";
+                    //qDebug() << "ouch";
                 }
                 
             }
             
             else if(myType == "runner"){
-                if(type == "wall"){
+                if(type == "wall" || type == "player"){
                     return true;
                 } else if(type == "projectile"){
                     if(GetInternTimer() <= 0){
-                        Projectile* projectile = static_cast<Projectile*>(entity);
-                        qDebug() << "Damages :" << projectile->getDamage();
-                        this->ReduceHp(projectile->getDamage());
-                        qDebug() << "ouch!";
+                        this->ReduceHp(entity->GetDamages());
                         SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
                     }
                 }

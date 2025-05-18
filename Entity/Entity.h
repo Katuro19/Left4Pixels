@@ -179,10 +179,19 @@ public:
         return this->HP;
     }
 
+    void SetDamages(int newDamages){
+        this->damages = newDamages;
+    }
+
+    int GetDamages(){
+        return this->damages;
+    }
+
 protected:
     Scene* parentScene; //useful
 
     int HP;
+    int damages=0; //Can be used to save the damages in the entity itself, saving us some static cast in the collisions
 
     static QMap<QString, QPixmap> textureCache; //This will be used to save the textures, static because every entity share it !!
 

@@ -6,7 +6,6 @@
 
 class Projectile : public Entity {
     private:
-        int damage;
         bool isBreakable;
         int pierces;
         int bounces;
@@ -32,8 +31,6 @@ class Projectile : public Entity {
             //qDebug() << "Projectile: Destructor called";
         }
 
-        void setDamage(int damage);
-        int getDamage() const;
 
         void setStartingPos(QPointF pos);
         QPointF getStartingPos() const;

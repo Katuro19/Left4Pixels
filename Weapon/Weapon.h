@@ -16,7 +16,6 @@
 
 class Weapon: public Entity {
 private:
-    int damage;
     void UpdateMovement(float deltaTime, int steps) override;
     bool shoot = false;
 
@@ -56,9 +55,6 @@ public:
 
     float GetSpeedBoost();
     void SetSpeedBoost(float boost);
-
-    int GetDamage();
-    void SetDamage(int newDamage);
 
     float GetErrorAngle();
     void SetErrorAngle(float newAngle);

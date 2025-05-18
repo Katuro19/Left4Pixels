@@ -25,7 +25,11 @@ void Enemy::ChooseDestination(){
 
     setTransformOriginPoint(pixmap().width() / 2.0, pixmap().height() / 2.0);
     qreal angle = std::atan2(direction.y(), direction.x()) * 180.0 / M_PI;
-    this->setRotation(angle);
+
+    if(this->Visual != nullptr)
+        this->Visual->setRotation(angle);
+    else
+        this->setRotation(angle);
 
 
     qreal length = std::sqrt(direction.x() * direction.x() + direction.y() * direction.y());
@@ -60,6 +64,19 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
 
 
 void Enemy::SetZombieStats(QString type){
-    qDebug() << type;
     this->HP = 1000;
+
+    Entity* outfit = nullptr;
+
+    // note that the outfit type is still zombie !!
+    if(type == "runner"){
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Characters/Zombies/runner.png"),"runner", this->parentScene);
+    }
+    else {
+        qDebug() << "⚠️ Unknown enemy type :" << type;
+        throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");
+    }
+
+    this->Visual = outfit;
+    
 }
