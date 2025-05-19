@@ -7,7 +7,7 @@
 class Saves {
 public:
     void SaveGame(Scene *scene);
-    Scene LoadSave();
+    static Scene* LoadSave();
 };
 
 

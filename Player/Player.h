@@ -13,7 +13,7 @@ class Player : public Entity {
         Entity* Clothing = nullptr;
         float attack_speed;
 
-        Weapon* weapon = nullptr;
+        Weapon* weapons[3] = {nullptr, nullptr, nullptr}; // 3 weapons max
     
     public:
         // Constructeur de Player
@@ -27,8 +27,8 @@ class Player : public Entity {
     
     ~Player();
 
-    void setWeapon(Weapon* weapon, QString name);
-    Weapon* getWeapon() const;
+    void setWeapon(Weapon* weapon, unsigned int pos, QString name);
+    Weapon* getWeapon(unsigned int pos) const;
   
     void setCloth(Entity* cloth);
     Entity* getCloth() const;

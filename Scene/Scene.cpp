@@ -25,6 +25,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
+    (*outfit).SetId(QStringLiteral("sunglasses"));
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;

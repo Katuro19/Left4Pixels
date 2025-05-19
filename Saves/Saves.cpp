@@ -23,20 +23,16 @@ void Saves::SaveGame(Scene *scene) {
     fprintf(file, "}\n");
     fprintf(file, " \"Player\": {\n");
     fprintf(file, "(%.0f;%.0f),\n",scene->player->pos().x(),scene->player->pos().y());
-   //fprintf(file, "%s,\n",scene->player->getCloth().toStdString().c_str());
-    fprintf(file, "\n");
+    fprintf(file, "%s,\n",scene->player->getCloth()->GetId().toStdString().c_str());
     fprintf(file, "}\n");
-    fprintf(file, " \"Weapon\": {\n");
-    fprintf(file, "%s,\n", scene->player->getWeapon()->GetName().toStdString().c_str());
-    fprintf(file, "%d\n", scene->player->getWeapon()->GetMagazine());
+    fprintf(file, " \"Weapons\": {\n");
+    for (unsigned int i = 0; i<3; i++){
+        fprintf(file, "%s,\n", scene->player->getWeapon(i)->GetId().toStdString().c_str());
+        fprintf(file,"%d\n", scene->player->getWeapon(i)->GetMagazine());
+    }
     fprintf(file, "}\n");
-
-
-
-
-
 }
-Scene Saves::LoadSave() {
+Scene* Saves::LoadSave() {
 
     Scene* scene = new Scene();
 
@@ -44,5 +40,5 @@ Scene Saves::LoadSave() {
 
 
 
-
+    return scene;
 }

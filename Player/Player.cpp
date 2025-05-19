@@ -31,23 +31,22 @@ int Player::getHealthpoints() const {
 }
 
 
-void Player::setWeapon(Weapon *weapon, QString name) {
-    this->weapon = weapon;
-    this->weapon->moveBy(100,0);
-    this->weapon->LoadWeaponStats(name);
+void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
+    this->weapons[pos] = weapon;
+    this->weapons[pos]->moveBy(100,0);
+    this->weapons[pos]->LoadWeaponStats(name);
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();
     QPointF localCenter = weapon->mapFromItem(weapon->parentItem(), parentCenter);
     weapon->setTransformOriginPoint(localCenter);
-
 }
 
 
 
 
 
-Weapon* Player::getWeapon() const {
-    return this->weapon;
+Weapon* Player::getWeapon(unsigned int pos) const {
+    return this->weapons[pos];
 }
 
 void Player::setCloth(Entity* cloth) {
