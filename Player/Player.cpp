@@ -1,9 +1,8 @@
 #include "Player.h"
 
 
-Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, 
-        Weapon* weapon, float attack_speed, Scene* scene, bool verbose)
-        : Entity(parent, filePath, entityType, scene, verbose), weapon(weapon), attack_speed(attack_speed){ //Call entity for the scene !
+Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, float attack_speed, Scene* scene, bool verbose)
+        : Entity(parent, filePath, entityType, scene, verbose), attack_speed(attack_speed){ //Call entity for the scene !
 
     this->HP = 100;
 }
@@ -41,7 +40,12 @@ void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
     weapon->setTransformOriginPoint(localCenter);
 }
 
-
+unsigned int Player::getCurrentWeapon() const {
+    return current_weapon;
+}
+void Player::setCurrentWeapon(unsigned int weapon) {
+    this->current_weapon = weapon;
+}
 
 
 
@@ -58,9 +62,7 @@ Entity* Player::getCloth() const {
 }
 
 
-void Player::UpdateMovement(float deltaTime, int steps){
-
-
+void Player::UpdateMovement(float deltaTime, int steps) {
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
         return;
@@ -86,9 +88,9 @@ void Player::UpdateMovement(float deltaTime, int steps){
     // Apply rotation : We move the objects attached to the player, but not theplayer itself, to avoid wrong collisions !
     if(Clothing != nullptr)
         Clothing->setRotation(angle); 
-    if(weapon != nullptr)
-        weapon->setRotation(angle);
-        this->SetDefaultSpeedModifier(weapon->GetSpeedBoost());
+    if(weapons[current_weapon]!= nullptr)
+        weapons[current_weapon]->setRotation(angle);
+        this->SetDefaultSpeedModifier(weapons[current_weapon]->GetSpeedBoost());
 
     Entity::UpdateMovement(deltaTime, steps);
  

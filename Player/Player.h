@@ -14,13 +14,13 @@ class Player : public Entity {
         float attack_speed;
 
         Weapon* weapons[3] = {nullptr, nullptr, nullptr}; // 3 weapons max
+        unsigned int current_weapon = 0;
     
     public:
         // Constructeur de Player
         explicit Player(QGraphicsItem* parent = nullptr,
                         QString filePath = "",
                         QString entityType = "player",
-                        Weapon* weapon = nullptr,
                         float attack_speed = 1.0,
                         Scene* scene = nullptr,
                         bool verbose = false); 
@@ -35,6 +35,9 @@ class Player : public Entity {
 
     void setAttackSpeed(float attack_speed);
     float getAttackSpeed() const;
+
+    unsigned int getCurrentWeapon() const;
+    void setCurrentWeapon(unsigned int weapon);
 
     void setHealthpoints(int HP);
     int getHealthpoints() const;

@@ -8,7 +8,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Player* superCube = new Player(nullptr, //parent
                 QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
                 "player", //type
-                nullptr,      // weapon
                 1.0,          // attack_speed
                 this,         // Scene (this)
                 true);        // verbose
@@ -29,7 +28,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,"M249");
+    superCube->setWeapon(hands,0,"M249");
     superCube->setCloth(outfit);
 
     zombie->moveBy(3 * 256 , 3 * 256);
@@ -121,7 +120,7 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
     }
     else if(event->key() == Qt::Key_R){
         qDebug() << "here";
-        this->player->getWeapon()->EmptyMagazine();
+        this->player->getWeapon(this->player->getCurrentWeapon())->EmptyMagazine();
         return;
     }
     pressedKeys.remove(event->key());
@@ -138,7 +137,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
     // Si nous ne sommes pas en pause, traiter normalement pour le joueur
     if (event->button() == Qt::LeftButton) {
-        Weapon* weapon = this->player->getWeapon();
+        Weapon* weapon = this->player->getWeapon(this->player->getCurrentWeapon());
         if (weapon != nullptr) {
             if(weapon->GetRps() != 0) { //If the rps is 0, it's a melee weapon
                 weapon->setIsShooting(true);
@@ -159,7 +158,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         Weapon* weapon = nullptr;
         if (this->player != nullptr) {
-            weapon = this->player->getWeapon();
+            weapon = this->player->getWeapon(this->player->getCurrentWeapon());
         } else {
             qDebug() << "Player is null, in mouseReleaseEvent()";
         }
@@ -172,7 +171,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void Scene::handleShooting(const QPointF mousePos) {
-    Weapon *weapon = this->player->getWeapon();
+    Weapon *weapon = this->player->getWeapon(this->player->getCurrentWeapon());
 
     Projectile* projectile = new Projectile(
         nullptr, //parent
