@@ -11,7 +11,7 @@ class Menus {
     public:
         Menus(QGraphicsScene *scene, QObject *parent = nullptr);
         void afficherMenuPrincipal(std::function<void()> nouvellePartieCallback);
-        void afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onCharger, std::function<void()> onQuitter);
+        void afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder, std::function<void()> onQuitter);
         void masquerMenuPause();
         void AjouterMainWindow(MainWindow* mainWindow);
     private:

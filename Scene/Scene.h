@@ -24,6 +24,7 @@
 #include "MapLoader.h"
 #include "Projectiles.h"
 #include "Enemies.h"
+#include "Saves.h"
 
 
 class Player; //Forward declaration
@@ -50,8 +51,14 @@ public:
     void SwapIsPaused(){this->isPaused = !this->isPaused;}
 
     int getSpawnedEntities();
+
     bool getIsPaused();
+
+    void setMapName(QString name);
     QString getMapName();
+
+    void setMode(QString mode);
+    QString getMode();
 
     int GetScore();
     void AddScore(int moreScore);
@@ -89,6 +96,7 @@ private:
     Menus* menus = nullptr;
 
     QString map_name;
+    QString mode;
 
     int score=0; //Kill count
 };

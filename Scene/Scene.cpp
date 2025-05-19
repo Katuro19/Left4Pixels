@@ -46,7 +46,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Debug", *this);
+    MapLoader* mapLoader = new MapLoader("Lotus", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -290,21 +290,16 @@ void Scene::DebugFps(){
 
 
 void Scene::togglePause() {
-    qDebug() << "togglePause appelé. isPaused avant:" << isPaused;
 
     isPaused = !isPaused;
-    qDebug() << "isPaused après:" << isPaused;
 
     if (isPaused) {
         // Afficher le menu de pause
         menus->afficherMenuPause(player->pos(),
             [this]() {
-                qDebug() << "Callback Reprendre appelé";
                 isPaused = false;
-                qDebug() << "isPaused mis à:" << isPaused;
             },
-            []() { qDebug() << "Sauvegarder (non implémenté)"; },
-            []() { qDebug() << "Charger une partie (non implémenté)"; },
+            [this]() { SaveGame(this); },
             []() { qApp->quit(); }
         );
     }
@@ -313,6 +308,7 @@ void Scene::togglePause() {
         menus->masquerMenuPause();
     }
 }
+
 int Scene::getSpawnedEntities() {
     return this->totalEntitySpawned;
 }
@@ -320,7 +316,18 @@ int Scene::getSpawnedEntities() {
 bool Scene::getIsPaused() {
     return this->isPaused;
 }
+void Scene::setMapName(QString name) {
+    this->map_name = name;
+}
 
 QString Scene::getMapName() {
     return this->map_name;
+}
+
+void Scene::setMode(QString mode) {
+    this->mode = mode;
+}
+
+QString Scene::getMode() {
+    return this->mode;
 }

@@ -18,6 +18,7 @@ include_directories(
     ./MapLoader
     ./Menus
     ./Enemies
+    ./Saves
 )
 
 
@@ -53,8 +54,9 @@ set(SOURCES
 
     ./Enemies/Enemies.cpp
     ./Enemies/Enemies.h
-        Saves/Saves.cpp
-        Saves/Saves.h
+
+    ./Saves/Saves.cpp
+    ./Saves/Saves.h
 
 
 )
