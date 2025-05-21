@@ -15,7 +15,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
     Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
-
+    //
 
     Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
     Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
@@ -28,7 +28,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,"M249");
+    superCube->setWeapon(hands,"M1918");
     superCube->setCloth(outfit);
 
     zombie->moveBy(3 * 256 , 3 * 256);

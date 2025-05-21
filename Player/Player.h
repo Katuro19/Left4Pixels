@@ -41,7 +41,6 @@ class Player : public Entity {
 
     void UpdateMovement(float deltaTime, int steps = 1) override;
 
-
 };
 
 

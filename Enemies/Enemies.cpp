@@ -77,14 +77,14 @@ void Enemy::SetZombieStats(QString type){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/runner.png"),"runner", this->parentScene, this->IsVerbose());
         speed = 1500;
         hp = 70;
-        damage = 1;
+        damage = 10;
         zGrace = 0.3;
     }
     else if(type == "basic"){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
         speed = 350;
         hp = 350;
-        damage = 1;
+        damage = 50;
         zGrace = 1.5;
     }
     

@@ -210,7 +210,7 @@ bool Entity::PreventMovementCollision(){
                 } else if (type == "basic" || type == "runner"){
                     if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
-                        qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
+                        //qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
                         graceTimers[entity] = entity->usualGrace; //usual grace is mostly defined for enemies
                     }
                 }

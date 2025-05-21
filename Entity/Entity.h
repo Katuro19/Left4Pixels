@@ -187,6 +187,13 @@ public:
         return this->damages;
     }
 
+    QPointF GetRealCenter(){
+        QPointF topLeftInScene = this->mapToScene(boundingRect().topLeft());
+        QPointF bottomRightInScene = this->mapToScene(boundingRect().bottomRight());
+        return (topLeftInScene + bottomRightInScene) / 2.0;
+    }
+
+
     float usualGrace = 0; // Usual grace can be useful for enemies entity
 
 protected:

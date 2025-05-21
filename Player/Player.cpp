@@ -79,10 +79,14 @@ void Player::UpdateMovement(float deltaTime, int steps){
 
     // Get the mouse and player pos
     QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));
-    QPointF playerPos = this->pos();
 
+    QPointF centerInScene = this->GetRealCenter();
+    
     // Get the angle between the player and the mouse
-    qreal angle = std::atan2(mousePos.y() - playerPos.y(), mousePos.x() - playerPos.x()) * 180 / M_PI;
+    qreal angle = std::atan2(mousePos.y() - centerInScene.y(), mousePos.x() - centerInScene.x()) * 180 / M_PI;
+
+    //parentScene->addLine(playerPos.x(), playerPos.y(), mousePos.x(), mousePos.y(), QPen(Qt::red));
+
 
     // Apply rotation : We move the objects attached to the player, but not theplayer itself, to avoid wrong collisions !
     if(Clothing != nullptr)
@@ -94,3 +98,5 @@ void Player::UpdateMovement(float deltaTime, int steps){
     Entity::UpdateMovement(deltaTime, steps);
  
 }
+
+

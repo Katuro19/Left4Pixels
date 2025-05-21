@@ -10,14 +10,11 @@ URGENT :
     - Change projectile to add a parameter adding a "random" angle shoot (PIERRE LUC C A TOI DE FAIRE CA) (and fix the bullet not going toward where we aim)
         - The angle already have setter and getter (IN THE WEAPON !!), and is set by the weapon loading.
 
-    - Fix the aiming (please)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
         -> Use the DebugFps() function
-    - Fix the camera shake when going in diagonals
 
-    - Make zGrace a private and add the set/get
 
 MEH :
     - Make achievements
