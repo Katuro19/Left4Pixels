@@ -28,9 +28,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,"M249");
+    superCube->setWeapon(hands,0,"M249");
     superCube->setCloth(outfit);
-    
+
 
     zombie->moveBy(3 * 256 , 3 * 256);
     zombie2->moveBy(4 * 256 , 4 * 256);
