@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     setWindowTitle("Left4Pixels");
     setFixedSize(1000, 1000);
 
+
+    //StartGame("Lotus", "wave");
     setupMenuScene();
 }
 
@@ -35,7 +37,7 @@ void MainWindow::setupMenuScene() {
 
     mainView->setScene(menuScene);
     menus->AjouterMainWindow(this);
-    menus->afficherMenuPrincipal(StartGame("lotus", "story"));
+    menus->afficherMenuPrincipal([this]() {StartGame("Lotus", "wave");});
 }
 
 std::function<void()> MainWindow::StartGame(QString map, QString mode) {
@@ -44,6 +46,8 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
 
     mainScene = new Scene(this);
     mainScene->setSceneRect(0, 0, 20000, 20000);
+    mainScene->setMapName(map);
+    mainScene->setMode(mode);
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
     return nullptr;

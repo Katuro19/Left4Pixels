@@ -94,7 +94,7 @@ void Menus::afficherChoixMap(QString mode) {
 }*/
 
 
-void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onCharger,std::function<void()> onQuitter) {
+void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onQuitter) {
     if (!elementsPause.isEmpty()) return;
 
     // Définir la taille du menu de pause
@@ -138,12 +138,7 @@ void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onRepr
         onSauvegarder();
     });
 
-    ajouterBouton("Charger", centre.x() - 100, centre.y() + 60, [this, onCharger]() {
-        qDebug() << "Bouton Charger cliqué";
-        onCharger();
-    });
-
-    ajouterBouton("Quitter", centre.x() - 100, centre.y() + 130, [this, onQuitter]() {
+    ajouterBouton("Quitter", centre.x() - 100, centre.y() + 60, [this, onQuitter]() {
         qDebug() << "Bouton Quitter cliqué";
         onQuitter();
     });

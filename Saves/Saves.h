@@ -1,15 +1,15 @@
 #ifndef SAVES_H
 #define SAVES_H
-#include "Scene.h"
+
+
+#include <QInputDialog>
 #include <QFileDialog>
 
-
-class Saves {
-public:
-    void SaveGame(Scene *scene);
-    Scene LoadSave();
-};
+#include "Scene.h"
 
 
+
+void SaveGame(Scene *scene);
+Scene* LoadSave();
 
 #endif //SAVES_H

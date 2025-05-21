@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "MainWindow.h"
+#include "Saves.h"
 
 int main(int argc, char *argv[])
 {

@@ -8,7 +8,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Player* superCube = new Player(nullptr, //parent
                 QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
                 "player", //type
-                nullptr,      // weapon
                 1.0,          // attack_speed
                 this,         // Scene (this)
                 true);        // verbose
@@ -25,10 +24,11 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
     (*zombie).SetId(QStringLiteral("Zombie"));
+    (*outfit).SetId(QStringLiteral("sunglasses"));
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,"M1918");
+    superCube->setWeapon(hands,"M249");
     superCube->setCloth(outfit);
 
     zombie->moveBy(3 * 256 , 3 * 256);
@@ -46,7 +46,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Debug", *this);
+    MapLoader* mapLoader = new MapLoader("Lotus", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -120,7 +120,7 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
     }
     else if(event->key() == Qt::Key_R){
         qDebug() << "here";
-        this->player->getWeapon()->EmptyMagazine();
+        this->player->getWeapon(this->player->getCurrentWeapon())->EmptyMagazine();
         return;
     }
     pressedKeys.remove(event->key());
@@ -137,7 +137,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
     // Si nous ne sommes pas en pause, traiter normalement pour le joueur
     if (event->button() == Qt::LeftButton) {
-        Weapon* weapon = this->player->getWeapon();
+        Weapon* weapon = this->player->getWeapon(this->player->getCurrentWeapon());
         if (weapon != nullptr) {
             if(weapon->GetRps() != 0) { //If the rps is 0, it's a melee weapon
                 weapon->setIsShooting(true);
@@ -158,7 +158,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         Weapon* weapon = nullptr;
         if (this->player != nullptr) {
-            weapon = this->player->getWeapon();
+            weapon = this->player->getWeapon(this->player->getCurrentWeapon());
         } else {
             qDebug() << "Player is null, in mouseReleaseEvent()";
         }
@@ -171,7 +171,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void Scene::handleShooting(const QPointF mousePos) {
-    Weapon *weapon = this->player->getWeapon();
+    Weapon *weapon = this->player->getWeapon(this->player->getCurrentWeapon());
 
     Projectile* projectile = new Projectile(
         nullptr, //parent
@@ -290,21 +290,16 @@ void Scene::DebugFps(){
 
 
 void Scene::togglePause() {
-    qDebug() << "togglePause appelé. isPaused avant:" << isPaused;
 
     isPaused = !isPaused;
-    qDebug() << "isPaused après:" << isPaused;
 
     if (isPaused) {
         // Afficher le menu de pause
         menus->afficherMenuPause(player->pos(),
             [this]() {
-                qDebug() << "Callback Reprendre appelé";
                 isPaused = false;
-                qDebug() << "isPaused mis à:" << isPaused;
             },
-            []() { qDebug() << "Sauvegarder (non implémenté)"; },
-            []() { qDebug() << "Charger une partie (non implémenté)"; },
+            [this]() { SaveGame(this); },
             []() { qApp->quit(); }
         );
     }
@@ -313,6 +308,7 @@ void Scene::togglePause() {
         menus->masquerMenuPause();
     }
 }
+
 int Scene::getSpawnedEntities() {
     return this->totalEntitySpawned;
 }
@@ -320,7 +316,18 @@ int Scene::getSpawnedEntities() {
 bool Scene::getIsPaused() {
     return this->isPaused;
 }
+void Scene::setMapName(QString name) {
+    this->map_name = name;
+}
 
 QString Scene::getMapName() {
     return this->map_name;
+}
+
+void Scene::setMode(QString mode) {
+    this->mode = mode;
+}
+
+QString Scene::getMode() {
+    return this->mode;
 }
