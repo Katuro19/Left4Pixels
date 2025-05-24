@@ -33,6 +33,8 @@ private:
     float bulletPerShot = 0;
     float reloadTimeout = 0;
 
+    bool isEquipped = false;
+
 public:
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);
     ~Weapon();
@@ -71,7 +73,8 @@ public:
     QString GetName();
     void SetName(QString name);
 
-
+    void UnequipWeapon();
+    void EquipWeapon();
 
 
 };

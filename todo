@@ -3,6 +3,7 @@ URGENT :
 
     - Make use of the "step" option in the collision system to save performances
  
+    - Make the inventory system
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)

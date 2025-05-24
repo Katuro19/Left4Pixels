@@ -100,6 +100,23 @@ void Weapon::EmptyMagazine(){
     this->magazine = 0;
 }
 
+void Weapon::UnequipWeapon(){
+    //If we unequip while reloading, reset the reloading counter
+
+    if(reloadTimeout > 0){
+        reloadTimeout = this->GetReloadTime();
+        qDebug() << "reloading canceled !";
+    }
+
+    isEquipped = false;
+}
+
+void Weapon::EquipWeapon(){
+    qDebug() << "Equipping !!";
+    isEquipped = true;
+}
+
+
 void Weapon::UpdateMovement(float deltaTime, int steps) {
 
     double cooldownSecs = 1.0f / this->GetBaseRps();
@@ -107,7 +124,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
     //qDebug() << "Timer actuel :" << cooldownTimer;
     SetInternTimer(cooldownTimer);
 
-    if(reloadTimeout > 0){
+    if(reloadTimeout > 0 && isEquipped == true){
         reloadTimeout -= deltaTime;
 
         if(reloadTimeout <= 0)

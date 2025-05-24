@@ -34,6 +34,13 @@ void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
     this->weapons[pos] = weapon;
     this->weapons[pos]->moveBy(100,0);
     this->weapons[pos]->LoadWeaponStats(name);
+
+    if(pos != 0){
+        weapon->setVisible(false);
+        weapon->UnequipWeapon();
+    }
+
+    weapon->EquipWeapon();
     //After moving the weapon, we need to reset its bound center
     QPointF parentCenter = this->boundingRect().center();
     QPointF localCenter = weapon->mapFromItem(weapon->parentItem(), parentCenter);
@@ -44,7 +51,11 @@ unsigned int Player::getCurrentWeapon() const {
     return current_weapon;
 }
 void Player::setCurrentWeapon(unsigned int weapon) {
+    Weapon* equippedWeapon = getWeapon(this->getCurrentWeapon());
+    equippedWeapon->UnequipWeapon();
+
     this->current_weapon = weapon;
+    this->getWeapon(this->getCurrentWeapon())->EquipWeapon();
 }
 
 

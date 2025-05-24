@@ -12,7 +12,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* hands = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
+    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
+    Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
+
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
     //
 
@@ -28,7 +30,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(hands,0,"M249");
+    superCube->setWeapon(primary,0,"M249");
+    superCube->setWeapon(secondary,1,"deagle");
+
     superCube->setCloth(outfit);
 
 
@@ -40,7 +44,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     toPreLoad.push_back(player);
     toPreLoad.push_back(zombie);
     toPreLoad.push_back(zombie2);
-    toPreLoad.push_back(hands);
+    toPreLoad.push_back(primary);
+    toPreLoad.push_back(secondary);
+
     toPreLoad.push_back(outfit);
 
     // toPreLoad.push_back(projectile);
@@ -123,8 +129,22 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
         return;
     }
     else if(event->key() == Qt::Key_R){
-        qDebug() << "here";
         this->player->getWeapon(this->player->getCurrentWeapon())->EmptyMagazine();
+        return;
+    }
+    else if(event->key() == Qt::Key_A){
+        qDebug() << "Current weapon : " << player->getCurrentWeapon();
+
+        if(this->player->getCurrentWeapon() == 0 && this->player->getWeapon(1) != nullptr){
+            this->player->setCurrentWeapon(1); //we equip the second weapon
+            qDebug() << "Equipped second weapon";
+        }
+        else if(this->player->getCurrentWeapon() == 1 && this->player->getWeapon(0) != nullptr) {
+            this->player->setCurrentWeapon(0); //we equip the first weapon
+            qDebug() << "Equipped first weapon";
+
+        }
+        qDebug() << "here";
         return;
     }
     pressedKeys.remove(event->key());
@@ -147,6 +167,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
                 weapon->setIsShooting(true);
             }
         }
+    }
+
+    else if (event->button() == Qt::RightButton) { 
+        qDebug() << "*insert a melee logic here*";
     }
 }
 
