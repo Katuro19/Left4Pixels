@@ -3,7 +3,7 @@
 Menus::Menus(QGraphicsScene *scene, QObject *parent)
     : scene(scene), parent(parent) {}
 
-void Menus::ajouterTitre(const QString &texte) {
+void Menus::AjouterTitre(const QString &texte) {
     QGraphicsTextItem *title = new QGraphicsTextItem(texte);
     QFont font("Arial", 24, QFont::Bold);
     title->setFont(font);
@@ -12,7 +12,7 @@ void Menus::ajouterTitre(const QString &texte) {
     scene->addItem(title);
 }
 
-void Menus::ajouterBouton(const QString &texte, int x, int y, std::function<void()> callback) {
+void Menus::AjouterBouton(const QString &texte, int x, int y, std::function<void()> callback) {
     QGraphicsRectItem *button = new QGraphicsRectItem(0, 0, 200, 50);
     button->setBrush(QBrush(Qt::darkGray));
     button->setPen(QPen(Qt::white));
@@ -50,16 +50,16 @@ void Menus::ajouterBouton(const QString &texte, int x, int y, std::function<void
     }
 }
 
-void Menus::afficherMenuPrincipal(std::function<void()> nouvellePartieCallback) {
+void Menus::AfficherMenuPrincipal(std::function<void()> nouvellePartieCallback) {
     scene->clear();
     scene->setBackgroundBrush(QColor(30, 30, 30));
-    ajouterTitre("Left4Pixels - Menu Principal");
+    AjouterTitre("Left4Pixels - Menu Principal");
 
     /*
     ajouterBouton("Story mode", 400, 250, [this]() {afficherChoixMap("Story");});
     ajouterBouton("Wave mode", 400, 330, [this]() {afficherChoixMap("Wave");});*/
-    ajouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
-    ajouterBouton("Quitter", 400, 330, []() {
+    AjouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
+    AjouterBouton("Quitter", 400, 330, []() {
         qApp->quit();
     });
 }
@@ -94,7 +94,7 @@ void Menus::afficherChoixMap(QString mode) {
 }*/
 
 
-void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onQuitter) {
+void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder,std::function<void()> onQuitter) {
     if (!elementsPause.isEmpty()) return;
 
     // Définir la taille du menu de pause
@@ -127,24 +127,24 @@ void Menus::afficherMenuPause(const QPointF& centre,std::function<void()> onRepr
     elementsPause.append(titre);
 
     // Utiliser ajouterBouton pour créer chaque bouton
-    ajouterBouton("Reprendre", centre.x() - 100, centre.y() - 80, [this, onReprendre]() {
+    AjouterBouton("Reprendre", centre.x() - 100, centre.y() - 80, [this, onReprendre]() {
         qDebug() << "Bouton Reprendre cliqué";
-        masquerMenuPause();
+        MasquerMenuPause();
         onReprendre();
     });
 
-    ajouterBouton("Sauvegarder", centre.x() - 100, centre.y() - 10, [this, onSauvegarder]() {
+    AjouterBouton("Sauvegarder", centre.x() - 100, centre.y() - 10, [this, onSauvegarder]() {
         qDebug() << "Bouton Sauvegarder cliqué";
         onSauvegarder();
     });
 
-    ajouterBouton("Quitter", centre.x() - 100, centre.y() + 60, [this, onQuitter]() {
+    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 60, [this, onQuitter]() {
         qDebug() << "Bouton Quitter cliqué";
         onQuitter();
     });
 }
 
-void Menus::masquerMenuPause() {
+void Menus::MasquerMenuPause() {
     if (elementsPause.isEmpty()) return;
     for (auto* item : elementsPause) {
         if (auto* button = dynamic_cast<CustomButton*>(item)) {

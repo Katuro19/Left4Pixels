@@ -34,16 +34,16 @@ void SaveGame(Scene *scene) {
 
     // Données de la scène
     QJsonObject sceneObject;
-    sceneObject["NB_Spawned_Entities"] = scene->getSpawnedEntities();
-    sceneObject["Is_Paused"] = scene->getIsPaused();
+    sceneObject["NB_Spawned_Entities"] = scene->GetSpawnedEntities();
+    sceneObject["Is_Paused"] = scene->GetIsPaused();
     rootObject["Scene"] = sceneObject;
 
     qDebug() << "Saving map data...";
 
     // Données de la carte
     QJsonObject mapObject;
-    mapObject["Map_Name"] = scene->getMapName();
-    mapObject["Mode"] = scene->getMode();
+    mapObject["Map_Name"] = scene->GetMapName();
+    mapObject["Mode"] = scene->GetMode();
     rootObject["Map"] = mapObject;
 
     qDebug() << "Saving player data...";
@@ -52,7 +52,7 @@ void SaveGame(Scene *scene) {
     QJsonObject playerObject;
     playerObject["Player_pos_x"] = static_cast<int>(scene->player->pos().x());
     playerObject["Player_pos_y"] = static_cast<int>(scene->player->pos().y());
-    playerObject["Cloth"] = scene->player->getCloth()->GetId();
+    playerObject["Cloth"] = scene->player->GetCloth()->GetId();
     rootObject["Player"] = playerObject;
 
     qDebug() << "Saving weapons...";
@@ -63,12 +63,12 @@ void SaveGame(Scene *scene) {
         QString weaponKey = QString("Weapon_%1").arg(i);
         QString magazineKey = QString("Magazine_%1").arg(i);
 
-        if (scene->player->getWeapon(i) == nullptr) {
+        if (scene->player->GetWeapon(i) == nullptr) {
             weaponsObject[weaponKey] = "null";
             weaponsObject[magazineKey] = "null";
         } else {
-            weaponsObject[weaponKey] = scene->player->getWeapon(i)->GetName();
-            weaponsObject[magazineKey] = scene->player->getWeapon(i)->GetMagazine();
+            weaponsObject[weaponKey] = scene->player->GetWeapon(i)->GetName();
+            weaponsObject[magazineKey] = scene->player->GetWeapon(i)->GetMagazine();
         }
     }
     rootObject["Weapons"] = weaponsObject;
@@ -128,8 +128,8 @@ Scene* LoadSave() {
 
         qDebug() << "Chargement scène - Entités:" << nbSpawnedEntities << "Pause:" << isPaused;
 
-        scene->setSpawnedEntities(nbSpawnedEntities);
-        scene->setIsPaused(isPaused);
+        scene->SetSpawnedEntities(nbSpawnedEntities);
+        scene->SetIsPaused(isPaused);
     }
 
     // Lecture des données de la carte
@@ -141,10 +141,10 @@ Scene* LoadSave() {
 
         qDebug() << "Chargement carte - Nom:" << mapName << "Mode:" << mode;
 
-        scene->setMapName(mapName);
-        scene->setMode(mode);
+        scene->SetMapName(mapName);
+        scene->SetMode(mode);
 
-        MapLoader* mapLoader = new MapLoader(scene->getMapName(), *scene);
+        MapLoader* mapLoader = new MapLoader(scene->GetMapName(), *scene);
     }
 
     // Lecture des données du joueur
@@ -168,7 +168,7 @@ Scene* LoadSave() {
 
         QString outfit_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(cloth);
         Entity* outfit = new Entity(scene->player,outfit_texturePath,"cosmetic", scene);
-        scene->player->setCloth(outfit);
+        scene->player->SetCloth(outfit);
     }
 
     // Lecture des données des armes
@@ -186,7 +186,7 @@ Scene* LoadSave() {
 
                 if (weaponName == "null") {
                     qDebug() << "Arme" << i << ": aucune";
-                    scene->player->setWeapon( nullptr, i, nullptr);
+                    scene->player->SetWeapon( nullptr, i, nullptr);
                 } else {
                     int magazine = weaponsObject[magazineKey].toInt();
                     qDebug() << "Arme" << i << ":" << weaponName << "Munitions:" << magazine;
@@ -196,7 +196,7 @@ Scene* LoadSave() {
                     Weapon* weapon = new Weapon(scene->player,weapon_texturePath,"weapon", scene, 10, false);
 
                     weapon->SetMagazine(magazine);
-                    scene->player->setWeapon(weapon, i, weaponName);
+                    scene->player->SetWeapon(weapon, i, weaponName);
                 }
             }
         }

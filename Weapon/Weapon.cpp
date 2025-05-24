@@ -11,11 +11,11 @@ Weapon::~Weapon() {
 }
 
 
-bool Weapon::getIsShooting() const {
+bool Weapon::GetIsShooting() const {
     return this->shoot;
 }
 
-void Weapon::setIsShooting(const bool shoot) {
+void Weapon::SetIsShooting(const bool shoot) {
     this->shoot = shoot;
 }
 
@@ -108,7 +108,7 @@ void Weapon::UnequipWeapon(){
         reloadTimeout = this->GetReloadTime();
     }
 
-    this->setIsShooting(false);
+    this->SetIsShooting(false);
     isEquipped = false;
     this->setVisible(false);
 
@@ -166,7 +166,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
                 //qDebug() << "Starting ...";
                 for(int i=0; i < shotToDo; i++){
                     //qDebug() << "Shooting";
-                    parentScene->handleShooting(mousePos);
+                    parentScene->HandleShooting(mousePos);
                     this->DecreaseMagazine();
                     if(this->GetMagazine() <= 0){
                         break;

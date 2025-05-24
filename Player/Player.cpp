@@ -25,25 +25,25 @@ Player::~Player() {
 }
 
 
-void Player::setAttackSpeed(const float attack_speed) {
+void Player::SetAttackSpeed(const float attack_speed) {
     this->attack_speed = attack_speed;
 }
 
-float Player::getAttackSpeed() const {
+float Player::GetAttackSpeed() const {
     return this->attack_speed;
 }
 
 
-void Player::setHealthpoints(const int HP) {
+void Player::SetHealthpoints(const int HP) {
     this->HP = HP;
 }
 
-int Player::getHealthpoints() const {
+int Player::GetHealthpoints() const {
     return this->HP;
 }
 
 
-void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
+void Player::SetWeapon(Weapon* weapon, unsigned int pos, QString name) {
     if (weapon == nullptr){
         this->weapons[pos] = nullptr;
         qWarning() << "A weapon was set to null with pos: " << pos;
@@ -66,10 +66,10 @@ void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
     weapon->setTransformOriginPoint(localCenter);
 }
 
-unsigned int Player::getCurrentWeapon() const {
+unsigned int Player::GetCurrentWeapon() const {
     return current_weapon;
 }
-void Player::setCurrentWeapon(unsigned int weapon) {
+void Player::SetCurrentWeapon(unsigned int weapon) {
     Weapon* equippedWeapon = GetEquippedWeapon();
     equippedWeapon->UnequipWeapon();
 
@@ -79,7 +79,7 @@ void Player::setCurrentWeapon(unsigned int weapon) {
 
 
 
-Weapon* Player::getWeapon(unsigned int pos) const {
+Weapon* Player::GetWeapon(unsigned int pos) const {
     return this->weapons[pos];
 }
 
@@ -87,11 +87,11 @@ Weapon* Player::GetEquippedWeapon(){
     return this->weapons[current_weapon];
 }
 
-void Player::setCloth(Entity* cloth) {
+void Player::SetCloth(Entity* cloth) {
     this->Clothing = cloth;
 }
 
-Entity* Player::getCloth() const {
+Entity* Player::GetCloth() const {
     return this->Clothing;
 }
 

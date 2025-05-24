@@ -16,44 +16,44 @@ Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityTy
 
     this->SetDamages(damage);
 
-    this->updateDirection();
+    this->UpdateDirection();
 }
 
 
-void Projectile::setBreakable(const bool isBreakable) {
+void Projectile::SetBreakable(const bool isBreakable) {
     this->isBreakable = isBreakable;
 }
-void Projectile::setPierces(const int pierces) {
+void Projectile::SetPierces(const int pierces) {
     this->pierces = pierces;
 }
-void Projectile::setBounces(const int bounces) {
+void Projectile::SetBounces(const int bounces) {
     this->bounces = bounces;
 }
-void Projectile::setTarget(const QPointF target) {
+void Projectile::SetTarget(const QPointF target) {
     this->target = target;
 }
-bool Projectile::getBreakable() const {
+bool Projectile::GetBreakable() const {
     return this->isBreakable;
 }
-int Projectile::getPierces() const {
+int Projectile::GetPierces() const {
     return this->pierces;
 }
-int Projectile::getBounces() const {
+int Projectile::GetBounces() const {
     return this->bounces;
 }
 
-QPointF Projectile::getTarget() const {
+QPointF Projectile::GetTarget() const {
     return this->target;
 }
 
-void Projectile::setStartingPos(QPointF pos) {
+void Projectile::SetStartingPos(QPointF pos) {
     this->startPos = pos;
 }
-QPointF Projectile::getStartingPos() const {
+QPointF Projectile::GetStartingPos() const {
     return this->startPos;
 }
 
-void Projectile::updateDirection() {
+void Projectile::UpdateDirection() {
 
     QPointF realPos = this->GetRealCenter(); //We get the real center, not the sprite start
 
@@ -123,5 +123,5 @@ void Projectile::Reset(QPointF newTarget, QPointF newStartPos, int damage, int h
 
     this->setPos(newStartPos);
     this->setVisible(true);
-    this->updateDirection();
+    this->UpdateDirection();
 }

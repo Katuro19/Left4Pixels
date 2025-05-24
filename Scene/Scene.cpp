@@ -35,11 +35,11 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
         (*outfit).SetId(QStringLiteral("sunglasses"));
         // (*projectile).SetId(QStringLiteral("Projectile"));
 
-        this->player = superCube;superCube->setWeapon(primary,0,"M249");
-        superCube->setWeapon(secondary,1,"deagle");
+        this->player = superCube;superCube->SetWeapon(primary,0,"M249");
+        superCube->SetWeapon(secondary,1,"deagle");
 
 
-        superCube->setCloth(outfit);
+        superCube->SetCloth(outfit);
 
 
         //zombie->moveBy(3 * 256 , 3 * 256);
@@ -155,20 +155,20 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
     }
     else if(event->key() == Qt::Key_R){
         qDebug() << "here";
-        this->player->getWeapon(this->player->getCurrentWeapon())->EmptyMagazine();
+        this->player->GetWeapon(this->player->GetCurrentWeapon())->EmptyMagazine();
         return;
     }
     else if(event->key() == Qt::Key_A){
-        qDebug() << "Current weapon : " << player->getCurrentWeapon();
+        qDebug() << "Current weapon : " << player->GetCurrentWeapon();
 
-        if(this->player->getCurrentWeapon() == 0 && this->player->getWeapon(1) != nullptr){
-            this->player->setCurrentWeapon(1); //we equip the second weapon
+        if(this->player->GetCurrentWeapon() == 0 && this->player->GetWeapon(1) != nullptr){
+            this->player->SetCurrentWeapon(1); //we equip the second weapon
             qDebug() << "Equipped second weapon";
             //this->SetScale(0.5);
 
         }
-        else if(this->player->getCurrentWeapon() == 1 && this->player->getWeapon(0) != nullptr) {
-            this->player->setCurrentWeapon(0); //we equip the first weapon
+        else if(this->player->GetCurrentWeapon() == 1 && this->player->GetWeapon(0) != nullptr) {
+            this->player->SetCurrentWeapon(0); //we equip the first weapon
             qDebug() << "Equipped first weapon";
             //this->SetScale(0.3);
 
@@ -189,10 +189,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
     // Si nous ne sommes pas en pause, traiter normalement pour le joueur
     if (event->button() == Qt::LeftButton) {
-        Weapon* weapon = this->player->getWeapon(this->player->getCurrentWeapon());
+        Weapon* weapon = this->player->GetWeapon(this->player->GetCurrentWeapon());
         if (weapon != nullptr) {
             if(weapon->GetRps() != 0) { //If the rps is 0, it's a melee weapon
-                weapon->setIsShooting(true);
+                weapon->SetIsShooting(true);
             }
         }
     }
@@ -214,19 +214,19 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         Weapon* weapon = nullptr;
         if (this->player != nullptr) {
-            weapon = this->player->getWeapon(this->player->getCurrentWeapon());
+            weapon = this->player->GetWeapon(this->player->GetCurrentWeapon());
         } else {
             qDebug() << "Player is null, in mouseReleaseEvent()";
         }
         if (weapon != nullptr) {
-            weapon->setIsShooting(false);
+            weapon->SetIsShooting(false);
         }
     }
 }
 
 
 
-void Scene::handleShooting(const QPointF mousePos) {
+void Scene::HandleShooting(const QPointF mousePos) {
     Weapon *weapon = this->player->GetEquippedWeapon();
 
     Projectile* projectile = new Projectile(
@@ -379,7 +379,7 @@ void Scene::togglePause() {
 
     if (isPaused) {
         // Afficher le menu de pause
-        menus->afficherMenuPause(player->pos(),
+        menus->AfficherMenuPause(player->pos(),
             [this]() {
                 isPaused = false;
             },
@@ -389,7 +389,7 @@ void Scene::togglePause() {
     }
     else {
         qDebug() << "Masquage du menu de pause";
-        menus->masquerMenuPause();
+        menus->MasquerMenuPause();
     }
 }
 
@@ -399,39 +399,39 @@ void Scene::SetScale(float scale, int durationMs){
     view->scale(scale, scale);     // Applique le zoom voulu proprement
 }
 
-int Scene::getSpawnedEntities() const{
+int Scene::GetSpawnedEntities() const{
     return this->totalEntitySpawned;
 }
-void Scene::setSpawnedEntities(int newSpawnedEntities) {
+void Scene::SetSpawnedEntities(int newSpawnedEntities) {
     this->totalEntitySpawned = newSpawnedEntities;
 }
 
-bool Scene::getIsPaused() const {
+bool Scene::GetIsPaused() const {
     return this->isPaused;
 }
-void Scene::setIsPaused(bool paused) {
+void Scene::SetIsPaused(bool paused) {
     this->isPaused = paused;
 }
 
-void Scene::setMapName(QString name) {
+void Scene::SetMapName(QString name) {
     this->map_name = name;
 }
 
-QString Scene::getMapName() {
+QString Scene::GetMapName() {
     return this->map_name;
 }
 
-void Scene::setMode(QString mode) {
+void Scene::SetMode(QString mode) {
     this->mode = mode;
 }
 
-QString Scene::getMode() {
+QString Scene::GetMode() {
     return this->mode;
 }
 
-void Scene::setPlayer(Player* player) {
+void Scene::SetPlayer(Player* player) {
     this->player = player;
 }
-Player* Scene::getPlayer() const {
+Player* Scene::GetPlayer() const {
     return this->player;
 }

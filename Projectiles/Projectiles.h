@@ -35,22 +35,22 @@ class Projectile : public Entity {
         }
 
 
-        void setStartingPos(QPointF pos);
-        QPointF getStartingPos() const;
+        void SetStartingPos(QPointF pos);
+        QPointF GetStartingPos() const;
 
-        bool getBreakable() const;
-        void setBreakable(bool isBreakable);
+        bool GetBreakable() const;
+        void SetBreakable(bool isBreakable);
 
-        int getPierces() const;
-        void setPierces(int pierces);
+        int GetPierces() const;
+        void SetPierces(int pierces);
 
-        int getBounces() const;
-        void setBounces(int bounces);
+        int GetBounces() const;
+        void SetBounces(int bounces);
 
-        QPointF getTarget() const;
-        void setTarget(QPointF target);
+        QPointF GetTarget() const;
+        void SetTarget(QPointF target);
 
-        void updateDirection();
+        void UpdateDirection();
 
         void UpdateMovement(float deltaTime, int steps = 1) override;
 

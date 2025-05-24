@@ -45,26 +45,26 @@ public:
     void AddEntity(Entity* entity, bool reposition = false, QPointF spawnLocation = QPointF(0,0));
     void DeleteEntity(int index);
 
-    void handleShooting(QPointF mousePos);
+    void HandleShooting(QPointF mousePos);
 
     void SetPlayerPos(QPointF playerPos);
 
     void SwapIsPaused(){this->isPaused = !this->isPaused;}
 
-    int getSpawnedEntities() const;
-    void setSpawnedEntities(int newSpawnedEntities);
+    int GetSpawnedEntities() const;
+    void SetSpawnedEntities(int newSpawnedEntities);
 
-    bool getIsPaused() const;
-    void setIsPaused(bool paused);
+    bool GetIsPaused() const;
+    void SetIsPaused(bool paused);
 
-    void setPlayer(Player* player);
-    Player* getPlayer() const;
+    void SetPlayer(Player* player);
+    Player* GetPlayer() const;
 
-    void setMapName(QString name) ;
-    QString getMapName();
+    void SetMapName(QString name) ;
+    QString GetMapName();
 
-    void setMode(QString mode) ;
-    QString getMode();
+    void SetMode(QString mode) ;
+    QString GetMode();
 
     int GetScore();
     void AddScore(int moreScore);

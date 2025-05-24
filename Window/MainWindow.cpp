@@ -25,10 +25,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 
 
     //StartGame("Lotus", "wave");
-    setupMenuScene();
+    SetupMenuScene();
 }
 
-void MainWindow::setupMenuScene() {
+void MainWindow::SetupMenuScene() {
     if (menuScene)
         delete menuScene;
 
@@ -37,7 +37,7 @@ void MainWindow::setupMenuScene() {
 
     mainView->setScene(menuScene);
     menus->AjouterMainWindow(this);
-    menus->afficherMenuPrincipal([this]() {StartGame("Lotus", "wave");});
+    menus->AfficherMenuPrincipal([this]() {StartGame("Lotus", "wave");});
 }
 
 std::function<void()> MainWindow::StartGame(QString map, QString mode) {
@@ -48,8 +48,8 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
 
     mainScene = new Scene(this);
     mainScene->setSceneRect(0, 0, 20000, 20000);
-    mainScene->setMapName(map);
-    mainScene->setMode(mode);
+    mainScene->SetMapName(map);
+    mainScene->SetMode(mode);
     Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,mainScene,true);
     mainScene->player = player;
 
@@ -63,13 +63,13 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
 
 
     //END
-    
+
     (*player).SetId(QStringLiteral("Cube"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
 
-    player->setWeapon(primary,0,"M249");
-    player->setWeapon(secondary,1,"deagle");
-    player->setCloth(outfit);
+    player->SetWeapon(primary,0,"M249");
+    player->SetWeapon(secondary,1,"deagle");
+    player->SetCloth(outfit);
 
     toPreLoad.push_back(player);
     toPreLoad.push_back(primary);

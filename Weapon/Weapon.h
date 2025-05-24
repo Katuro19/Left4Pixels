@@ -45,8 +45,8 @@ public:
 
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);
     ~Weapon();
-    bool getIsShooting() const;
-    void setIsShooting(bool shoot);
+    bool GetIsShooting() const;
+    void SetIsShooting(bool shoot);
 
 
     void LoadWeaponStats(QString name);

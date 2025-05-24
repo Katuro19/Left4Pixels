@@ -29,22 +29,22 @@ class Player : public Entity {
     
     ~Player();
 
-    void setWeapon(Weapon* weapon, unsigned int pos, QString name);
-    Weapon* getWeapon(unsigned int pos) const;
+    void SetWeapon(Weapon* weapon, unsigned int pos, QString name);
+    Weapon* GetWeapon(unsigned int pos) const;
     Weapon* GetEquippedWeapon();
 
 
-    void setCloth(Entity* cloth);
-    Entity* getCloth() const;
+    void SetCloth(Entity* cloth);
+    Entity* GetCloth() const;
 
-    void setAttackSpeed(float attack_speed);
-    float getAttackSpeed() const;
+    void SetAttackSpeed(float attack_speed);
+    float GetAttackSpeed() const;
 
-    unsigned int getCurrentWeapon() const;
-    void setCurrentWeapon(unsigned int weapon);
+    unsigned int GetCurrentWeapon() const;
+    void SetCurrentWeapon(unsigned int weapon);
 
-    void setHealthpoints(int HP);
-    int getHealthpoints() const;
+    void SetHealthpoints(int HP);
+    int GetHealthpoints() const;
 
     void UpdateMovement(float deltaTime, int steps = 1) override;
 
