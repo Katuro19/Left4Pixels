@@ -2,108 +2,209 @@
 
 
 
+
 void SaveGame(Scene *scene) {
-
     QString dir = QFileDialog::getExistingDirectory(nullptr, "Choisir un dossier de sauvegarde");
-    QString save_file_name = QInputDialog::getText(nullptr,"Nom du fichier de sauvegarde","Entrez le nom de la sauvegarde (sans extension) :");
-    QString fullpath = dir + "/" + save_file_name + ".json";
-
-    FILE *file = fopen(fullpath.toStdString().c_str(), "w");
-    if (file == nullptr) {
-        qDebug() << "Erreur lors de l'ouverture du fichier de sauvegarde";
+    if (dir.isEmpty()) {
+        qDebug() << "Aucun dossier sélectionné";
         return;
     }
+
+    QString save_file_name = QInputDialog::getText(nullptr, "Nom du fichier de sauvegarde", "Entrez le nom de la sauvegarde (sans extension) :");
+    if (save_file_name.isEmpty()) {
+        qDebug() << "Aucun nom de fichier saisi";
+        return;
+    }
+
+    QString fullpath = dir + "/" + save_file_name + ".json";
+
     if (scene == nullptr) {
         qDebug() << "Erreur : la scène est nulle";
-        fclose(file);
         return;
     }
     if (scene->player == nullptr) {
         qDebug() << "Erreur : le joueur est nul";
-        fclose(file);
         return;
     }
-    // On écrit les données de la scène dans le fichier
-    fprintf(file, "{\n");
-    fprintf(file, " \"Scene\": {\n");
-    fprintf(file, "NB_Spawned_Entities : %d ,\n", scene->getSpawnedEntities());
-    fprintf(file, "Is_Paused : %d\n", scene->getIsPaused());
-    fprintf(file, "}\n");
-    fprintf(file, " \"Map\": {\n");
-    fprintf(file,  "Map_Name : %s\n",scene->getMapName().toStdString().c_str());
-    fprintf(file, "Mode : %s\n",scene->getMode().toStdString().c_str());
-    fprintf(file, "}\n");
-    fprintf(file, " \"Player\": {\n");
-    fprintf(file, "Player_pos (x,y) : (%.0f;%.0f),\n",scene->player->pos().x(),scene->player->pos().y());
-    fprintf(file, "Cloth : %s,\n",scene->player->getCloth()->GetId().toStdString().c_str());
-    fprintf(file, "}\n");
-    fprintf(file, " \"Weapons\": {\n");
-    for (unsigned int i = 0; i<3; i++){
-        if (scene->player->getWeapon(i) == nullptr){
-            continue;
+
+    // Construction de l'objet JSON principal
+    QJsonObject rootObject;
+
+    qDebug() << "Saving scene data to" << fullpath;
+
+    // Données de la scène
+    QJsonObject sceneObject;
+    sceneObject["NB_Spawned_Entities"] = scene->getSpawnedEntities();
+    sceneObject["Is_Paused"] = scene->getIsPaused();
+    rootObject["Scene"] = sceneObject;
+
+    qDebug() << "Saving map data...";
+
+    // Données de la carte
+    QJsonObject mapObject;
+    mapObject["Map_Name"] = scene->getMapName();
+    mapObject["Mode"] = scene->getMode();
+    rootObject["Map"] = mapObject;
+
+    qDebug() << "Saving player data...";
+
+    // Données du joueur
+    QJsonObject playerObject;
+    playerObject["Player_pos_x"] = static_cast<int>(scene->player->pos().x());
+    playerObject["Player_pos_y"] = static_cast<int>(scene->player->pos().y());
+    playerObject["Cloth"] = scene->player->getCloth()->GetId();
+    rootObject["Player"] = playerObject;
+
+    qDebug() << "Saving weapons...";
+
+    // Données des armes
+    QJsonObject weaponsObject;
+    for (unsigned int i = 0; i < 3; i++) {
+        QString weaponKey = QString("Weapon_%1").arg(i);
+        QString magazineKey = QString("Magazine_%1").arg(i);
+
+        if (scene->player->getWeapon(i) == nullptr) {
+            weaponsObject[weaponKey] = "null";
+            weaponsObject[magazineKey] = "null";
+        } else {
+            weaponsObject[weaponKey] = scene->player->getWeapon(i)->GetName();
+            weaponsObject[magazineKey] = scene->player->getWeapon(i)->GetMagazine();
         }
-        fprintf(file, "Weapon_%d : %s,\n", i, scene->player->getWeapon(i)->GetId().toStdString().c_str());
-        fprintf(file,"Magazine_%d: %d\n", i,scene->player->getWeapon(i)->GetMagazine());
     }
-    fprintf(file, "}\n");
-    fprintf(file, "}");
-    fclose(file);
+    rootObject["Weapons"] = weaponsObject;
+
+    // Création du document JSON et écriture dans le fichier
+    QJsonDocument jsonDoc(rootObject);
+
+    QFile file(fullpath);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Erreur lors de l'ouverture du fichier de sauvegarde:" << fullpath;
+        return;
+    }
+
+    file.write(jsonDoc.toJson(QJsonDocument::Indented));
+    file.close();
+
+    qDebug() << "Sauvegarde terminée dans" << fullpath;
 }
+
+
+
+
 Scene* LoadSave() {
+    QString fullpath = QFileDialog::getOpenFileName(nullptr, "Sélectioner la sauvegarde", "", "Tous les fichiers (*.json)");
+    if (fullpath.isEmpty()) {
+        qDebug() << "Aucun fichier sélectionné";
+        return nullptr;
+    }
+    QFile file(fullpath);
 
-    Scene* scene = new Scene();
-
-    QString fileName = QFileDialog::getOpenFileName(nullptr, "Selectioner la sauvegarde", "", "Tous les fichiers (*.json)");
-
-    FILE *file = fopen(fileName.toStdString().c_str(), "r");
-    if (file == nullptr) {
-        qDebug() << "Erreur lors de l'ouverture du fichier de sauvegarde";
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Erreur: impossible d'ouvrir le fichier" << fullpath;
         return nullptr;
     }
 
-    char line[256];
+    QByteArray jsonData = file.readAll();
+    file.close();
 
-    int nb_spawned_entities = 0;
-    int is_paused = 0;
-    char map_name[128] = "";
-    float player_pos_x = 0, player_pos_y = 0;
-    char player_cloth[128] = "";
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
 
-    char weapons[3][128] = { "", "", "" };
-    int magazines[3] = { -1, -1, -1 };
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Erreur de parsing JSON:" << parseError.errorString();
+        return nullptr;
+    }
 
-    while (fgets(line, sizeof(line), file)) {
-        // Nettoyage de fin de ligne
-        size_t len = strlen(line);
-        while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r' || line[len - 1] == ' ')) {
-            line[--len] = '\0';
-        }
+    Scene* scene= new Scene(nullptr);
 
-        if (strstr(line, "NB_Spawned_Entities")) {
-            sscanf(line, "NB_Spawned_Entities : %d", &nb_spawned_entities);
-        } else if (strstr(line, "Is_Paused")) {
-            sscanf(line, "Is_Paused : %d", &is_paused);
-        } else if (strstr(line, "Map_Name")) {
-            sscanf(line, "Map_Name : %127[^\n]", map_name);
-        } else if (strstr(line, "Player_pos")) {
-            sscanf(line, "Player_pos (x,y) : (%f;%f)", &player_pos_x, &player_pos_y);
-        } else if (strstr(line, "Cloth")) {
-            sscanf(line, "Cloth : %127[^,\n]", player_cloth);
-        } else if (strstr(line, "Weapon")) {
-            int index;
-            char weapon_id[128];
-            if (sscanf(line, "Weapon%d : %127[^,\n]", &index, weapon_id) == 2 && index >= 0 && index < 3) {
-                strcpy(weapons[index], weapon_id);
-            }
-        } else if (strstr(line, "Magazine")) {
-            int index, mag;
-            if (sscanf(line, "Magazine%d: %d", &index, &mag) == 2 && index >= 0 && index < 3) {
-                magazines[index] = mag;
+    QJsonObject rootObject = jsonDoc.object();
+
+    // Lecture des données de la scène
+    if (rootObject.contains("Scene")) {
+        QJsonObject sceneObject = rootObject["Scene"].toObject();
+
+        int nbSpawnedEntities = sceneObject["NB_Spawned_Entities"].toInt();
+        bool isPaused = sceneObject["Is_Paused"].toBool();
+
+        qDebug() << "Chargement scène - Entités:" << nbSpawnedEntities << "Pause:" << isPaused;
+
+        scene->setSpawnedEntities(nbSpawnedEntities);
+        scene->setIsPaused(isPaused);
+    }
+
+    // Lecture des données de la carte
+    if (rootObject.contains("Map")) {
+        QJsonObject mapObject = rootObject["Map"].toObject();
+
+        QString mapName = mapObject["Map_Name"].toString();
+        QString mode = mapObject["Mode"].toString();
+
+        qDebug() << "Chargement carte - Nom:" << mapName << "Mode:" << mode;
+
+        scene->setMapName(mapName);
+        scene->setMode(mode);
+
+        MapLoader* mapLoader = new MapLoader(scene->getMapName(), *scene);
+    }
+
+    // Lecture des données du joueur
+    if (rootObject.contains("Player")) {
+        QJsonObject playerObject = rootObject["Player"].toObject();
+
+        int playerPosX = playerObject["Player_pos_x"].toInt();
+        int playerPosY = playerObject["Player_pos_y"].toInt();
+        QString cloth = playerObject["Cloth"].toString();
+
+        qDebug() << "Chargement joueur - Position:" << playerPosX << "," << playerPosY << "Vêtement:" << cloth;
+
+        Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,scene,true);
+
+        scene->player = player;
+
+
+        scene->player->setPos(playerPosX, playerPosY);
+
+        // Charger le vêtement du joueur
+
+        QString outfit_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(cloth);
+        Entity* outfit = new Entity(scene->player,outfit_texturePath,"cosmetic", scene);
+        scene->player->setCloth(outfit);
+    }
+
+    // Lecture des données des armes
+    if (rootObject.contains("Weapons")) {
+        QJsonObject weaponsObject = rootObject["Weapons"].toObject();
+
+        qDebug() << "Chargement des armes...";
+
+        for (int i = 0; i < 3; i++) {
+            QString weaponKey = QString("Weapon_%1").arg(i);
+            QString magazineKey = QString("Magazine_%1").arg(i);
+
+            if (weaponsObject.contains(weaponKey) && weaponsObject.contains(magazineKey)) {
+                QString weaponName = weaponsObject[weaponKey].toString();
+
+                if (weaponName == "null") {
+                    qDebug() << "Arme" << i << ": aucune";
+                    scene->player->setWeapon( nullptr, i, nullptr);
+                } else {
+                    int magazine = weaponsObject[magazineKey].toInt();
+                    qDebug() << "Arme" << i << ":" << weaponName << "Munitions:" << magazine;
+
+                    QString weapon_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(weaponName);
+
+                    Weapon* weapon = new Weapon(scene->player,weapon_texturePath,"weapon", scene, 10, false);
+
+                    weapon->SetMagazine(magazine);
+                    scene->player->setWeapon(weapon, i, weaponName);
+                }
             }
         }
     }
 
-    fclose(file);
 
-    return scene;
+
+    qDebug() << "Chargement terminé depuis" << fullpath;
+
+    return scene; // Retourner la scène chargée
 }
