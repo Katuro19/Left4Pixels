@@ -47,7 +47,10 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Lotus", *this);
+    srand(static_cast<unsigned int>(time(nullptr))); //Important for randomness
+
+
+    MapLoader* mapLoader = new MapLoader("Debug", *this);
 
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
@@ -186,6 +189,7 @@ void Scene::handleShooting(const QPointF mousePos) {
         0, //bounces
         weapon->GetBulletLife(), //HP
         weapon->GetBulletSpeed(), //Speed
+        weapon->GetErrorAngle(), //Error angle
         this, //scene
         false //verbose
     );

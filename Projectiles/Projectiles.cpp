@@ -3,16 +3,20 @@
 
 Projectile::Projectile(QGraphicsItem* parent, QString filePath, QString entityType,
     QPointF target, QPointF startPos, int damage, bool isBreakable,
-    int pierces, int bounces, int HP, float speed, Scene* scene, bool verbose)
+    int pierces, int bounces, int HP, float speed, float spread, Scene* scene, bool verbose)
     : Entity(parent, filePath, entityType, scene, verbose),  isBreakable(isBreakable), pierces(pierces),bounces(bounces), target(target), startPos(startPos)  // Auto call of entity for the scene !
 {
+
+    this->spread = spread;
     this->setPos(startPos);
-    this->updateDirection();
+
     this->SetBaseSpeed(speed);
     this->SetHp(HP);
 
 
     this->SetDamages(damage);
+
+    this->updateDirection();
 }
 
 
@@ -50,12 +54,29 @@ QPointF Projectile::getStartingPos() const {
 }
 
 void Projectile::updateDirection() {
-    QPointF realPos = this->GetRealCenter();
-    const qreal angle = std::atan2(this->target.y() - realPos.y(), this->target.x() - realPos.x());
-    //this->setRotation(angle);
-    QPointF direction = {qCos(angle),qSin(angle)};
+
+    QPointF realPos = this->GetRealCenter(); //We get the real center, not the sprite start
+
+    qreal angle = std::atan2(target.y() - realPos.y(), target.x() - realPos.x()); //We calculate the angle and then convert it into °
+    qreal baseDegrees = angle * 180.0 / M_PI;
+
+    //We calculate the spread
+    qreal spreadOffset = 0.0;
+    if (this->spread > 0.0) {
+        spreadOffset = ((static_cast<float>(rand()) / RAND_MAX) * 2.0f - 1.0f) * this->spread;
+    }
+
+    // We add the angle and the spread together
+    qreal finalDegrees = baseDegrees + spreadOffset;
+
+    // Convert to radiants
+    qreal finalRadians = finalDegrees * M_PI / 180.0;
+    QPointF direction(std::cos(finalRadians), std::sin(finalRadians));
+
     //qDebug() << "Direction : x =" << direction.x() << ", y = " << direction.y();
     this->SetDirection(direction.x(),direction.y());
+    this->setTransformOriginPoint(pixmap().width() / 2.0, pixmap().height() / 2.0);
+    this->setRotation(finalDegrees);
 
 }
 

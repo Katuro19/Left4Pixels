@@ -2,6 +2,7 @@
 #define PROJECTILES_H
 #include "Entity.h"
 
+#include <random>
 
 
 class Projectile : public Entity {
@@ -11,6 +12,7 @@ class Projectile : public Entity {
         int bounces;
         QPointF target;
         QPointF startPos;
+        float spread;
 
     public:
         explicit Projectile(QGraphicsItem* parent = nullptr,
@@ -24,6 +26,7 @@ class Projectile : public Entity {
             int bounces = 0,
             int HP = 1,
             float speed = 1,
+            float spread = 0,
             Scene* scene = nullptr,
             bool verbose = false);  // Ajout de Scene* comme paramètre
 
