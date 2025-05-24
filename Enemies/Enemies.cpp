@@ -61,6 +61,17 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
         SetInternTimer(grace);
     }
 
+    if(this->GetEntityType() == "spore"){
+        if(this->spawningTimer <= 0){
+            QPointF thisPos = this->mapToScene(0,0) - QPointF(100,100);
+            parentScene->SpawnEnemies("runner", 2, thisPos, QPointF(200, 200), false);
+            spawningTimer = baseSpawningTimer;
+        } else {
+            this->spawningTimer -= deltaTime;
+        }
+
+    }
+
     this->ChooseDestination();
 
     Entity::UpdateMovement(deltaTime, steps);
@@ -83,7 +94,7 @@ void Enemy::SetZombieStats(QString type){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/runner.png"),"runner", this->parentScene, this->IsVerbose());
         speed = 1500;
         hp = 70;
-        damage = 10;
+        damage = 5;
         zGrace = 0.3;
     }
     else if(type == "basic"){
@@ -100,7 +111,15 @@ void Enemy::SetZombieStats(QString type){
         damage = 30;
         zGrace = 10;
     }
-
+    else if(type == "spore"){ //Spores moove slowly and spawn runners, but they are not affected by environment. Good strat is melee them
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/spore.png"),"spore", this->parentScene, this->IsVerbose());
+        speed = 100;
+        hp = 1000;
+        damage = 3;
+        zGrace = 2;
+        this->spawningTimer = 10;
+        this->baseSpawningTimer = 10; //in seconds
+    }
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;
         throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");

@@ -67,6 +67,8 @@ public:
 
     void SetScale(float scaleValue, int durationMs=500);
 
+    void SpawnEnemies(QString type, int number, QPointF position, QPointF spacing, bool verbose = false);
+
 public slots:
     void update();
 

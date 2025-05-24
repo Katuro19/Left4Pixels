@@ -16,16 +16,10 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
 
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
-    //
-
-    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"pZombie", this, true);
-    Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
-
-    // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
     (*superCube).SetId(QStringLiteral("Cube"));
     //(*sword).SetId(QStringLiteral("Sword"));
-    (*zombie).SetId(QStringLiteral("Zombie"));
+    //(*zombie).SetId(QStringLiteral("Zombie"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
@@ -36,14 +30,14 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     superCube->setCloth(outfit);
 
 
-    zombie->moveBy(3 * 256 , 3 * 256);
-    zombie2->moveBy(4 * 256 , 4 * 256);
+    //zombie->moveBy(3 * 256 , 3 * 256);
+    //zombie2->moveBy(4 * 256 , 4 * 256);
 
 
 
     toPreLoad.push_back(player);
-    toPreLoad.push_back(zombie);
-    toPreLoad.push_back(zombie2);
+    //toPreLoad.push_back(zombie);
+    //toPreLoad.push_back(zombie2);
     toPreLoad.push_back(primary);
     toPreLoad.push_back(secondary);
 
@@ -63,6 +57,8 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     }
 
     secondary->setVisible(false);
+    this->SpawnEnemies("spore", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
+    //this->SpawnEnemies("basic", 2, QPointF(4 * 256, 4 * 256), QPointF(256, 0), true);
 
 
     timer = new QTimer(this);
@@ -95,7 +91,7 @@ void Scene::update() {
     frameTimer.restart();                    // remet le chrono à 0
     float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
 
-    DebugFps();
+    //DebugFps();
 
     for (int i = 0; i < Entities.size(); ++i) {
         Entity* entity = Entities[i];
@@ -299,6 +295,33 @@ void Scene::DeleteEntity(int index) {
     Entities.erase(Entities.begin() + index); // Remove using the index directly taken from the main update
     delete entity;
 }
+
+
+void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spacing, bool verbose){
+
+    QString hitboxLink;
+
+
+    if(type == "basic" || type == "spore"){
+        hitboxLink = "../Resources/Textures/Characters/Zombies/basicHitbox.png";
+
+    } else if(type == "runner" || type == "pZombie"){
+        hitboxLink = "../Resources/Textures/Characters/Zombies/runnerHitbox.png";
+    } else {
+        QString errorMessage = "❌ Enemy type " + (type) + " does not exist or is not defined in Scene::SpawnEnemies";
+        throw std::runtime_error(errorMessage.toStdString());        
+    }
+
+    for(int i=0; i < number; i++){
+        Enemy* zombie = new Enemy(nullptr,hitboxLink,type, this, verbose);
+        this->AddEntity(zombie, true, position);
+        position += spacing;
+    }
+    //Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
+
+}
+
+
 
 
 

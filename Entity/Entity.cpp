@@ -90,7 +90,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie"){
+    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie" || this->entityType == "spore"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
@@ -207,7 +207,7 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
-                } else if (type == "basic" || type == "runner" || type == "pZombie"){
+                } else if (type == "basic" || type == "runner" || type == "pZombie" || type == "spore"){
                     if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
                         //qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
@@ -235,9 +235,28 @@ bool Entity::PreventMovementCollision(){
             }
             
             else if(myType == "pZombie"){
-                if(type == "wall" || type == "player"){
-                    this->TriggerDelete();
+                if(GetInternTimer() <= 0){ //Loose HP every now and then but is not damaged by anything else
+                    this->ReduceHp(10);
+                    SetInternTimer(0.005); 
                 }
+
+                if(type == "player"){
+                    this->TriggerDelete();
+                } 
+            }
+
+            else if(myType == "spore"){
+                if(spawningTimer <= 0){ //spawn 2 runners every x seconds
+                    ;
+                } else if(type == "player"){
+                    return true;
+                } else if(type == "projectile"){
+                    if(GetInternTimer() <= 0){
+                        this->ReduceHp(entity->GetDamages());
+                        SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
+                    }
+                } 
+
             }
 
             else if(myType == "projectile"){
