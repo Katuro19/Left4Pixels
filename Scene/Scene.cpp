@@ -12,7 +12,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
+    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/M1918.png"),"weapon", this, 10, false);
     Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
 
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
