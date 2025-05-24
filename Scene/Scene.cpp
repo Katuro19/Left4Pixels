@@ -2,11 +2,15 @@
 
 
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
-    QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
+
 
     bool manual_load = false;
 
     if (manual_load){
+
+        QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
+
+
         Player* superCube = new Player(nullptr, //parent
                     QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
                     "player", //type
@@ -81,10 +85,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
 
         srand(static_cast<unsigned int>(time(nullptr))); //Important for randomness
 
-
-        for(Entity* entity : toPreLoad) {
-            this->AddEntity(entity);
-        }
 
         timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(update()));

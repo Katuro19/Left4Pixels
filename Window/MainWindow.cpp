@@ -57,6 +57,13 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     Weapon* secondary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", mainScene, 10, false);
     Entity* outfit = new Entity(player,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", mainScene);
 
+    //Here add things you want to have for debug purposes that are entity related, don't forget to set their Id, attach them to the parent and preload them in the scene.
+
+
+
+
+    //END
+    
     (*player).SetId(QStringLiteral("Cube"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
 
