@@ -6,8 +6,6 @@
 
 int main(int argc, char *argv[])
 {
-    srand(static_cast<unsigned int>(time(nullptr)));
-
     QApplication a(argc, argv);
     MainWindow mainWindow;
     mainWindow.show();

@@ -5,7 +5,6 @@ URGENT :
  
     - Add the melee on right click
 
-    - Add a visual attached to weapons that display the timer left while reloading (easy !)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
