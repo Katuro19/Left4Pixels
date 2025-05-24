@@ -44,9 +44,16 @@ int Player::getHealthpoints() const {
 
 
 void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
+    if (weapon == nullptr){
+        this->weapons[pos] = nullptr;
+        qWarning() << "A weapon was set to null with pos: " << pos;
+        return;
+    }
+
     this->weapons[pos] = weapon;
     this->weapons[pos]->moveBy(100,0);
     this->weapons[pos]->LoadWeaponStats(name);
+    this->weapons[pos]->SetName(name);
 
     if(pos != 0){
         weapon->UnequipWeapon();

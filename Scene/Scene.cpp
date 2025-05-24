@@ -4,69 +4,95 @@
 Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     QVector<Entity*> toPreLoad; //Add the firsts spawned items in this list so that the spawning is auto for those.
 
+    bool manual_load = false;
 
-    Player* superCube = new Player(nullptr, //parent
-                QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
-                "player", //type
-                1.0,          // attack_speed
-                this,         // Scene (this)
-                true);        // verbose
+    if (manual_load){
+        Player* superCube = new Player(nullptr, //parent
+                    QStringLiteral("../Resources/Textures/Characters/Player/player.png"), //image location
+                    "player", //type
+                    1.0,          // attack_speed
+                    this,         // Scene (this)
+                    true);        // verbose
 
-    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/M249.png"),"weapon", this, 10, false);
-    Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
+        Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/M249.png"),"weapon", this, 10, false);
+        Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
 
-    Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
-
-    (*superCube).SetId(QStringLiteral("Cube"));
-    //(*sword).SetId(QStringLiteral("Sword"));
-    //(*zombie).SetId(QStringLiteral("Zombie"));
-    (*outfit).SetId(QStringLiteral("sunglasses"));
-    // (*projectile).SetId(QStringLiteral("Projectile"));
-
-    this->player = superCube;
-    superCube->setWeapon(primary,0,"M249");
-    superCube->setWeapon(secondary,1,"deagle");
-
-    superCube->setCloth(outfit);
+        Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
 
 
-    //zombie->moveBy(3 * 256 , 3 * 256);
-    //zombie2->moveBy(4 * 256 , 4 * 256);
+        Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
+        Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
+
+        // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
+
+        (*superCube).SetId(QStringLiteral("Cube"));
+        //(*sword).SetId(QStringLiteral("Sword"));
+        //(*zombie).SetId(QStringLiteral("Zombie"));
+        (*outfit).SetId(QStringLiteral("sunglasses"));
+        // (*projectile).SetId(QStringLiteral("Projectile"));
+
+        this->player = superCube;superCube->setWeapon(primary,0,"M249");
+        superCube->setWeapon(secondary,1,"deagle");
+
+
+        superCube->setCloth(outfit);
+
+
+        //zombie->moveBy(3 * 256 , 3 * 256);
+        //zombie2->moveBy(4 * 256 , 4 * 256);
 
 
 
-    toPreLoad.push_back(player);
-    //toPreLoad.push_back(zombie);
-    //toPreLoad.push_back(zombie2);
-    toPreLoad.push_back(primary);
-    toPreLoad.push_back(secondary);
+        toPreLoad.push_back(player);
+        //toPreLoad.push_back(zombie);
+        //toPreLoad.push_back(zombie2);
+        toPreLoad.push_back(primary);
+        toPreLoad.push_back(secondary);
 
-    toPreLoad.push_back(outfit);
+        toPreLoad.push_back(outfit);
 
-    // toPreLoad.push_back(projectile);
-    // projectile->updateDirection();
-
-
-    srand(static_cast<unsigned int>(time(nullptr))); //Important for randomness
+        // toPreLoad.push_back(projectile);
+        // projectile->updateDirection();
 
 
-    MapLoader* mapLoader = new MapLoader("Debug", *this);
+        srand(static_cast<unsigned int>(time(nullptr))); //Important for randomness
 
-    for(Entity* entity : toPreLoad) {
-        this->AddEntity(entity);
+
+        MapLoader* mapLoader = new MapLoader("Debug", *this);
+
+        for(Entity* entity : toPreLoad) {
+            this->AddEntity(entity);
+        }
+
+        secondary->setVisible(false);
+        this->SpawnEnemies("spore", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
+        //this->SpawnEnemies("basic", 2, QPointF(4 * 256, 4 * 256), QPointF(256, 0), true);
+
+
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+        timer->start(16); //60 FPS
+
+        frameTimer.start();
+        menus = new Menus(this, parent);
     }
 
-    secondary->setVisible(false);
-    this->SpawnEnemies("spore", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
-    //this->SpawnEnemies("basic", 2, QPointF(4 * 256, 4 * 256), QPointF(256, 0), true);
+    else{
+
+        srand(static_cast<unsigned int>(time(nullptr))); //Important for randomness
 
 
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(16); //60 FPS
+        for(Entity* entity : toPreLoad) {
+            this->AddEntity(entity);
+        }
 
-    frameTimer.start();
-    menus = new Menus(this, parent);
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+        timer->start(16); //60 FPS
+
+        frameTimer.start();
+        menus = new Menus(this, parent);
+    }
 
 }
 
@@ -128,6 +154,7 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
         return;
     }
     else if(event->key() == Qt::Key_R){
+        qDebug() << "here";
         this->player->getWeapon(this->player->getCurrentWeapon())->EmptyMagazine();
         return;
     }
@@ -170,7 +197,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         }
     }
 
-    else if (event->button() == Qt::RightButton) { 
+    else if (event->button() == Qt::RightButton) {
         qDebug() << "*insert a melee logic here*";
     }
 }
@@ -309,7 +336,7 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
         hitboxLink = "../Resources/Textures/Characters/Zombies/runnerHitbox.png";
     } else {
         QString errorMessage = "❌ Enemy type " + (type) + " does not exist or is not defined in Scene::SpawnEnemies";
-        throw std::runtime_error(errorMessage.toStdString());        
+        throw std::runtime_error(errorMessage.toStdString());
     }
 
     for(int i=0; i < number; i++){
@@ -340,7 +367,6 @@ void Scene::DebugFps(){
     
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
         qDebug() << "FPS:" << frameCount;
-        qDebug() << "Player health:" << this->player->GetHp();
         frameCount = 0;
         elapsedTimer.restart();
     }
@@ -373,13 +399,20 @@ void Scene::SetScale(float scale, int durationMs){
     view->scale(scale, scale);     // Applique le zoom voulu proprement
 }
 
-int Scene::getSpawnedEntities() {
+int Scene::getSpawnedEntities() const{
     return this->totalEntitySpawned;
 }
+void Scene::setSpawnedEntities(int newSpawnedEntities) {
+    this->totalEntitySpawned = newSpawnedEntities;
+}
 
-bool Scene::getIsPaused() {
+bool Scene::getIsPaused() const {
     return this->isPaused;
 }
+void Scene::setIsPaused(bool paused) {
+    this->isPaused = paused;
+}
+
 void Scene::setMapName(QString name) {
     this->map_name = name;
 }
@@ -394,4 +427,11 @@ void Scene::setMode(QString mode) {
 
 QString Scene::getMode() {
     return this->mode;
+}
+
+void Scene::setPlayer(Player* player) {
+    this->player = player;
+}
+Player* Scene::getPlayer() const {
+    return this->player;
 }

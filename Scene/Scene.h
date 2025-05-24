@@ -51,14 +51,19 @@ public:
 
     void SwapIsPaused(){this->isPaused = !this->isPaused;}
 
-    int getSpawnedEntities();
+    int getSpawnedEntities() const;
+    void setSpawnedEntities(int newSpawnedEntities);
 
-    bool getIsPaused();
+    bool getIsPaused() const;
+    void setIsPaused(bool paused);
 
-    void setMapName(QString name);
+    void setPlayer(Player* player);
+    Player* getPlayer() const;
+
+    void setMapName(QString name) ;
     QString getMapName();
 
-    void setMode(QString mode);
+    void setMode(QString mode) ;
     QString getMode();
 
     int GetScore();

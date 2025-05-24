@@ -4,6 +4,12 @@
 
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFile>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QDebug>
 
 #include "Scene.h"
 

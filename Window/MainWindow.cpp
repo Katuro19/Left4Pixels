@@ -44,10 +44,39 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     if (mainScene)
         delete mainScene;
 
+    QVector<Entity*> toPreLoad;
+
     mainScene = new Scene(this);
     mainScene->setSceneRect(0, 0, 20000, 20000);
     mainScene->setMapName(map);
     mainScene->setMode(mode);
+    Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,mainScene,true);
+    mainScene->player = player;
+
+    Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/M249.png"),"weapon", mainScene, 10, false);
+    Weapon* secondary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", mainScene, 10, false);
+    Entity* outfit = new Entity(player,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", mainScene);
+
+    (*player).SetId(QStringLiteral("Cube"));
+    (*outfit).SetId(QStringLiteral("sunglasses"));
+
+    player->setWeapon(primary,0,"M249");
+    player->setWeapon(secondary,1,"deagle");
+    player->setCloth(outfit);
+
+    toPreLoad.push_back(player);
+    toPreLoad.push_back(primary);
+    toPreLoad.push_back(secondary);
+    toPreLoad.push_back(outfit);
+
+    MapLoader* mapLoader = new MapLoader("Debug", *mainScene);
+
+    for(Entity* entity : toPreLoad) {
+        mainScene->AddEntity(entity);
+    }
+
+    secondary->setVisible(false);
+
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
     return nullptr;
