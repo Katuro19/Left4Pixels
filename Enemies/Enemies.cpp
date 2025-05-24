@@ -79,7 +79,7 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
 }
 
 
-void Enemy::SetZombieStats(QString type){
+void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbox in Scene::SpawnEnemies
 
 
     int speed = 1;
@@ -122,7 +122,7 @@ void Enemy::SetZombieStats(QString type){
     }
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;
-        throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");
+        throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp in SetZombieStats");
     }
 
 

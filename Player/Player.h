@@ -31,7 +31,9 @@ class Player : public Entity {
 
     void setWeapon(Weapon* weapon, unsigned int pos, QString name);
     Weapon* getWeapon(unsigned int pos) const;
-  
+    Weapon* GetEquippedWeapon();
+
+
     void setCloth(Entity* cloth);
     Entity* getCloth() const;
 

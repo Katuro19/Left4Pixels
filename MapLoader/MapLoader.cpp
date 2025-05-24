@@ -122,6 +122,8 @@ void MapLoader::PlaceTile(QString tileType, QString tileName, int xPos, int yPos
     std::string path = "../Resources/Textures/Tiles/" + tileName.toStdString();
     Entity* toSpawn = new Entity(nullptr,QString::fromStdString(path),entityType, &mainScene, false); //Verbose or no
     //toSpawn->setPos(futurePos);
+    toSpawn->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+
     this->mainScene.AddEntity(toSpawn, true, futurePos);
 
 }

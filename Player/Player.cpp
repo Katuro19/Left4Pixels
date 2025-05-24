@@ -63,17 +63,21 @@ unsigned int Player::getCurrentWeapon() const {
     return current_weapon;
 }
 void Player::setCurrentWeapon(unsigned int weapon) {
-    Weapon* equippedWeapon = getWeapon(this->getCurrentWeapon());
+    Weapon* equippedWeapon = GetEquippedWeapon();
     equippedWeapon->UnequipWeapon();
 
     this->current_weapon = weapon;
-    this->getWeapon(this->getCurrentWeapon())->EquipWeapon();
+    this->GetEquippedWeapon()->EquipWeapon();
 }
 
 
 
 Weapon* Player::getWeapon(unsigned int pos) const {
     return this->weapons[pos];
+}
+
+Weapon* Player::GetEquippedWeapon(){
+    return this->weapons[current_weapon];
 }
 
 void Player::setCloth(Entity* cloth) {
@@ -103,7 +107,7 @@ void Player::UpdateMovement(float deltaTime, int steps) {
     }
 
 
-    float weaponReloadTimeout = (this->getWeapon(this->getCurrentWeapon()))->reloadTimeout;
+    float weaponReloadTimeout = (this->GetEquippedWeapon())->reloadTimeout;
 
     if(weaponReloadTimeout > 0){
         //reloadingText->setPos(this->mapToScene(0, 0)); // place à la même position que l'item

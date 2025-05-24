@@ -113,3 +113,15 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
     }
 }
 
+void Projectile::Reset(QPointF newTarget, QPointF newStartPos, int damage, int hp, float speed, float spread) {
+    this->target = newTarget;
+    this->startPos = newStartPos;
+    this->SetDamages(damage);
+    this->SetHp(hp);
+    this->SetBaseSpeed(speed);
+    this->spread = spread;
+
+    this->setPos(newStartPos);
+    this->setVisible(true);
+    this->updateDirection();
+}

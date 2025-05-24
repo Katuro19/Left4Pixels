@@ -54,6 +54,8 @@ class Projectile : public Entity {
 
         void UpdateMovement(float deltaTime, int steps = 1) override;
 
+        void Reset(QPointF newTarget, QPointF newStartPos, int damage, int hp, float speed, float spread);
+    
 };
 
 #endif //PROJECTILES_H

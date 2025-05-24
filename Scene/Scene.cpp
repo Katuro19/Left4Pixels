@@ -91,7 +91,7 @@ void Scene::update() {
     frameTimer.restart();                    // remet le chrono à 0
     float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
 
-    //DebugFps();
+    DebugFps();
 
     for (int i = 0; i < Entities.size(); ++i) {
         Entity* entity = Entities[i];
@@ -200,7 +200,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void Scene::handleShooting(const QPointF mousePos) {
-    Weapon *weapon = this->player->getWeapon(this->player->getCurrentWeapon());
+    Weapon *weapon = this->player->GetEquippedWeapon();
 
     Projectile* projectile = new Projectile(
         nullptr, //parent

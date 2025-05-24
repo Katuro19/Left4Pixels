@@ -7,6 +7,9 @@ URGENT :
 
     - Code the player death (help)
 
+    - Make a cache for the projectiles to gain more fps
+        -> Use the "reset" function in projectiles
+
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
         -> Use the DebugFps() function
