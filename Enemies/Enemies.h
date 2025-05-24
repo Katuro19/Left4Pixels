@@ -16,6 +16,8 @@ class Enemy : public Entity {
         void SetZombieStats(QString type); //Will set the visual of the zombies, and his stats
 
         Entity* Visual = nullptr; //This will be the visual : Like the player, the hitbox is not the whole zombie
+
+        bool pDirectionDone = false;
     
     public:
         explicit Enemy(QGraphicsItem* parent = nullptr,

@@ -18,6 +18,11 @@ Enemy::~Enemy() {
 
 void Enemy::ChooseDestination(){
 
+    if(this->GetEntityType() == "pZombie" && pDirectionDone == true){
+        return; //We dont change anything in the direction
+    }
+
+    pDirectionDone = true;
     QPointF playerPos = parentScene->player->pos();
     QPointF enemyPos = this->pos();
 
@@ -57,6 +62,7 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
     }
 
     this->ChooseDestination();
+
     Entity::UpdateMovement(deltaTime, steps);
 
 }
@@ -87,7 +93,14 @@ void Enemy::SetZombieStats(QString type){
         damage = 50;
         zGrace = 1.5;
     }
-    
+    else if(type == "pZombie"){ //These are not really zombie, more of projectiles sent by zombie. Note that the hitbox is the same as runners
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/pZombie.png"),"pZombie", this->parentScene, this->IsVerbose());
+        speed = 1500;
+        hp = 2000;
+        damage = 30;
+        zGrace = 10;
+    }
+
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;
         throw std::runtime_error("❌ Failed to load enemy. The given type of the entity referenced before is wrong\n❌ You can add the type in Enemies.cpp around line 70");

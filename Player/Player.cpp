@@ -88,6 +88,7 @@ Entity* Player::getCloth() const {
 void Player::UpdateMovement(float deltaTime, int steps) {
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
+        qDebug() << "you are die";
         return;
     }
 
@@ -105,7 +106,6 @@ void Player::UpdateMovement(float deltaTime, int steps) {
     float weaponReloadTimeout = (this->getWeapon(this->getCurrentWeapon()))->reloadTimeout;
 
     if(weaponReloadTimeout > 0){
-        qDebug() << reloadingText->pos();
         //reloadingText->setPos(this->mapToScene(0, 0)); // place à la même position que l'item
         reloadingText->setPlainText(QString("Reloading %1s").arg(QString::number(weaponReloadTimeout, 'f', 1)));
         reloadingText->setVisible(true);

@@ -90,7 +90,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner" || this->entityType == "basic"){
+    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
@@ -207,7 +207,7 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
-                } else if (type == "basic" || type == "runner"){
+                } else if (type == "basic" || type == "runner" || type == "pZombie"){
                     if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
                         //qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
@@ -233,7 +233,12 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 }
             }
-
+            
+            else if(myType == "pZombie"){
+                if(type == "wall" || type == "player"){
+                    this->TriggerDelete();
+                }
+            }
 
             else if(myType == "projectile"){
                 if(type == "wall"){    

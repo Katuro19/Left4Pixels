@@ -12,7 +12,8 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <qcoreapplication.h>
-
+#include <QPropertyAnimation>
+#include <QTransform>
 
 
 #include <vector>
@@ -63,6 +64,8 @@ public:
     int GetScore();
     void AddScore(int moreScore);
 
+
+    void SetScale(float scaleValue, int durationMs=500);
 
 public slots:
     void update();

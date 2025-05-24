@@ -18,7 +18,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
     //
 
-    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
+    Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"pZombie", this, true);
     Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
 
     // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
@@ -39,13 +39,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     zombie->moveBy(3 * 256 , 3 * 256);
     zombie2->moveBy(4 * 256 , 4 * 256);
 
-    // QGraphicsTextItem* textItem = new QGraphicsTextItem("Reload: 3.5s");
-    // textItem->setDefaultTextColor(Qt::red);     // couleur du texte
-    // textItem->setFont(QFont("Arial", 24, QFont::Bold)); // police, taille, style
-    // textItem->setZValue(1000);
-    // textItem->setPos(0, 0);
-    // textItem->setVisible(true);
-    // this->addItem(textItem);
 
 
     toPreLoad.push_back(player);
@@ -148,10 +141,13 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
         if(this->player->getCurrentWeapon() == 0 && this->player->getWeapon(1) != nullptr){
             this->player->setCurrentWeapon(1); //we equip the second weapon
             qDebug() << "Equipped second weapon";
+            //this->SetScale(0.5);
+
         }
         else if(this->player->getCurrentWeapon() == 1 && this->player->getWeapon(0) != nullptr) {
             this->player->setCurrentWeapon(0); //we equip the first weapon
             qDebug() << "Equipped first weapon";
+            //this->SetScale(0.3);
 
         }
         return;
@@ -321,6 +317,7 @@ void Scene::DebugFps(){
     
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
         qDebug() << "FPS:" << frameCount;
+        qDebug() << "Player health:" << this->player->GetHp();
         frameCount = 0;
         elapsedTimer.restart();
     }
@@ -345,6 +342,12 @@ void Scene::togglePause() {
         qDebug() << "Masquage du menu de pause";
         menus->masquerMenuPause();
     }
+}
+
+void Scene::SetScale(float scale, int durationMs){
+    QGraphicsView* view = this->views().first();
+    view->resetTransform();         // Remet le zoom à 1.0
+    view->scale(scale, scale);     // Applique le zoom voulu proprement
 }
 
 int Scene::getSpawnedEntities() {

@@ -5,6 +5,7 @@ URGENT :
  
     - Add the melee on right click
 
+    - Code the player death (help)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
