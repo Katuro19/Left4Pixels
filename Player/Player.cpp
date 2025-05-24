@@ -5,6 +5,19 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
         : Entity(parent, filePath, entityType, scene, verbose), attack_speed(attack_speed){ //Call entity for the scene !
 
     this->HP = 100;
+
+
+    QGraphicsTextItem* textItem = new QGraphicsTextItem("Reload: 3.5s");
+    textItem->setDefaultTextColor(Qt::red);     // couleur du texte
+    textItem->setFont(QFont("Arial", 24, QFont::Bold)); // police, taille, style
+    textItem->setZValue(1000);
+    parentScene->addItem(textItem);
+    textItem->setParentItem(this);
+
+    qreal offsetY = 256;
+    textItem->setPos(0,offsetY);
+
+    reloadingText = textItem;
 }
 
 Player::~Player() {
@@ -87,6 +100,17 @@ void Player::UpdateMovement(float deltaTime, int steps) {
             ++it;
         }
     }
+
+
+    float weaponReloadTimeout = (this->getWeapon(this->getCurrentWeapon()))->reloadTimeout;
+
+    if(weaponReloadTimeout > 0){
+        qDebug() << reloadingText->pos();
+        //reloadingText->setPos(this->mapToScene(0, 0)); // place à la même position que l'item
+        reloadingText->setPlainText(QString("Reloading %1s").arg(QString::number(weaponReloadTimeout, 'f', 1)));
+        reloadingText->setVisible(true);
+
+    } else {reloadingText->setVisible(false);}
 
     // Get the mouse and player pos
     QPointF mousePos = parentScene->views().first()->mapToScene(parentScene->views().first()->mapFromGlobal(QCursor::pos()));

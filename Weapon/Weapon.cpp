@@ -4,6 +4,7 @@ Weapon::Weapon(QGraphicsItem* parent,QString filePath,QString entityType,Scene* 
     this->SetSpeedBoost(1.0);
     this->SetInternTimer(1000);
     this->SetDamages(damage);
+
 }
 Weapon::~Weapon() {
 
@@ -107,6 +108,7 @@ void Weapon::UnequipWeapon(){
         reloadTimeout = this->GetReloadTime();
     }
 
+    this->setIsShooting(false);
     isEquipped = false;
     this->setVisible(false);
 
@@ -120,7 +122,6 @@ void Weapon::EquipWeapon(){
 
 
 void Weapon::UpdateMovement(float deltaTime, int steps) {
-
     double cooldownSecs = 1.0f / this->GetBaseRps();
     float cooldownTimer = GetInternTimer() + (deltaTime);
     //qDebug() << "Timer actuel :" << cooldownTimer;

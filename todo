@@ -3,12 +3,16 @@ URGENT :
 
     - Make use of the "step" option in the collision system to save performances
  
-    - Make the inventory system
+    - Add the melee on right click
+
+    - Add a visual attached to weapons that display the timer left while reloading (easy !)
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
         -> Use the DebugFps() function
 
+    - Fix the visual bug when switching weapon 
+        -> This bug is due to the position of the hidden weapon, getting back to the real player angle on the scene (one frame !)
 
 MEH :
     - Make achievements

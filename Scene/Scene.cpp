@@ -12,7 +12,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
                 this,         // Scene (this)
                 true);        // verbose
 
-    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/M1918.png"),"weapon", this, 10, false);
+    Weapon* primary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/M249.png"),"weapon", this, 10, false);
     Weapon* secondary = new Weapon(superCube,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", this, 10, false);
 
     Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
@@ -30,7 +30,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(primary,0,"M1918");
+    superCube->setWeapon(primary,0,"M249");
     superCube->setWeapon(secondary,1,"deagle");
 
     superCube->setCloth(outfit);
@@ -39,6 +39,13 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     zombie->moveBy(3 * 256 , 3 * 256);
     zombie2->moveBy(4 * 256 , 4 * 256);
 
+    // QGraphicsTextItem* textItem = new QGraphicsTextItem("Reload: 3.5s");
+    // textItem->setDefaultTextColor(Qt::red);     // couleur du texte
+    // textItem->setFont(QFont("Arial", 24, QFont::Bold)); // police, taille, style
+    // textItem->setZValue(1000);
+    // textItem->setPos(0, 0);
+    // textItem->setVisible(true);
+    // this->addItem(textItem);
 
 
     toPreLoad.push_back(player);

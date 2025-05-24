@@ -16,6 +16,8 @@ class Player : public Entity {
         Weapon* weapons[3] = {nullptr, nullptr, nullptr}; // 3 weapons max
         unsigned int current_weapon = 0;
     
+        QGraphicsTextItem* reloadingText;
+
     public:
         // Constructeur de Player
         explicit Player(QGraphicsItem* parent = nullptr,

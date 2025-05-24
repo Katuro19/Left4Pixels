@@ -8,7 +8,9 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QDebug>
-
+#include <QGraphicsTextItem>
+#include <QFont>
+#include <QColor>
 
 
 //class Scene; //Forward declaration
@@ -31,11 +33,16 @@ private:
     QString name;
 
     float bulletPerShot = 0;
-    float reloadTimeout = 0;
 
     bool isEquipped = false;
 
+
+    QGraphicsTextItem* reloadingUi;
+
 public:
+    float reloadTimeout = 0;
+
+
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);
     ~Weapon();
     bool getIsShooting() const;
