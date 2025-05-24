@@ -30,7 +30,7 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     // (*projectile).SetId(QStringLiteral("Projectile"));
 
     this->player = superCube;
-    superCube->setWeapon(primary,0,"M249");
+    superCube->setWeapon(primary,0,"M1918");
     superCube->setWeapon(secondary,1,"deagle");
 
     superCube->setCloth(outfit);
@@ -61,6 +61,9 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
     for(Entity* entity : toPreLoad) {
         this->AddEntity(entity);
     }
+
+    secondary->setVisible(false);
+
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -144,7 +147,6 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
             qDebug() << "Equipped first weapon";
 
         }
-        qDebug() << "here";
         return;
     }
     pressedKeys.remove(event->key());

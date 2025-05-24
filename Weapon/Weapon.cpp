@@ -105,15 +105,17 @@ void Weapon::UnequipWeapon(){
 
     if(reloadTimeout > 0){
         reloadTimeout = this->GetReloadTime();
-        qDebug() << "reloading canceled !";
     }
 
     isEquipped = false;
+    this->setVisible(false);
+
 }
 
 void Weapon::EquipWeapon(){
-    qDebug() << "Equipping !!";
     isEquipped = true;
+    this->setVisible(true);
+
 }
 
 

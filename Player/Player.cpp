@@ -36,7 +36,6 @@ void Player::setWeapon(Weapon* weapon, unsigned int pos, QString name) {
     this->weapons[pos]->LoadWeaponStats(name);
 
     if(pos != 0){
-        weapon->setVisible(false);
         weapon->UnequipWeapon();
     }
 
