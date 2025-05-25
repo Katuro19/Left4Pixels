@@ -76,7 +76,17 @@ public:
 
     void WaveSpawn();
     QPointF GetSpawnPointAroundPlayer(float distance);
+
     float spawnTimer = 0;
+    int baseSpawnNumber = 1;
+    int miniBossSpawn = 50; //At 100 score, first mini boss. Then this will be handled to change !
+    int bossSpawn = 150;
+    QVector<QString> baseEnemies = {"basic", "runner"};
+    QVector<QString> miniBossEnemies = {"spore", "turret"};
+    QVector<QString> bossEnemies = {"mother"};
+
+
+
 
 public slots:
     void update();

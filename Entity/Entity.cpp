@@ -81,6 +81,11 @@ void Entity::LoadTexture(const QString &imagePath) {
         QSize newSize(original.width() * 1.5, original.height() * 1.5);
         QPixmap scaledPixmap = original.scaled(newSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         setPixmap(scaledPixmap);
+    } else if (this->GetEntityType() == "mother") {
+        QPixmap original = textureCache[imagePath];
+        QSize newSize(original.width() * 2, original.height() * 2);
+        QPixmap scaledPixmap = original.scaled(newSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        setPixmap(scaledPixmap);
     }
     else {
         setPixmap(textureCache[imagePath]);
@@ -100,7 +105,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie" || this->entityType == "spore" || this->entityType == "turret"){
+    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie" || this->entityType == "spore" || this->entityType == "turret" || this->entityType == "mother"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
@@ -217,7 +222,7 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
-                } else if (type == "basic" || type == "runner" || type == "pZombie" || type == "spore" || type == "turret"){
+                } else if (type == "basic" || type == "runner" || type == "pZombie" || type == "spore" || type == "turret" || type == "mother"){
                     if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
                         //qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
@@ -255,7 +260,7 @@ bool Entity::PreventMovementCollision(){
                 } 
             }
 
-            else if(myType == "spore"){
+            else if(myType == "spore" || myType == "mother"){ //Because mother is not slowed
                 if(spawningTimer <= 0){ //spawn 2 runners every x seconds
                     ;
                 } else if(type == "player"){

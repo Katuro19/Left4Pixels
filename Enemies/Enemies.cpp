@@ -31,10 +31,11 @@ void Enemy::ChooseDestination(){
     setTransformOriginPoint(pixmap().width() / 2.0, pixmap().height() / 2.0);
     qreal angle = std::atan2(direction.y(), direction.x()) * 180.0 / M_PI;
 
-    if(this->Visual != nullptr)
-        this->Visual->setRotation(angle);
-    else
-        this->setRotation(angle);
+    if(this->Visual != nullptr){
+        //this->Visual->setRotation(angle);
+        this->setRotation(angle); //we move everything : since zombies are not affected by walls
+
+    } else{ this->setRotation(angle); }
 
 
     qreal length = std::sqrt(direction.x() * direction.x() + direction.y() * direction.y());
@@ -81,6 +82,22 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
             this->spawningTimer -= deltaTime;
         }
 
+    } else if(this->GetEntityType() == "mother"){
+        QPointF thisPos;
+        if(this->spawningTimer <= 0){
+            thisPos = this->mapToScene(0,0);
+            parentScene->SpawnEnemies("pZombie", 1, thisPos, QPointF(0, 120), false);
+            spawningTimer = baseSpawningTimer;
+        } else {
+            this->spawningTimer -= deltaTime;
+        }
+        if(this->altSpawningTimer <= 0){
+            thisPos = this->mapToScene(0,0);
+            parentScene->SpawnEnemies("basic", 2, thisPos, QPointF(120, 120), false);
+            altSpawningTimer = altBaseSpawningTimer;
+        } else {
+            this->altSpawningTimer -= deltaTime;
+        }
     }
 
     this->ChooseDestination();
@@ -104,7 +121,7 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
     if(type == "runner"){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/runner.png"),"runner", this->parentScene, this->IsVerbose());
         speed = 1500;
-        hp = 70;
+        hp = 50;
         damage = 5;
         zGrace = 0.3;
         givenScore = 10;
@@ -145,6 +162,19 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         this->spawningTimer = 5;
         this->baseSpawningTimer = 5; //in seconds
         givenScore = 30;
+
+    }
+    else if(type == "mother"){ //Mother of all zombies !
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/mother.png"),"mother", this->parentScene, this->IsVerbose());
+        speed = 250;
+        hp = 4000;
+        damage = 40;
+        zGrace = 1;
+        this->spawningTimer = 0.5;
+        this->baseSpawningTimer = 0.5; //in seconds
+        this->altSpawningTimer = 7;
+        this->altBaseSpawningTimer = 7; //in seconds
+        givenScore = 100;
 
     }
     else {

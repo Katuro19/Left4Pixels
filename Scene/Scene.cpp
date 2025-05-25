@@ -337,7 +337,7 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
     QString hitboxLink;
 
 
-    if(type == "basic" || type == "spore"){
+    if(type == "basic" || type == "spore" || type == "mother"){
         hitboxLink = "../Resources/Textures/Characters/Zombies/basicHitbox.png";
 
     } else if(type == "runner" || type == "pZombie" || type == "turret"){
@@ -358,9 +358,35 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
 
 
 void Scene::WaveSpawn(){
-    QPointF spawnPos = GetSpawnPointAroundPlayer(1200); // par ex. 300px autour
-    SpawnEnemies("basic",1, spawnPos, QPointF(100,100));
+    QPointF spawnPos; // Value is range
 
+    for(int y=0; y < baseSpawnNumber; y++){
+        spawnPos = GetSpawnPointAroundPlayer(1200);
+        SpawnEnemies("basic",1, spawnPos, QPointF(0,0));
+    }
+    
+    if(this->GetScore() >= miniBossSpawn){
+        miniBossSpawn *= 2; //Double it and give it to the next person
+
+        for(int i=0; i < baseSpawnNumber; i++){
+            spawnPos = GetSpawnPointAroundPlayer(1200);
+            int index = rand() % miniBossEnemies.size();  // entre 0 et size - 1
+            qDebug() << index;
+            QString chosenEnemy = miniBossEnemies[index];
+            SpawnEnemies(chosenEnemy,1, spawnPos, QPointF(0,0), false);
+        }
+
+    }
+
+    if(this->GetScore() >= bossSpawn){
+        bossSpawn *= 2;
+        for(int w=0; w < baseSpawnNumber; w++){
+            spawnPos = GetSpawnPointAroundPlayer(1400); //spawn a bit further
+            SpawnEnemies("mother",1, spawnPos, QPointF(0,0), true);
+        }
+        this->baseSpawnNumber++;
+
+    }
 }
 
 QPointF Scene::GetSpawnPointAroundPlayer(float distance) {
