@@ -9,6 +9,7 @@ URGENT :
 
     - Make a cache for the projectiles to gain more fps
         -> Use the "reset" function in projectiles
+        -> Instead of deleting at 0 hp, you can hide them !
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)

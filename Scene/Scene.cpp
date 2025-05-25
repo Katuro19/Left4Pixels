@@ -116,6 +116,14 @@ void Scene::update() {
     frameTimer.restart();                    // remet le chrono à 0
     float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
 
+    if(spawnTimer <= 0){
+        WaveSpawn();
+        spawnTimer = 3;
+    } else {
+        spawnTimer -= deltaTime;
+    }
+
+
     DebugFps();
 
     for (int i = 0; i < Entities.size(); ++i) {
@@ -317,6 +325,7 @@ void Scene::DeleteEntity(int index) {
                  << "of type" << entity->GetEntityType()
                  << "with UID" << entity->GetUid();
 
+    this->AddScore(entity->givenScore);
     this->removeItem(entity); // remove from QGraphicsScene
     Entities.erase(Entities.begin() + index); // Remove using the index directly taken from the main update
     delete entity;
@@ -348,6 +357,20 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
 }
 
 
+void Scene::WaveSpawn(){
+    QPointF spawnPos = GetSpawnPointAroundPlayer(1200); // par ex. 300px autour
+    SpawnEnemies("basic",1, spawnPos, QPointF(100,100));
+
+}
+
+QPointF Scene::GetSpawnPointAroundPlayer(float distance) {
+    float angle = static_cast<float>(rand()) / RAND_MAX * 2 * M_PI; // angle entre 0 et 2π
+    float dx = std::cos(angle) * distance;
+    float dy = std::sin(angle) * distance;
+
+    QPointF playerPos = player->pos(); // ou player->GetRealCenter() si tu veux le centre exact
+    return QPointF(playerPos.x() + dx, playerPos.y() + dy);
+}
 
 
 
@@ -367,6 +390,8 @@ void Scene::DebugFps(){
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
         qDebug() << "FPS:" << frameCount;
         qDebug() << "Player HP :" << this->player->GetHp();
+        qDebug() << "Score :" << this->GetScore();
+
         frameCount = 0;
         elapsedTimer.restart();
     }

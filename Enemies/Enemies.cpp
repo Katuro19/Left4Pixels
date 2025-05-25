@@ -107,6 +107,7 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         hp = 70;
         damage = 5;
         zGrace = 0.3;
+        givenScore = 10;
     }
     else if(type == "basic"){
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
@@ -114,6 +115,8 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         hp = 350;
         damage = 50;
         zGrace = 1.5;
+        givenScore = 5;
+
     }
     else if(type == "pZombie"){ //These are not really zombie, more of projectiles sent by zombie. Note that the hitbox is the same as runners
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/pZombie.png"),"pZombie", this->parentScene, this->IsVerbose());
@@ -125,11 +128,13 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
     else if(type == "spore"){ //Spores moove slowly and spawn runners, but they are not affected by environment. Good strat is melee them
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/spore.png"),"spore", this->parentScene, this->IsVerbose());
         speed = 100;
-        hp = 1000;
+        hp = 1500;
         damage = 3;
         zGrace = 2;
-        this->spawningTimer = 10;
-        this->baseSpawningTimer = 10; //in seconds
+        this->spawningTimer = 7;
+        this->baseSpawningTimer = 7; //in seconds
+        givenScore = 20;
+
     }
     else if(type == "turret"){ //Turret are fat zombies that shoots loads of projectiles. You need to aim at their eyes
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/turret.png"),"turret", this->parentScene, this->IsVerbose());
@@ -139,6 +144,8 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         zGrace = 2;
         this->spawningTimer = 5;
         this->baseSpawningTimer = 5; //in seconds
+        givenScore = 30;
+
     }
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;

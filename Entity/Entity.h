@@ -197,6 +197,7 @@ public:
     float usualGrace = 0; // Usual grace can be useful for enemies entity
     float spawningTimer = 0; //Spawning timer can be useful for entities that spawn things
     float baseSpawningTimer = 0;
+    int givenScore = 0; //Useful for entities that can be killed for score
 
 protected:
     Scene* parentScene; //useful
