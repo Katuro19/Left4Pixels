@@ -1,5 +1,5 @@
 #include "Enemies.h"
-
+#include "Scene.h"
 
 Enemy::Enemy(QGraphicsItem* parent, QString filePath, QString entityType, Scene* scene, bool verbose)
     : Entity(parent, filePath, entityType, scene, verbose){ //Call entity for the scene !
@@ -12,7 +12,7 @@ Enemy::Enemy(QGraphicsItem* parent, QString filePath, QString entityType, Scene*
 }
 
 Enemy::~Enemy() {
-
+    if(parentScene) parentScene->currentEnemyCount--;
 }
 
 
@@ -64,7 +64,7 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
 
     if(this->GetEntityType() == "spore"){
         if(this->spawningTimer <= 0){
-            QPointF thisPos = this->mapToScene(0,0) - QPointF(100,100);
+            QPointF thisPos = this->GetRealCenter() - QPointF(100,100);
             parentScene->SpawnEnemies("runner", 2, thisPos, QPointF(200, 200), false);
             spawningTimer = baseSpawningTimer;
         } else {
@@ -73,7 +73,7 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
 
     } else if(this->GetEntityType() == "turret"){
         if(this->spawningTimer <= 0){
-            QPointF thisPos = this->mapToScene(0,0) - QPointF(120,0);
+            QPointF thisPos = this->GetRealCenter() - QPointF(120,0);
             parentScene->SpawnEnemies("pZombie", 2, thisPos, QPointF(0, 120), false);
             thisPos = this->mapToScene(0,0) - QPointF(0,120);
             parentScene->SpawnEnemies("pZombie", 2, thisPos, QPointF(120, 0), false);
@@ -85,14 +85,14 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
     } else if(this->GetEntityType() == "mother"){
         QPointF thisPos;
         if(this->spawningTimer <= 0){
-            thisPos = this->mapToScene(0,0);
+            thisPos = this->GetRealCenter();
             parentScene->SpawnEnemies("pZombie", 1, thisPos, QPointF(0, 120), false);
             spawningTimer = baseSpawningTimer;
         } else {
             this->spawningTimer -= deltaTime;
         }
         if(this->altSpawningTimer <= 0){
-            thisPos = this->mapToScene(0,0);
+            thisPos = this->GetRealCenter();
             parentScene->SpawnEnemies("basic", 2, thisPos, QPointF(120, 120), false);
             altSpawningTimer = altBaseSpawningTimer;
         } else {

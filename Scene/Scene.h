@@ -85,6 +85,13 @@ public:
     QVector<QString> miniBossEnemies = {"spore", "turret"};
     QVector<QString> bossEnemies = {"mother"};
 
+    int currentEnemyCount;
+    int maxEnemies = 35;
+
+
+    //Optimisation :
+    QList<Projectile*> projectilePool;
+    Projectile* GetProjectileFromPool();
 
 
 

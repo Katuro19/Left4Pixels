@@ -236,24 +236,48 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 void Scene::HandleShooting(const QPointF mousePos) {
     Weapon *weapon = this->player->GetEquippedWeapon();
 
-    Projectile* projectile = new Projectile(
-        nullptr, //parent
-        "../Resources/Textures/Projectiles/deagle_bullet.png",  //Path
-        "projectile", //Type
-        mousePos, //Target
-        player->pos(), //start pos
-        weapon->GetDamages(),  //Damage
-        false, //Is breakable?
-        0, //pierces
-        0, //bounces
-        weapon->GetBulletLife(), //HP
-        weapon->GetBulletSpeed(), //Speed
-        weapon->GetErrorAngle(), //Error angle
-        this, //scene
-        false //verbose
-    );
+    Projectile* projectile = GetProjectileFromPool();
 
-    this->AddEntity(projectile);
+    if (projectile) {
+        projectile->Reset(
+            mousePos,
+            player->pos(),
+            weapon->GetDamages(),
+            weapon->GetBulletLife(),
+            weapon->GetBulletSpeed(),
+            weapon->GetErrorAngle()
+        );
+    } else {
+        projectile = new Projectile(
+            nullptr, //parent
+            "../Resources/Textures/Projectiles/deagle_bullet.png",  //Path
+            "projectile", //Type
+            mousePos, //Target
+            player->pos(), //start pos
+            weapon->GetDamages(),  //Damage
+            false, //Is breakable?
+            0, //pierces
+            0, //bounces
+            weapon->GetBulletLife(), //HP
+            weapon->GetBulletSpeed(), //Speed
+            weapon->GetErrorAngle(), //Error angle
+            this, //scene
+            false //verbose
+        );
+        projectilePool.append(projectile); // Ajoute au pool pour la suite
+        this->AddEntity(projectile);
+    }
+    
+}
+
+
+Projectile* Scene::GetProjectileFromPool() {
+    for (Projectile* p : projectilePool) {
+        if (!p->isVisible()) {
+            return p;  // réutilise un projectile caché
+        }
+    }
+    return nullptr; // pas dispo, faudra en créer un
 }
 
 void Scene::UpdateDirection() const {
@@ -336,7 +360,6 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
 
     QString hitboxLink;
 
-
     if(type == "basic" || type == "spore" || type == "mother"){
         hitboxLink = "../Resources/Textures/Characters/Zombies/basicHitbox.png";
 
@@ -348,9 +371,12 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
     }
 
     for(int i=0; i < number; i++){
-        Enemy* zombie = new Enemy(nullptr,hitboxLink,type, this, verbose);
-        this->AddEntity(zombie, true, position);
-        position += spacing;
+        if(currentEnemyCount <= 35){
+            this->currentEnemyCount++;
+            Enemy* zombie = new Enemy(nullptr,hitboxLink,type, this, verbose);
+            this->AddEntity(zombie, true, position);
+            position += spacing;
+        }
     }
     //Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
 
@@ -417,6 +443,7 @@ void Scene::DebugFps(){
         qDebug() << "FPS:" << frameCount;
         qDebug() << "Player HP :" << this->player->GetHp();
         qDebug() << "Score :" << this->GetScore();
+        qDebug() << "Enemies !" << this->currentEnemyCount;
 
         frameCount = 0;
         elapsedTimer.restart();

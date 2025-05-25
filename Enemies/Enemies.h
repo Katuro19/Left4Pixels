@@ -2,7 +2,6 @@
 #define ENEMIES_H
 
 #include "Entity.h"
-#include "Scene.h"
 
 #include <string>  
 

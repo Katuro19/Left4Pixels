@@ -82,11 +82,14 @@ void Projectile::UpdateDirection() {
 
 
 void Projectile::UpdateMovement(float deltaTime, int steps){
+    if(this->GetSpeed() == 0){
+        return;
+    }
 
     QRectF sceneBounds = this->parentScene->sceneRect(); // taille logique de la scène
     QRectF itemBounds = this->sceneBoundingRect();
 
-    if (!sceneBounds.intersects(itemBounds)) {this->TriggerDelete();}
+    if (!sceneBounds.intersects(itemBounds)) {this->SetHp(0);}
 
 
     float cooldownTimer = GetInternTimer() - deltaTime; //Only deltaTime because nothing affects the projectile
@@ -103,7 +106,10 @@ void Projectile::UpdateMovement(float deltaTime, int steps){
 
     //qDebug() << this->HP;
     if(this->HP <= 0){
-        this->TriggerDelete();
+        this->setVisible(false); // cache-le au lieu de delete
+        this->SetHp(0);  
+        this->SetBaseSpeed(0);
+        //this->TriggerDelete();
         //parentScene->DeleteEntity(this);
 
     } else {
