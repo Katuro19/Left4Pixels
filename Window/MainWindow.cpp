@@ -127,10 +127,12 @@ void MainWindow::LoadGame() {
 
     scene->player->setPos(scene->player->pos().x(), scene->player->pos().y());
 
+
+
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
 
-    mainScene->togglePause();
+    scene->update();
 }
 
 

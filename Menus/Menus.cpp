@@ -13,37 +13,43 @@ void Menus::AjouterTitre(const QString &texte) {
 }
 
 void Menus::AjouterBouton(const QString &texte, int x, int y, std::function<void()> callback) {
-    QGraphicsRectItem *button = new QGraphicsRectItem(0, 0, 200, 50);
+    // Détecter la scale actuelle
+    qreal scale = scene->views().first()->transform().m11();
+
+    // Ajuster la taille selon la scale
+    int largeur = scale < 1.0 ? 200 / scale : 200;
+    int hauteur = scale < 1.0 ? 50 / scale : 50;
+
+    // Créer le bouton visuel avec la taille ajustée
+    QGraphicsRectItem *button = new QGraphicsRectItem(0, 0, largeur, hauteur);
     button->setBrush(QBrush(Qt::darkGray));
     button->setPen(QPen(Qt::white));
     button->setPos(x, y);
-
-    // Mettre un Z-index élevé pour le bouton visuel
     button->setZValue(99);
 
+    // Créer le texte avec une taille de police ajustée
     QGraphicsTextItem *label = new QGraphicsTextItem(texte, button);
-    QFont font("Arial", 16);
+    QFont font("Arial", scale < 1.0 ? 16 / scale : 16);  // Ajuster la taille de police
     label->setFont(font);
     label->setDefaultTextColor(Qt::white);
-    label->setPos(100 - label->boundingRect().width() / 2, 10);
 
-    // Créer un bouton cliquable avec un Z-index ENCORE PLUS élevé
+    // Centrer le texte dans le bouton ajusté
+    label->setPos(largeur/2 - label->boundingRect().width() / 2,
+                  hauteur/2 - label->boundingRect().height() / 2);
+
+    // Créer la zone cliquable avec la même taille ajustée
     CustomButton *clickable = new CustomButton(callback);
-    clickable->setRect(0, 0, 200, 50);
+    clickable->setRect(0, 0, largeur, hauteur);  // Même taille que le bouton visuel
     clickable->setBrush(Qt::NoBrush);
     clickable->setPen(Qt::NoPen);
     clickable->setPos(x, y);
-
-    // Z-index plus élevé que le fond ET que le bouton visuel
     clickable->setZValue(101);
-
-    // S'assurer que le bouton accepte les événements de souris
     clickable->setAcceptedMouseButtons(Qt::LeftButton);
 
     scene->addItem(button);
     scene->addItem(clickable);
 
-    // Si nous sommes en train de créer des boutons pour le menu pause, ajoutons-les à la liste
+    // Si nous sommes en train de créer des boutons pour le menu pause
     if (!elementsPause.isEmpty()) {
         elementsPause.append(button);
         elementsPause.append(clickable);
@@ -59,8 +65,8 @@ void Menus::AfficherMenuPrincipal(std::function<void()> nouvellePartieCallback, 
     ajouterBouton("Story mode", 400, 250, [this]() {afficherChoixMap("Story");});
     ajouterBouton("Wave mode", 400, 330, [this]() {afficherChoixMap("Wave");});*/
     AjouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
-    AjouterBouton("Charger Partie", 400, 290, chargerPartieCallback);
-    AjouterBouton("Quitter", 400, 330, []() {
+    AjouterBouton("Charger Partie", 400, 330, chargerPartieCallback);
+    AjouterBouton("Quitter", 400, 410, []() {
         qApp->quit();
     });
 }
@@ -127,20 +133,22 @@ void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onRepr
     scene->addItem(titre);
     elementsPause.append(titre);
 
+    //qDebug() << "Échelle de la vue:" << scene->views().first()->transform().m11();
+
     // Utiliser ajouterBouton pour créer chaque bouton
-    AjouterBouton("Reprendre", centre.x() - 100, centre.y() - 80, [this, onReprendre]() {
-        qDebug() << "Bouton Reprendre cliqué";
+    AjouterBouton("Reprendre", centre.x() - 200, centre.y() - 120, [this, onReprendre]() {
+        //qDebug() << "Bouton Reprendre cliqué";
         MasquerMenuPause();
         onReprendre();
     });
 
-    AjouterBouton("Sauvegarder", centre.x() - 100, centre.y() - 10, [this, onSauvegarder]() {
-        qDebug() << "Bouton Sauvegarder cliqué";
+    AjouterBouton("Sauvegarder", centre.x() - 200, centre.y(), [this, onSauvegarder]() {
+        //qDebug() << "Bouton Sauvegarder cliqué";
         onSauvegarder();
     });
 
-    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 60, [this, onQuitter]() {
-        qDebug() << "Bouton Quitter cliqué";
+    AjouterBouton("Quitter", centre.x() - 200, centre.y() + 120, [this, onQuitter]() {
+        //qDebug() << "Bouton Quitter cliqué";
         onQuitter();
     });
 }
@@ -161,7 +169,7 @@ void Menus::MasquerMenuPause() {
     elementsPause.clear();
     fondPause = nullptr;
 
-    qDebug() << "Menu pause masqué";
+    //qDebug() << "Menu pause masqué";
 }
 
 void Menus::AjouterMainWindow(MainWindow* mainWindow) {

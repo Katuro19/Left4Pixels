@@ -92,7 +92,10 @@ void SaveGame(Scene *scene) {
 
 
 Scene* LoadSave() {
-    QString fullpath = QFileDialog::getOpenFileName(nullptr, "Sélectioner la sauvegarde", "", "Tous les fichiers (*.json)");
+
+    QString fullpath = QFileDialog::getOpenFileName(nullptr,"Sélectionner la sauvegarde", GeSavedGamesPath(),"Tous les fichiers (*.json)");
+
+
     if (fullpath.isEmpty()) {
         qDebug() << "Aucun fichier sélectionné";
         return nullptr;
@@ -118,6 +121,7 @@ Scene* LoadSave() {
 
     Scene* scene= new Scene(nullptr);
 
+    QPointF playerPos(0, 0);
 
     QJsonObject rootObject = jsonDoc.object();
 
@@ -151,9 +155,9 @@ Scene* LoadSave() {
         Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,scene,true);
 
         scene->player = player;
-
-
+        playerPos = QPointF(playerPosX, playerPosY);
         scene->player->setPos(playerPosX, playerPosY);
+        scene->SetPlayerPos(QPointF(playerPosX, playerPosY));
 
         // Charger le vêtement du joueur
 
@@ -211,10 +215,31 @@ Scene* LoadSave() {
         scene->SetMapName(mapName);
         scene->SetMode(mode);
 
-        MapLoader* mapLoader = new MapLoader(scene->GetMapName(), *scene);
+        new MapLoader(scene->GetMapName(), *scene);
     }
+
+    scene->SetPlayerPos(playerPos);
 
     qDebug() << "Chargement terminé depuis" << fullpath;
 
     return scene; // Retourner la scène chargée
+}
+
+
+QString GeSavedGamesPath() {
+
+    // This function returns the path to the Saved Games directory for Windows users in WSL.
+    QDir usersDir("/mnt/c/Users");
+    QStringList users = usersDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+
+    for (const QString &user : users) {
+        if (user != "Default" && user != "Public" && user != "All Users" && user != "Default User") {
+            QString testPath = "/mnt/c/Users/" + user + "/Saved Games";
+            if (QDir(testPath).exists()) {
+                return testPath;
+            }
+        }
+    }
+
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 }

@@ -10,6 +10,8 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QDebug>
+#include <QStandardPaths>
+#include <QDir>
 
 #include "Scene.h"
 
@@ -17,5 +19,7 @@
 
 void SaveGame(Scene *scene);
 Scene* LoadSave();
+QString GeSavedGamesPath();
+
 
 #endif //SAVES_H
