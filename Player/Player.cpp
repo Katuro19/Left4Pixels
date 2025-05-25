@@ -18,6 +18,20 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     textItem->setPos(0,offsetY);
 
     reloadingText = textItem;
+
+
+    QGraphicsTextItem* ammoText = new QGraphicsTextItem("0 / 0");
+    ammoText->setFont(QFont("Arial", 45, QFont::Bold));
+    ammoText->setDefaultTextColor(Qt::white);
+    ammoText->setPos(this->GetRealCenter() + QPointF(-256 * 4 + 150, 256 * 3)); // Décalé de l’icône
+    parentScene->addItem(ammoText);
+    ammoText->setParentItem(this);
+
+
+    this->ammoUi = ammoText;
+    ammoUi->setZValue(1000);
+
+
 }
 
 Player::~Player() {
@@ -97,6 +111,13 @@ Entity* Player::GetCloth() const {
 
 
 void Player::UpdateMovement(float deltaTime, int steps) {
+
+    int currentAmmo = this->GetEquippedWeapon()->GetMagazine();
+    int maxAmmo = this->GetEquippedWeapon()->maxMag;
+    this->ammoUi->setPlainText(QString("%1 / %2").arg(currentAmmo).arg(maxAmmo));
+    this->ammoUi->setZValue(1000);
+
+
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
         qDebug() << "you are die";
@@ -120,6 +141,8 @@ void Player::UpdateMovement(float deltaTime, int steps) {
         //reloadingText->setPos(this->mapToScene(0, 0)); // place à la même position que l'item
         reloadingText->setPlainText(QString("Reloading %1s").arg(QString::number(weaponReloadTimeout, 'f', 1)));
         reloadingText->setVisible(true);
+        this->ammoUi->setPlainText(QString("%1 / %2").arg(0).arg(maxAmmo));
+
 
     } else {reloadingText->setVisible(false);}
 

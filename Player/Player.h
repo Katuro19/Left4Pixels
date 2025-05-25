@@ -5,6 +5,8 @@
 #include "Scene.h"
 
 
+
+
 class Scene; //Forward declaration
 class Weapon; //Forward declaration
 
@@ -47,6 +49,9 @@ class Player : public Entity {
     int GetHealthpoints() const;
 
     void UpdateMovement(float deltaTime, int steps = 1) override;
+
+    QGraphicsTextItem* ammoUi;
+
 
 };
 

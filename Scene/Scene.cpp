@@ -123,7 +123,6 @@ void Scene::update() {
         spawnTimer -= deltaTime;
     }
 
-
     DebugFps();
 
     for (int i = 0; i < Entities.size(); ++i) {

@@ -67,7 +67,7 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     (*player).SetId(QStringLiteral("Cube"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
 
-    player->SetWeapon(primary,0,"M1918");
+    player->SetWeapon(primary,0,"M249");
     player->SetWeapon(secondary,1,"deagle");
     player->SetCloth(outfit);
 

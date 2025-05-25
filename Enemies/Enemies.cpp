@@ -130,7 +130,7 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
         speed = 350;
         hp = 350;
-        damage = 50;
+        damage = 20;
         zGrace = 1.5;
         givenScore = 5;
 

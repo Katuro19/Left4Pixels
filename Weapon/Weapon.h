@@ -24,7 +24,6 @@ private:
     float RPS; //Round per sec - attack speed, in fact
     float baseRPS;
     int magazine=0;
-    int maxMag=0;
     float speedBoost; //Speed boost is for the RPS, not the movement speed, duh.
     int bulletSpeed;
     float errorAngle;
@@ -41,6 +40,7 @@ private:
 
 public:
     float reloadTimeout = 0;
+    int maxMag=0;
 
 
     explicit Weapon(QGraphicsItem* parent = nullptr,QString filePath = "",QString entityType = "weapon",Scene* scene = nullptr,int damage = 10, bool verbose=false);
