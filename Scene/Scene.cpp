@@ -457,7 +457,7 @@ void Scene::togglePause() {
 
     if (isPaused) {
         // Afficher le menu de pause
-        menus->AfficherMenuPause(player->pos(),
+        menus->AfficherMenuPause(player->GetRealCenter(),
             [this]() {
                 isPaused = false;
             },

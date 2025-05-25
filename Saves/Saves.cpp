@@ -35,7 +35,7 @@ void SaveGame(Scene *scene) {
     // Données de la scène
     QJsonObject sceneObject;
     sceneObject["NB_Spawned_Entities"] = scene->GetSpawnedEntities();
-    sceneObject["Is_Paused"] = scene->GetIsPaused();
+    sceneObject["Is_Paused"] = !(scene->GetIsPaused());
     rootObject["Scene"] = sceneObject;
 
     qDebug() << "Saving map data...";
@@ -99,6 +99,7 @@ Scene* LoadSave() {
     }
     QFile file(fullpath);
 
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Erreur: impossible d'ouvrir le fichier" << fullpath;
         return nullptr;
@@ -117,10 +118,12 @@ Scene* LoadSave() {
 
     Scene* scene= new Scene(nullptr);
 
+
     QJsonObject rootObject = jsonDoc.object();
 
     // Lecture des données de la scène
     if (rootObject.contains("Scene")) {
+
         QJsonObject sceneObject = rootObject["Scene"].toObject();
 
         int nbSpawnedEntities = sceneObject["NB_Spawned_Entities"].toInt();
@@ -132,23 +135,11 @@ Scene* LoadSave() {
         scene->SetIsPaused(isPaused);
     }
 
-    // Lecture des données de la carte
-    if (rootObject.contains("Map")) {
-        QJsonObject mapObject = rootObject["Map"].toObject();
 
-        QString mapName = mapObject["Map_Name"].toString();
-        QString mode = mapObject["Mode"].toString();
-
-        qDebug() << "Chargement carte - Nom:" << mapName << "Mode:" << mode;
-
-        scene->SetMapName(mapName);
-        scene->SetMode(mode);
-
-        MapLoader* mapLoader = new MapLoader(scene->GetMapName(), *scene);
-    }
 
     // Lecture des données du joueur
     if (rootObject.contains("Player")) {
+
         QJsonObject playerObject = rootObject["Player"].toObject();
 
         int playerPosX = playerObject["Player_pos_x"].toInt();
@@ -166,13 +157,18 @@ Scene* LoadSave() {
 
         // Charger le vêtement du joueur
 
-        QString outfit_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(cloth);
+
+        QString outfit_texturePath = QString("../Resources/Textures/Cosmetics/Player/%1.png").arg(cloth);
+        (*player).SetId("Cube");
         Entity* outfit = new Entity(scene->player,outfit_texturePath,"cosmetic", scene);
+        (*outfit).SetId(cloth);
         scene->player->SetCloth(outfit);
+
     }
 
     // Lecture des données des armes
     if (rootObject.contains("Weapons")) {
+
         QJsonObject weaponsObject = rootObject["Weapons"].toObject();
 
         qDebug() << "Chargement des armes...";
@@ -202,7 +198,21 @@ Scene* LoadSave() {
         }
     }
 
+    // Lecture des données de la carte
+    if (rootObject.contains("Map")) {
 
+        QJsonObject mapObject = rootObject["Map"].toObject();
+
+        QString mapName = mapObject["Map_Name"].toString();
+        QString mode = mapObject["Mode"].toString();
+
+        qDebug() << "Chargement carte - Nom:" << mapName << "Mode:" << mode;
+
+        scene->SetMapName(mapName);
+        scene->SetMode(mode);
+
+        MapLoader* mapLoader = new MapLoader(scene->GetMapName(), *scene);
+    }
 
     qDebug() << "Chargement terminé depuis" << fullpath;
 

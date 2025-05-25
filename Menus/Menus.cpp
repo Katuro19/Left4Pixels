@@ -50,7 +50,7 @@ void Menus::AjouterBouton(const QString &texte, int x, int y, std::function<void
     }
 }
 
-void Menus::AfficherMenuPrincipal(std::function<void()> nouvellePartieCallback) {
+void Menus::AfficherMenuPrincipal(std::function<void()> nouvellePartieCallback, std::function<void()> chargerPartieCallback) {
     scene->clear();
     scene->setBackgroundBrush(QColor(30, 30, 30));
     AjouterTitre("Left4Pixels - Menu Principal");
@@ -59,6 +59,7 @@ void Menus::AfficherMenuPrincipal(std::function<void()> nouvellePartieCallback) 
     ajouterBouton("Story mode", 400, 250, [this]() {afficherChoixMap("Story");});
     ajouterBouton("Wave mode", 400, 330, [this]() {afficherChoixMap("Wave");});*/
     AjouterBouton("Nouvelle Partie", 400, 250, nouvellePartieCallback);
+    AjouterBouton("Charger Partie", 400, 290, chargerPartieCallback);
     AjouterBouton("Quitter", 400, 330, []() {
         qApp->quit();
     });
