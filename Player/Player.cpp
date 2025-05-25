@@ -120,7 +120,7 @@ void Player::UpdateMovement(float deltaTime, int steps) {
 
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
-        qDebug() << "you are die";
+        //qDebug() << "you are die";
         return;
     }
 
