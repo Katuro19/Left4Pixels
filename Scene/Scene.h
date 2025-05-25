@@ -74,6 +74,8 @@ public:
 
     void SpawnEnemies(QString type, int number, QPointF position, QPointF spacing, bool verbose = false);
 
+    void togglePause();
+
     void WaveSpawn();
     QPointF GetSpawnPointAroundPlayer(float distance);
 
@@ -123,7 +125,7 @@ private:
 
     bool isPaused = false;
     QVector<QGraphicsItem*> pauseMenuItems;
-    void togglePause();
+
     Menus* menus = nullptr;
 
     QString map_name;
