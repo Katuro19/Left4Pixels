@@ -127,6 +127,7 @@ void MainWindow::LoadGame() {
 
     scene->player->setPos(scene->player->pos().x(), scene->player->pos().y());
 
+    scene->currentEnemyCount = 0; // Reset enemy count, since we load a save and enemies are not saved
 
 
     mainView->scale(0.5,0.5);
