@@ -74,6 +74,8 @@ public:
 
     void SpawnEnemies(QString type, int number, QPointF position, QPointF spacing, bool verbose = false);
 
+    void WaveSpawn();
+
 public slots:
     void update();
 

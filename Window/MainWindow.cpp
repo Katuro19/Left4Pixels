@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     setFixedSize(1000, 1000);
 
 
-    //StartGame("Lotus", "wave");
-    SetupMenuScene();
+    StartGame("Debug", "wave");
+    //SetupMenuScene();
 }
 
 void MainWindow::SetupMenuScene() {
@@ -53,7 +53,7 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,mainScene,true);
     mainScene->player = player;
 
-    Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/M249.png"),"weapon", mainScene, 10, false);
+    Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/M1918.png"),"weapon", mainScene, 10, false);
     Weapon* secondary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", mainScene, 10, false);
     Entity* outfit = new Entity(player,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", mainScene);
 
@@ -67,7 +67,7 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     (*player).SetId(QStringLiteral("Cube"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
 
-    player->SetWeapon(primary,0,"M249");
+    player->SetWeapon(primary,0,"M1918");
     player->SetWeapon(secondary,1,"deagle");
     player->SetCloth(outfit);
 
@@ -81,6 +81,8 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
     for(Entity* entity : toPreLoad) {
         mainScene->AddEntity(entity);
     }
+
+    mainScene->SpawnEnemies("turret", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), true);
 
     secondary->setVisible(false);
 

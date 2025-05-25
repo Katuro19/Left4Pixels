@@ -24,8 +24,8 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
         Entity* outfit = new Entity(superCube,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", this);
 
 
-        Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
-        Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
+        //Enemy* zombie = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/runnerHitbox.png"),"runner", this, true);
+        //Enemy* zombie2 = new Enemy(nullptr,QStringLiteral("../Resources/Textures/Characters/Zombies/basicHitbox.png"),"basic", this, true);
 
         // Projectile* projectile = new Projectile(nullptr,"../Resources/Items/image.png", "projectile", {100,100},{400,400},0,false,0,0,100,1, this);
 
@@ -69,7 +69,6 @@ Scene::Scene(QObject* parent) : QGraphicsScene(parent) {
         }
 
         secondary->setVisible(false);
-        this->SpawnEnemies("spore", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
         //this->SpawnEnemies("basic", 2, QPointF(4 * 256, 4 * 256), QPointF(256, 0), true);
 
 
@@ -332,7 +331,7 @@ void Scene::SpawnEnemies(QString type, int number, QPointF position, QPointF spa
     if(type == "basic" || type == "spore"){
         hitboxLink = "../Resources/Textures/Characters/Zombies/basicHitbox.png";
 
-    } else if(type == "runner" || type == "pZombie"){
+    } else if(type == "runner" || type == "pZombie" || type == "turret"){
         hitboxLink = "../Resources/Textures/Characters/Zombies/runnerHitbox.png";
     } else {
         QString errorMessage = "❌ Enemy type " + (type) + " does not exist or is not defined in Scene::SpawnEnemies";
@@ -367,6 +366,7 @@ void Scene::DebugFps(){
     
     if (elapsedTimer.elapsed() >= 1000) { // 1000 ms = 1s
         qDebug() << "FPS:" << frameCount;
+        qDebug() << "Player HP :" << this->player->GetHp();
         frameCount = 0;
         elapsedTimer.restart();
     }

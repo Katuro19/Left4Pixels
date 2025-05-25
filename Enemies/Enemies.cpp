@@ -70,6 +70,17 @@ void Enemy::UpdateMovement(float deltaTime, int steps){
             this->spawningTimer -= deltaTime;
         }
 
+    } else if(this->GetEntityType() == "turret"){
+        if(this->spawningTimer <= 0){
+            QPointF thisPos = this->mapToScene(0,0) - QPointF(120,0);
+            parentScene->SpawnEnemies("pZombie", 2, thisPos, QPointF(0, 120), false);
+            thisPos = this->mapToScene(0,0) - QPointF(0,120);
+            parentScene->SpawnEnemies("pZombie", 2, thisPos, QPointF(120, 0), false);
+            spawningTimer = baseSpawningTimer;
+        } else {
+            this->spawningTimer -= deltaTime;
+        }
+
     }
 
     this->ChooseDestination();
@@ -119,6 +130,15 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         zGrace = 2;
         this->spawningTimer = 10;
         this->baseSpawningTimer = 10; //in seconds
+    }
+    else if(type == "turret"){ //Turret are fat zombies that shoots loads of projectiles. You need to aim at their eyes
+        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/turret.png"),"turret", this->parentScene, this->IsVerbose());
+        speed = 200;
+        hp = 1500;
+        damage = 40;
+        zGrace = 2;
+        this->spawningTimer = 5;
+        this->baseSpawningTimer = 5; //in seconds
     }
     else {
         qDebug() << "⚠️ Unknown enemy type :" << type;

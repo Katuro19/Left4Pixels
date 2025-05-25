@@ -75,8 +75,18 @@ void Entity::LoadTexture(const QString &imagePath) {
             qDebug() << "✅ Texture already in cache for:" << imagePath;
     }
 
-    // Applique la texture (depuis le cache à coup sûr)
-    setPixmap(textureCache[imagePath]);
+    //Special scale
+    if (this->GetEntityType() == "turret") {
+        QPixmap original = textureCache[imagePath];
+        QSize newSize(original.width() * 1.5, original.height() * 1.5);
+        QPixmap scaledPixmap = original.scaled(newSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        setPixmap(scaledPixmap);
+    }
+    else {
+        setPixmap(textureCache[imagePath]);
+    }
+
+
 }
 
 
@@ -90,7 +100,7 @@ void Entity::SetDefaultSpeed(){ //Set the default speed for basic entities
     else if(this->entityType == "player"){
         SetSpeed(3.0);
     }
-    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie" || this->entityType == "spore"){
+    else if(this->entityType == "runner" || this->entityType == "basic" || this->entityType == "pZombie" || this->entityType == "spore" || this->entityType == "turret"){
         SetSpeed(1.0);
     }
     else if(this->entityType == "projectile"){
@@ -207,7 +217,7 @@ bool Entity::PreventMovementCollision(){
                     this->SetSpeedModifier(defaultSpeedModifier * 0.5); //50% speed debuff
                 } else if (type == "item") {
                     //Do nothing, or do a special thing here like launching others functions, but it should never return false, only true, because if a wall is later in the list, we should not move !
-                } else if (type == "basic" || type == "runner" || type == "pZombie" || type == "spore"){
+                } else if (type == "basic" || type == "runner" || type == "pZombie" || type == "spore" || type == "turret"){
                     if(!graceTimers.contains(entity)){ //Grace: If the UID is still in the graceTimers list, it mean it shouldnt hit.
                         this->ReduceHp(entity->GetDamages());
                         //qDebug() << "Entity : " << entity->GetEntityType() << entity->GetDamages();
@@ -217,7 +227,7 @@ bool Entity::PreventMovementCollision(){
                 
             }
             
-            else if(myType == "runner" || myType == "basic"){
+            else if(myType == "runner" || myType == "basic" || myType == "turret"){
                 if(type == "tile"){
                     this->SetSpeedModifier(defaultSpeedModifier);
                 } else if(type == "wall"){
