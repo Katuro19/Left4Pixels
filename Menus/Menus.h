@@ -25,6 +25,8 @@ public:
                           std::function<void()> onQuitter);
     void MasquerMenuPause();
     void AjouterMainWindow(MainWindow* mainWindow);
+    void AfficherMenuMort(const QPointF& centre, std::function<void()> onMenuPrincipal, std::function<void()> onQuitter);
+    void MasquerMenuMort();
 
 private:
     QGraphicsScene *scene;
@@ -35,6 +37,7 @@ private:
 
     // Current menu items for cleanup
     QList<QGraphicsItem*> currentMenuItems;
+    QList<QGraphicsItem*> elementsMort;
 
     void AfficherChoixMap(QString mode);
     void AjouterTitre(const QString &texte);
