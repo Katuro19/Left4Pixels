@@ -16,15 +16,15 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    std::function<void()> StartGame(QString map, QString mode);
-
+    void StartGame(QString map, QString mode);
+    void LoadGame();
 private:
     QGraphicsView *mainView;
     QGraphicsScene *menuScene;
     Scene *mainScene;
     Menus *menus;
 
-    void LoadGame();
+
     void SetupMenuScene();
 
 };

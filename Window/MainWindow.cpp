@@ -37,10 +37,10 @@ void MainWindow::SetupMenuScene() {
 
     mainView->setScene(menuScene);
     menus->AjouterMainWindow(this);
-    menus->AfficherMenuPrincipal([this]() {StartGame("Lotus", "wave");}, [this](){LoadGame();});
+    menus->AfficherMenuPrincipal();
 }
 
-std::function<void()> MainWindow::StartGame(QString map, QString mode) {
+ void MainWindow::StartGame(QString map, QString mode) {
     if (mainScene)
         delete mainScene;
 
@@ -88,7 +88,7 @@ std::function<void()> MainWindow::StartGame(QString map, QString mode) {
 
     mainView->scale(0.5,0.5);
     mainView->setScene(mainScene);
-    return nullptr;
+    return ;
 }
 
 
