@@ -133,6 +133,13 @@ void Player::UpdateMovement(float deltaTime, int steps) {
     if(this->GetHp() <= 0){
         this->SetBaseSpeed(0);
         //qDebug() << "you are die";
+        if (parentScene->GetIsDead()) {
+            qDebug() << "Scene is already dead, skipping player update.";
+            return; // If the scene is already dead, we skip the update
+        }
+        else{
+            parentScene->SetIsDead(true); // Set the scene to dead state
+        }
         return;
     }
 

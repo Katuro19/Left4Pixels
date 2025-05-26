@@ -108,10 +108,9 @@ Scene::~Scene() {
 
 void Scene::update() {
 
-    if (isPaused){  //Permet de mettre en pause le jeu si on fait echap
+    if (isPaused || isDead){  //Permet de mettre en pause le jeu si on fait echap
         return;
     }
-
     qint64 elapsedMs = frameTimer.elapsed(); // temps depuis la dernière frame
     frameTimer.restart();                    // remet le chrono à 0
     float deltaTime = elapsedMs / 1000.0f;   // converti en secondes
@@ -471,13 +470,7 @@ void Scene::togglePause() {
 
     if (isPaused) {
         // Afficher le menu de pause
-        menus->AfficherMenuPause(player->GetRealCenter(),
-            [this]() {
-                isPaused = false;
-            },
-            [this]() { SaveGame(this); },
-            []() { qApp->quit(); }
-        );
+        menus->AfficherMenuPause(player->GetRealCenter(),[this]() {isPaused = false;},[this]() { SaveGame(this); });
     }
     else {
         qDebug() << "Masquage du menu de pause";
@@ -526,4 +519,20 @@ void Scene::SetPlayer(Player* player) {
 }
 Player* Scene::GetPlayer() const {
     return this->player;
+}
+
+QTimer* Scene::GetTimer() const {
+    return this->timer;
+}
+
+bool Scene::GetIsDead() const {
+    return this->isDead;
+}
+
+void Scene::SetIsDead(bool dead) {
+    this->isDead = dead;
+    if (dead) {
+        //this->timer->stop(); // Stop the timer to prevent further updates
+        this->menus->AfficherMenuMort(player->GetRealCenter());
+    }
 }

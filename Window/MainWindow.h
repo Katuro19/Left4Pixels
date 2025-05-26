@@ -18,6 +18,9 @@ public:
     ~MainWindow();
     void StartGame(QString map, QString mode);
     void LoadGame();
+    void SetupMenuScene();
+
+
 private:
     QGraphicsView *mainView;
     QGraphicsScene *menuScene;
@@ -25,7 +28,7 @@ private:
     Menus *menus;
 
 
-    void SetupMenuScene();
+
 
 };
 

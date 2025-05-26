@@ -69,6 +69,11 @@ public:
     int GetScore();
     void AddScore(int moreScore);
 
+    bool GetIsDead() const;
+    void SetIsDead(bool dead);
+
+    QTimer* GetTimer() const;
+
 
     void SetScale(float scaleValue, int durationMs=500);
 
@@ -90,6 +95,7 @@ public:
     int currentEnemyCount = 0;
     int maxEnemies = 30;
 
+    Menus* menus = nullptr;
 
     //Optimisation :
     QList<Projectile*> projectilePool;
@@ -130,7 +136,8 @@ private:
     bool isPaused = false;
     QVector<QGraphicsItem*> pauseMenuItems;
 
-    Menus* menus = nullptr;
+    bool isDead = false; //If the player is dead, we stop the game
+
 
     QString map_name;
     QString mode;

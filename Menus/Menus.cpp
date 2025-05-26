@@ -26,6 +26,10 @@ qreal Menus::GetViewScale() const {
     return 1.0;
 }
 
+void Menus::AjouterMainWindow(MainWindow* mainWindow) {
+    this->mainWindow = mainWindow;
+}
+
 void Menus::AjouterTitre(const QString &texte) {
     auto *title = new QGraphicsTextItem(texte);
     QFont font("Arial", 24, QFont::Bold);
@@ -45,7 +49,7 @@ CustomButton* Menus::AjouterBouton(const QString &texte, int x, int y, std::func
     int hauteur = scale < 1.0 ? static_cast<int>(50 / scale) : 50;
     int fontSize = scale < 1.0 ? static_cast<int>(16 / scale) : 16;
 
-    // Create text label (add directly to scene, not as child)
+    // Create text label
     auto *label = new QGraphicsTextItem(texte);
     QFont font("Arial", fontSize);
     label->setFont(font);
@@ -54,32 +58,48 @@ CustomButton* Menus::AjouterBouton(const QString &texte, int x, int y, std::func
     // Position text centered at button location
     label->setPos(x + largeur/2 - label->boundingRect().width() / 2,
                   y + hauteur/2 - label->boundingRect().height() / 2);
-    label->setZValue(101); // Higher than clickable area
 
-    // Create clickable area (CustomButton) - this will handle both background and interaction
+    // Create clickable area (CustomButton)
     auto *clickable = new CustomButton(callback);
     clickable->setRect(0, 0, largeur, hauteur);
     clickable->setPos(x, y);
-    clickable->setZValue(100);
+
+    // Set Z-values based on menu type
+    if (currentMenuType == MenuType::Death) {
+        clickable->setZValue(101);  // Higher than death menu background (97)
+        label->setZValue(102);      // Higher than clickable area
+    } else if (currentMenuType == MenuType::Pause) {
+        clickable->setZValue(100);
+        label->setZValue(101);
+    } else {
+        clickable->setZValue(100);
+        label->setZValue(101);
+    }
 
     scene->addItem(clickable);
     scene->addItem(label);
 
-    // Track items for cleanup
-    if (!elementsPause.isEmpty()) {
-        // This is for pause menu
+    // Track items for cleanup based on current menu type
+    if (currentMenuType == MenuType::Pause) {
         elementsPause.append(clickable);
         elementsPause.append(label);
+    } else if (currentMenuType == MenuType::Death) {
+        elementsMort.append(clickable);
+        elementsMort.append(label);
     } else {
-        // This is for regular menu
         currentMenuItems.append(clickable);
         currentMenuItems.append(label);
     }
 
+    //qDebug() << "Button created:" << texte << "for menu type:" << (int)currentMenuType;
+    //qDebug() << "Button Z-value:" << clickable->zValue() << "Label Z-value:" << label->zValue();
+
     return clickable;
 }
 
+
 void Menus::AfficherMenuPrincipal() {
+    currentMenuType = MenuType::Main;
     ClearCurrentMenu();
     scene->clear();
     scene->setBackgroundBrush(QColor(30, 30, 30));
@@ -139,14 +159,12 @@ void Menus::AfficherChoixMap(QString mode) {
     });
 }
 
-void Menus::AfficherMenuPause(const QPointF& centre,
-                             std::function<void()> onReprendre,
-                             std::function<void()> onSauvegarder,
-                             std::function<void()> onQuitter) {
+void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onReprendre,std::function<void()> onSauvegarder) {
     if (!elementsPause.isEmpty()) {
-        qDebug() << "Pause menu already displayed";
+        //qDebug() << "Pause menu already displayed";
         return;
     }
+    currentMenuType = MenuType::Pause;
 
     // Define pause menu size
     int largeurMenu = 2500;
@@ -189,34 +207,36 @@ void Menus::AfficherMenuPause(const QPointF& centre,
         if (onSauvegarder) onSauvegarder();
     });
 
-    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 120, [this, onQuitter]() {
+    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 120, [this]() {
         qDebug() << "Quit button clicked";
-        if (onQuitter) onQuitter();
+        qApp->quit();
     });
 
     qDebug() << "Pause menu displayed with" << elementsPause.size() << "elements";
 }
 
 
-void Menus::AfficherMenuMort(const QPointF& centre, std::function<void()> onMenuPrincipal, std::function<void()> onQuitter) {
+void Menus::AfficherMenuMort(const QPointF& centre) {
     if (!elementsMort.isEmpty()) {
-        qDebug() << "Death menu already displayed";
         return;
     }
 
-    // Define death menu size
-    int largeurMenu = 800;
-    int hauteurMenu = 600;
+    qDebug() << "=== Creating Death Menu ===";
 
-    // Create dark background centered on player
-    auto* fondMort = new QGraphicsRectItem(
-        centre.x() - largeurMenu/2,
-        centre.y() - hauteurMenu/2,
-        largeurMenu,
-        hauteurMenu
-    );
-    fondMort->setBrush(QColor(20, 0, 0, 220)); // Dark red tint
-    fondMort->setPen(QPen(Qt::darkRed, 3));
+    // Set the current menu type BEFORE creating buttons
+    currentMenuType = MenuType::Death;
+
+    // Get the scene rect to cover the entire visible area
+    QRectF sceneRect = scene->sceneRect();
+    if (sceneRect.isEmpty() && !scene->views().isEmpty()) {
+        QGraphicsView* view = scene->views().first();
+        sceneRect = view->mapToScene(view->viewport()->rect()).boundingRect();
+    }
+
+    // Create full-screen dark background
+    auto* fondMort = new QGraphicsRectItem(sceneRect);
+    fondMort->setBrush(QColor(20, 0, 0, 240));
+    fondMort->setPen(Qt::NoPen);
     fondMort->setZValue(97);
 
     scene->addItem(fondMort);
@@ -224,41 +244,42 @@ void Menus::AfficherMenuMort(const QPointF& centre, std::function<void()> onMenu
 
     // Add "GAME OVER" title
     auto *titre = new QGraphicsTextItem("GAME OVER");
-    QFont titleFont("Arial", 32, QFont::Bold);
+    QFont titleFont("Arial", 48, QFont::Bold);
     titre->setFont(titleFont);
     titre->setDefaultTextColor(Qt::red);
-    titre->setPos(centre.x() - titre->boundingRect().width() / 2,
-                  centre.y() - hauteurMenu/2 + 50);
-    titre->setZValue(99);
+    titre->setPos(centre.x() - titre->boundingRect().width() / 2, centre.y() - 150);
+    titre->setZValue(98);
     scene->addItem(titre);
     elementsMort.append(titre);
 
     // Add subtitle
     auto *subtitle = new QGraphicsTextItem("You have been defeated...");
-    QFont subtitleFont("Arial", 16);
+    QFont subtitleFont("Arial", 20);
     subtitle->setFont(subtitleFont);
     subtitle->setDefaultTextColor(Qt::white);
-    subtitle->setPos(centre.x() - subtitle->boundingRect().width() / 2,
-                     centre.y() - hauteurMenu/2 + 120);
-    subtitle->setZValue(99);
+    subtitle->setPos(centre.x() - subtitle->boundingRect().width() / 2, centre.y() - 80);
+    subtitle->setZValue(98);
     scene->addItem(subtitle);
     elementsMort.append(subtitle);
 
-    // Temporarily set elementsMort to track button additions
+    qDebug() << "Creating death menu buttons...";
+
     // Add "Menu Principal" button
-    AjouterBouton("Menu Principal", centre.x() - 100, centre.y() - 50, [this, onMenuPrincipal]() {
-        qDebug() << "Main Menu button clicked from death menu";
+    AjouterBouton("Menu Principal", centre.x() - 200, centre.y(), [this]() {
+        qDebug() << "Going back to main menu";
         MasquerMenuMort();
-        if (onMenuPrincipal) onMenuPrincipal();
+        currentMenuType = MenuType::Main; // Reset menu type
+        if (mainWindow) {
+            mainWindow->SetupMenuScene();
+        }
     });
 
     // Add "Quitter" button
-    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 50, [this, onQuitter]() {
-        qDebug() << "Quit button clicked from death menu";
-        if (onQuitter) onQuitter();
+    AjouterBouton("Quitter", centre.x() - 200, centre.y() + 140, [this]() {
+        qDebug() << "Quit button clicked";
+        qApp->quit();
     });
 
-    qDebug() << "Death menu displayed with" << elementsMort.size() << "elements";
 }
 
 void Menus::MasquerMenuPause() {
@@ -285,6 +306,8 @@ void Menus::MasquerMenuMort() {
         return;
     }
 
+    qDebug() << "Hiding death menu with" << elementsMort.size() << "elements";
+
     // Clean up all death menu elements
     for (auto* item : elementsMort) {
         scene->removeItem(item);
@@ -292,10 +315,8 @@ void Menus::MasquerMenuMort() {
     }
 
     elementsMort.clear();
+    currentMenuType = MenuType::Main; // Reset to main menu type
 
     qDebug() << "Death menu hidden";
 }
 
-void Menus::AjouterMainWindow(MainWindow* mainWindow) {
-    this->mainWindow = mainWindow;
-}
