@@ -3,7 +3,9 @@
 # How to start the game :
 
 - Create a "build" folder, and place yourself in the folder
-- Type the folowing command : "cmake --build ."
+- Type the folowing commands : 
+            > cmake ../ 
+            > cmake --build .
     - Make sure you have cmake and qt6 installed
 - Launch the game using "./l4px"
 
