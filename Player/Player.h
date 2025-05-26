@@ -52,7 +52,7 @@ class Player : public Entity {
 
     QGraphicsTextItem* ammoUi;
     QGraphicsTextItem* scoreUi;
-
+    QGraphicsTextItem* hpUi;
 
 
 };

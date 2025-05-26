@@ -122,7 +122,7 @@ void Scene::update() {
         spawnTimer -= deltaTime;
     }
 
-    DebugFps();
+    //DebugFps();
 
     player->scoreUi->setPlainText(QString("Score : %1").arg(this->GetScore()));
     if(meleeCooldown >= 0){
@@ -169,23 +169,18 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
         return;
     }
     else if(event->key() == Qt::Key_R){
-        qDebug() << "here";
         this->player->GetWeapon(this->player->GetCurrentWeapon())->EmptyMagazine();
         return;
     }
     else if(event->key() == Qt::Key_A){
-        qDebug() << "Current weapon : " << player->GetCurrentWeapon();
 
         if(this->player->GetCurrentWeapon() == 0 && this->player->GetWeapon(1) != nullptr){
             this->player->SetCurrentWeapon(1); //we equip the second weapon
-            qDebug() << "Equipped second weapon";
-            qDebug() << player->GetCurrentWeapon();
             //this->SetScale(0.5);
 
         }
         else if(this->player->GetCurrentWeapon() == 1 && this->player->GetWeapon(0) != nullptr) {
             this->player->SetCurrentWeapon(0); //we equip the first weapon
-            qDebug() << "Equipped first weapon";
             //this->SetScale(0.3);
 
         }

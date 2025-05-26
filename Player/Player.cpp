@@ -43,6 +43,18 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     scoreUi->setZValue(1000);
 
 
+    QGraphicsTextItem* hpText = new QGraphicsTextItem("HP : 0");
+    hpText->setFont(QFont("Arial", 45, QFont::Bold));
+    hpText->setDefaultTextColor(Qt::red);
+    hpText->setPos(this->GetRealCenter() + QPointF(256 * 2.4, - 256 * 3.7)); // Décalé de l’icône
+    parentScene->addItem(hpText);
+    hpText->setParentItem(this);
+
+
+    this->hpUi = hpText;
+    hpUi->setZValue(1000);
+
+
 }
 
 Player::~Player() {
@@ -127,7 +139,9 @@ void Player::UpdateMovement(float deltaTime, int steps) {
     int currentAmmo = this->GetEquippedWeapon()->GetMagazine();
     int maxAmmo = this->GetEquippedWeapon()->maxMag;
     this->ammoUi->setPlainText(QString("%1 / %2").arg(currentAmmo).arg(maxAmmo));
-    this->ammoUi->setZValue(1000);
+
+    this->hpUi->setPlainText(QString("HP : %1").arg(this->GetHp()));
+
 
 
     if(this->GetHp() <= 0){

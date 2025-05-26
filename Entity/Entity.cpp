@@ -265,7 +265,7 @@ bool Entity::PreventMovementCollision(){
                     ;
                 } else if(type == "player"){
                     return true;
-                } else if(type == "projectile"){
+                } else if(type == "projectile" || type == "melee"){
                     if(GetInternTimer() <= 0){
                         this->ReduceHp(entity->GetDamages());
                         SetInternTimer(0.005); //Grace timer. Seems like nothing, but change everything
