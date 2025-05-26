@@ -405,7 +405,7 @@ void Scene::WaveSpawn(){
         for(int i=0; i < baseSpawnNumber; i++){
             spawnPos = GetSpawnPointAroundPlayer(1200);
             int index = rand() % miniBossEnemies.size();  // entre 0 et size - 1
-            qDebug() << index;
+            //qDebug() << index;
             QString chosenEnemy = miniBossEnemies[index];
             SpawnEnemies(chosenEnemy,1, spawnPos, QPointF(0,0), false);
         }

@@ -131,14 +131,14 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
         reloadTimeout -= deltaTime;
 
         if(reloadTimeout <= 0)
-            qDebug() << "Done!";
+            ;
     }
 
     
     if(this->GetMagazine() <=0){
         reloadTimeout = this->GetReloadTime();
         this->SetMagazine(maxMag);
-        qDebug() << "Reloading...";
+        //qDebug() << "Reloading...";
     }
 
     if (shoot) {
