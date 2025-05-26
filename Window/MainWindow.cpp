@@ -55,7 +55,7 @@ void MainWindow::SetupMenuScene() {
 
     Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/M1918.png"),"weapon", mainScene, 10, false);
     Weapon* secondary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", mainScene, 10, false);
-    Weapon* melee = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/melee.png"),"melee", mainScene, 10, true);
+    Weapon* melee = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/melee.png"),"melee", mainScene, 10, false);
 
     Entity* outfit = new Entity(player,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", mainScene);
 
