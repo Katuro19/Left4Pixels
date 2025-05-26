@@ -118,6 +118,11 @@ void Scene::update() {
 
     if(spawnTimer <= 0){
         WaveSpawn();
+        if(this->player->GetHp() <= 95){
+            this->player->SetHp(player->GetHp() + 5);
+        } else{
+            this->player->SetHp(100);
+        }
         spawnTimer = 3;
     } else {
         spawnTimer -= deltaTime;
