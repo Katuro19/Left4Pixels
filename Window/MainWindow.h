@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void StartGame(QString map, QString mode);
+    void StartGame(QString map, QString mode, QString mainWeapon);
     void LoadGame();
     void SetupMenuScene();
 

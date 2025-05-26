@@ -24,6 +24,8 @@ public:
     void AjouterMainWindow(MainWindow* mainWindow);
     void AfficherMenuMort(const QPointF& centre);
     void MasquerMenuMort();
+    void AfficherChoixArme(const QString mode, const QString mapName);
+
 
     MainWindow* GetMainWindow() const {
         return mainWindow;
@@ -43,6 +45,7 @@ private:
     void AfficherChoixMap(QString mode);
     void AjouterTitre(const QString &texte);
     CustomButton* AjouterBouton(const QString &texte, int x, int y, std::function<void()> callback);
+    CustomButton* AjouterIcone(const QString imagePath, int x, int y, int width, int height, std::function<void()> callback);
     void ClearCurrentMenu();
     qreal GetViewScale() const;
 
@@ -51,47 +54,7 @@ private:
 };
 
 
-class DebugButton : public QGraphicsRectItem {
-public:
-    DebugButton(std::function<void()> callback, const QString& name)
-        : callback(callback), buttonName(name) {
-        setAcceptedMouseButtons(Qt::LeftButton);
-        setAcceptHoverEvents(true);
-        setBrush(Qt::blue);
-        setPen(QPen(Qt::white, 2));
-    }
 
-protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override {
-        qDebug() << "DebugButton" << buttonName << ":: mousePressEvent";
-        event->accept();
-    }
-
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override {
-        qDebug() << "DebugButton" << buttonName << ":: mouseReleaseEvent";
-        if (event->button() == Qt::LeftButton && contains(event->pos())) {
-            qDebug() << "DebugButton" << buttonName << ":: EXECUTING CALLBACK";
-            if (callback) callback();
-        }
-        event->accept();
-    }
-
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override {
-        qDebug() << "DebugButton" << buttonName << ":: hoverEnter";
-        setBrush(Qt::cyan);
-        event->accept();
-    }
-
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override {
-        qDebug() << "DebugButton" << buttonName << ":: hoverLeave";
-        setBrush(Qt::blue);
-        event->accept();
-    }
-
-private:
-    std::function<void()> callback;
-    QString buttonName;
-};
 
 
 #endif // MENUS_H

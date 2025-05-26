@@ -98,6 +98,38 @@ CustomButton* Menus::AjouterBouton(const QString &texte, int x, int y, std::func
 }
 
 
+CustomButton* Menus::AjouterIcone(const QString imagePath, int x, int y, int width, int height, std::function<void()> callback) {
+    //qDebug()<<imagePath;
+    QPixmap pixmap(imagePath);
+    QPixmap scaledPixmap = pixmap.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    // Image visible
+    auto* iconItem = new QGraphicsPixmapItem(scaledPixmap);
+    iconItem->setPos(x, y);
+    iconItem->setZValue(101); // Visible au-dessus du fond
+
+    // Zone cliquable
+    auto* clickable = new CustomButton(callback);
+    clickable->setRect(0, 0, width, height);
+    clickable->setPos(x, y);
+    clickable->setZValue(100); // En-dessous du pixmap
+
+    // Ajout à la scène
+    scene->addItem(clickable);
+    scene->addItem(iconItem);
+
+    // Suivi pour suppression
+    if (currentMenuType == MenuType::Pause)
+        elementsPause.append(clickable), elementsPause.append(iconItem);
+    else if (currentMenuType == MenuType::Death)
+        elementsMort.append(clickable), elementsMort.append(iconItem);
+    else
+        currentMenuItems.append(clickable), currentMenuItems.append(iconItem);
+
+    return clickable;
+}
+
+
 void Menus::AfficherMenuPrincipal() {
     currentMenuType = MenuType::Main;
     ClearCurrentMenu();
@@ -146,9 +178,7 @@ void Menus::AfficherChoixMap(QString mode) {
     for (const QString& mapName : maps) {
         AjouterBouton(mapName, 400, y, [this, mode, mapName]() {
             //qDebug() << "Map selected:" << mapName << "Mode:" << mode;
-            if (mainWindow) {
-                mainWindow->StartGame(mapName, mode);
-            }
+            AfficherChoixArme(mode, mapName);
         });
         y += 80;
     }
@@ -207,11 +237,10 @@ void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onRepr
         if (onSauvegarder) onSauvegarder();
     });
 
-    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 120, [this]() {
+    AjouterBouton("Quitter", centre.x() - 100, centre.y() + 120, []() {
         //qDebug() << "Quit button clicked";
         qApp->quit();
     });
-
 }
 
 
@@ -272,12 +301,36 @@ void Menus::AfficherMenuMort(const QPointF& centre) {
     });
 
     // Add "Quitter" button
-    AjouterBouton("Quitter", centre.x() - 200, centre.y() + 140, [this]() {
+    AjouterBouton("Quitter", centre.x() - 200, centre.y() + 140, []() {
         qDebug() << "Quit button clicked";
         qApp->quit();
     });
 
 }
+
+void Menus::AfficherChoixArme(const QString mode, const QString mapName) {
+    ClearCurrentMenu();
+    scene->clear();
+    scene->setBackgroundBrush(QColor(30, 30, 30));
+    AjouterTitre("Choix de l'arme");
+
+    AjouterIcone(QString("../Resources/Textures/Weapons/Icons/M249.png"), 400, 250, 100, 100, [this, mode, mapName]() {
+        if (mainWindow)
+            mainWindow->StartGame(mapName, mode, "M249");
+    });
+
+    AjouterIcone(QString("../Resources/Textures/Weapons/Icons/M1918.png"), 600, 250, 100, 100, [this, mode, mapName]() {
+        if (mainWindow)
+            mainWindow->StartGame(mapName, mode, "M1918");
+    });
+
+    AjouterBouton("Retour", 400, - 240, [this]() {
+        //qDebug() << "Back button clicked";
+        AfficherMenuPrincipal();
+    });
+}
+
+
 
 void Menus::MasquerMenuPause() {
     if (elementsPause.isEmpty()) {

@@ -40,7 +40,7 @@ void MainWindow::SetupMenuScene() {
     menus->AfficherMenuPrincipal();
 }
 
- void MainWindow::StartGame(QString map, QString mode) {
+ void MainWindow::StartGame(QString map, QString mode, QString mainWeapon) {
     if (mainScene)
         delete mainScene;
 
@@ -50,12 +50,12 @@ void MainWindow::SetupMenuScene() {
     mainScene->setSceneRect(0, 0, 20000, 20000);
     mainScene->SetMapName(map);
     mainScene->SetMode(mode);
-    Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,mainScene,true);
+    Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,mainScene,false);
     mainScene->player = player;
 
-    Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/M1918.png"),"weapon", mainScene, 10, false);
+    Weapon* primary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/%1.png").arg(mainWeapon),"weapon", mainScene, 10, false);
     Weapon* secondary = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/deagle.png"),"weapon", mainScene, 10, false);
-    Weapon* melee = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/melee.png"),"melee", mainScene, 10, true);
+    Weapon* melee = new Weapon(player,QStringLiteral("../Resources/Textures/Weapons/Hands/melee.png"),"melee", mainScene, 10, false);
 
     Entity* outfit = new Entity(player,QStringLiteral("../Resources/Textures/Cosmetics/Player/sunglasses.png"),"cosmetic", mainScene);
 
@@ -69,7 +69,7 @@ void MainWindow::SetupMenuScene() {
     (*player).SetId(QStringLiteral("Cube"));
     (*outfit).SetId(QStringLiteral("sunglasses"));
 
-    player->SetWeapon(primary,0,"M249");
+    player->SetWeapon(primary,0,mainWeapon);
     player->SetWeapon(secondary,1,"deagle");
 
     player->SetWeapon(melee,2,"knife");
@@ -93,7 +93,7 @@ void MainWindow::SetupMenuScene() {
         mainScene->AddEntity(entity);
     }
 
-    mainScene->SpawnEnemies("turret", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), true);
+    mainScene->SpawnEnemies("turret", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
 
     secondary->setVisible(false);
 
