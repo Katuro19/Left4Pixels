@@ -127,7 +127,14 @@ void Enemy::SetZombieStats(QString type){ //Remember to add them and their hitbo
         givenScore = 10;
     }
     else if(type == "basic"){
-        outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
+
+        if (rand() % 100 == 0) {
+            outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/secretBasic.png"),"basic", this->parentScene, this->IsVerbose());
+        } else {
+            outfit = new Entity(this, QStringLiteral("../Resources/Textures/Cosmetics/Zombies/basic.png"),"basic", this->parentScene, this->IsVerbose());
+
+        }
+
         speed = 350;
         hp = 350;
         damage = 20;
