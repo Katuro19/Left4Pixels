@@ -1,20 +1,11 @@
 URGENT :
-    - Make a game (maybe?)
-
     - Make use of the "step" option in the collision system to save performances
- 
-    - Add the melee on right click
-
-    - Code the player death (help)
 
     - Fix the text beind BEHIND the zombies
 
 KINDA IMPORTANT :
     - Remake the FPS counter (directly in window, with a bool to display it or no)
         -> Use the DebugFps() function
-
-    - Fix the visual bug when switching weapon 
-        -> This bug is due to the position of the hidden weapon, getting back to the real player angle on the scene (one frame !)
 
 MEH :
     - Make achievements

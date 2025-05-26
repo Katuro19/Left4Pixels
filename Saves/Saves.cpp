@@ -124,6 +124,7 @@ Scene* LoadSave() {
 
     QPointF playerPos(0, 0);
 
+
     QJsonObject rootObject = jsonDoc.object();
 
     // Lecture des données de la scène
@@ -163,6 +164,7 @@ Scene* LoadSave() {
 
 
         (*player).SetId("Cube");
+        scene->SetPlayerPos(playerPos);
 
 
     }
@@ -240,7 +242,6 @@ Scene* LoadSave() {
     (*outfit).SetId(cloth);
     scene->player->SetCloth(outfit);
 
-    scene->SetPlayerPos(playerPos);
 
     qDebug() << "Chargement terminé depuis" << fullpath;
 

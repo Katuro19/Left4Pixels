@@ -140,7 +140,7 @@ void MainWindow::LoadGame() {
     scene->currentEnemyCount = 0; // Reset enemy count, since we load a save and enemies are not saved
 
 
-    mainView->scale(0.5,0.5);
+    mainView->scale(0.6,0.6);
     mainView->setScene(mainScene);
 
     scene->update();
