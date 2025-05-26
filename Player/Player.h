@@ -51,6 +51,8 @@ class Player : public Entity {
     void UpdateMovement(float deltaTime, int steps = 1) override;
 
     QGraphicsTextItem* ammoUi;
+    QGraphicsTextItem* scoreUi;
+
 
 
 };

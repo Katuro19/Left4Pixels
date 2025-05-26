@@ -23,13 +23,24 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     QGraphicsTextItem* ammoText = new QGraphicsTextItem("0 / 0");
     ammoText->setFont(QFont("Arial", 45, QFont::Bold));
     ammoText->setDefaultTextColor(Qt::white);
-    ammoText->setPos(this->GetRealCenter() + QPointF(-256 * 4 + 150, 256 * 3)); // Décalé de l’icône
+    ammoText->setPos(this->GetRealCenter() + QPointF(-256 * 4 + 100, 256 * 3.4)); // Décalé de l’icône
     parentScene->addItem(ammoText);
     ammoText->setParentItem(this);
 
 
     this->ammoUi = ammoText;
     ammoUi->setZValue(1000);
+
+    QGraphicsTextItem* scoreText = new QGraphicsTextItem("Score : 0");
+    scoreText->setFont(QFont("Arial", 45, QFont::Bold));
+    scoreText->setDefaultTextColor(Qt::white);
+    scoreText->setPos(this->GetRealCenter() + QPointF(-256 * 3.7, - 256 * 3.7)); // Décalé de l’icône
+    parentScene->addItem(scoreText);
+    scoreText->setParentItem(this);
+
+
+    this->scoreUi = scoreText;
+    scoreUi->setZValue(1000);
 
 
 }

@@ -125,6 +125,9 @@ void Scene::update() {
 
     DebugFps();
 
+    player->scoreUi->setPlainText(QString("Score : %1").arg(this->GetScore()));
+
+
     for (int i = 0; i < Entities.size(); ++i) {
         Entity* entity = Entities[i];
         
