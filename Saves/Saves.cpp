@@ -52,6 +52,7 @@ void SaveGame(Scene *scene) {
     QJsonObject playerObject;
     playerObject["Player_pos_x"] = static_cast<int>(scene->player->pos().x());
     playerObject["Player_pos_y"] = static_cast<int>(scene->player->pos().y());
+    playerObject["PLayer_HP"] = scene->player->GetHp();
     playerObject["Cloth"] = scene->player->GetCloth()->GetId();
     rootObject["Player"] = playerObject;
 
@@ -148,6 +149,7 @@ Scene* LoadSave() {
 
         int playerPosX = playerObject["Player_pos_x"].toInt();
         int playerPosY = playerObject["Player_pos_y"].toInt();
+        int playerHP = playerObject["PLayer_HP"].toInt();
         QString cloth = playerObject["Cloth"].toString();
 
         qDebug() << "Chargement joueur - Position:" << playerPosX << "," << playerPosY << "Vêtement:" << cloth;
@@ -155,6 +157,7 @@ Scene* LoadSave() {
         Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,scene,true);
 
         scene->player = player;
+        player->SetHp(playerHP);
         playerPos = QPointF(playerPosX, playerPosY);
         scene->player->setPos(playerPosX, playerPosY);
         scene->SetPlayerPos(QPointF(playerPosX, playerPosY));
@@ -188,15 +191,28 @@ Scene* LoadSave() {
                     qDebug() << "Arme" << i << ": aucune";
                     scene->player->SetWeapon( nullptr, i, nullptr);
                 } else {
-                    int magazine = weaponsObject[magazineKey].toInt();
-                    qDebug() << "Arme" << i << ":" << weaponName << "Munitions:" << magazine;
+                    if (weaponName == "knife"){
+                        int magazine = weaponsObject[magazineKey].toInt();
+                        qDebug() << "Arme" << i << ":" << weaponName << "Munitions:" << magazine;
 
-                    QString weapon_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(weaponName);
+                        QString weapon_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(weaponName);
 
-                    Weapon* weapon = new Weapon(scene->player,weapon_texturePath,"weapon", scene, 10, false);
+                        Weapon* weapon = new Weapon(scene->player,weapon_texturePath,"melee", scene, 10, false);
 
-                    weapon->SetMagazine(magazine);
-                    scene->player->SetWeapon(weapon, i, weaponName);
+                        weapon->SetMagazine(magazine);
+                        scene->player->SetWeapon(weapon, i, weaponName);
+                    }else{
+
+                        int magazine = weaponsObject[magazineKey].toInt();
+                        qDebug() << "Arme" << i << ":" << weaponName << "Munitions:" << magazine;
+
+                        QString weapon_texturePath = QString("../Resources/Textures/Weapons/Hands/%1.png").arg(weaponName);
+
+                        Weapon* weapon = new Weapon(scene->player,weapon_texturePath,"weapon", scene, 10, false);
+
+                        weapon->SetMagazine(magazine);
+                        scene->player->SetWeapon(weapon, i, weaponName);
+                    }
                 }
             }
         }

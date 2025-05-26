@@ -93,8 +93,6 @@ void MainWindow::SetupMenuScene() {
         mainScene->AddEntity(entity);
     }
 
-    mainScene->SpawnEnemies("turret", 1, QPointF(3 * 256, 3 * 256), QPointF(256, 256), false);
-
     secondary->setVisible(false);
 
     mainView->scale(0.6,0.6);
@@ -117,12 +115,13 @@ void MainWindow::LoadGame() {
 
 
     toPreLoad.push_back(scene->player);
+    toPreLoad.push_back(scene->player->GetCloth());
     for (int i = 0; i < 3; ++i) {
         if (scene->player->GetWeapon(i) != nullptr) {
             toPreLoad.push_back(scene->player->GetWeapon(i));
         }
     }
-    toPreLoad.push_back(scene->player->GetCloth());
+
 
     for(Entity* entity : toPreLoad) {
         mainScene->AddEntity(entity);
