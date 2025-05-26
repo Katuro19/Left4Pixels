@@ -23,7 +23,7 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     QGraphicsTextItem* ammoText = new QGraphicsTextItem("0 / 0");
     ammoText->setFont(QFont("Arial", 45, QFont::Bold));
     ammoText->setDefaultTextColor(Qt::white);
-    ammoText->setPos(this->GetRealCenter() + QPointF(-256 * 4 + 100, 256 * 3.4)); // Décalé de l’icône
+    ammoText->setPos(this->GetRealCenter() + QPointF(-256 * 6 + 100, 256 * 3 - 100)); // Décalé de l’icône
     parentScene->addItem(ammoText);
     ammoText->setParentItem(this);
 
@@ -34,7 +34,7 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     QGraphicsTextItem* scoreText = new QGraphicsTextItem("Score : 0");
     scoreText->setFont(QFont("Arial", 45, QFont::Bold));
     scoreText->setDefaultTextColor(Qt::white);
-    scoreText->setPos(this->GetRealCenter() + QPointF(-256 * 3.7, - 256 * 3.7)); // Décalé de l’icône
+    scoreText->setPos(this->GetRealCenter() + QPointF(-256 * 6, - 256 * 3.4)); // Décalé de l’icône
     parentScene->addItem(scoreText);
     scoreText->setParentItem(this);
 
@@ -46,7 +46,7 @@ Player::Player(QGraphicsItem* parent, QString filePath, QString entityType, floa
     QGraphicsTextItem* hpText = new QGraphicsTextItem("HP : 0");
     hpText->setFont(QFont("Arial", 45, QFont::Bold));
     hpText->setDefaultTextColor(Qt::red);
-    hpText->setPos(this->GetRealCenter() + QPointF(256 * 2.4, - 256 * 3.7)); // Décalé de l’icône
+    hpText->setPos(this->GetRealCenter() + QPointF(256 * 5, - 256 * 3.4)); // Décalé de l’icône
     parentScene->addItem(hpText);
     hpText->setParentItem(this);
 
