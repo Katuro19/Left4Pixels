@@ -97,7 +97,7 @@ void MainWindow::SetupMenuScene() {
 
     secondary->setVisible(false);
 
-    mainView->scale(0.5,0.5);
+    mainView->scale(0.6,0.6);
     mainView->setScene(mainScene);
     return ;
 }

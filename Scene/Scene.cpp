@@ -109,6 +109,7 @@ Scene::~Scene() {
 void Scene::update() {
 
     if (isPaused || isDead){  //Permet de mettre en pause le jeu si on fait echap
+        frameTimer.restart();                    // remet le chrono à 0
         return;
     }
     qint64 elapsedMs = frameTimer.elapsed(); // temps depuis la dernière frame
