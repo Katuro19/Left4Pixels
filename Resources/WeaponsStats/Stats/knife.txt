@@ -1,0 +1,4 @@
+
+#DMG, RPS, Speed debuff(.%), Magazine, bullet speed, reload time, spread (°), bullet HP (=range & ability to pierce)
+
+700; 0; 1.2; 1; 0; 0.3; 0; 1

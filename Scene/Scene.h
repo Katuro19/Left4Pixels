@@ -87,7 +87,7 @@ public:
     QVector<QString> miniBossEnemies = {"spore", "turret"};
     QVector<QString> bossEnemies = {"mother"};
 
-    int currentEnemyCount;
+    int currentEnemyCount = 0;
     int maxEnemies = 30;
 
 
@@ -96,7 +96,10 @@ public:
     Projectile* GetProjectileFromPool();
 
 
-
+    float meleeCooldown = 0;
+    float baseMeleeCooldown = 0;
+    int beforeMeleeInt = 0;
+    bool hadMelee = false;
 
 public slots:
     void update();

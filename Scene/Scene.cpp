@@ -126,7 +126,14 @@ void Scene::update() {
     DebugFps();
 
     player->scoreUi->setPlainText(QString("Score : %1").arg(this->GetScore()));
-
+    if(meleeCooldown >= 0){
+        this->meleeCooldown -= deltaTime;
+        if(meleeCooldown <= 0 && hadMelee == true){
+            meleeCooldown = 0;
+            this->player->SetCurrentWeapon(beforeMeleeInt);
+            hadMelee = false;
+        }
+    }
 
     for (int i = 0; i < Entities.size(); ++i) {
         Entity* entity = Entities[i];
@@ -173,6 +180,7 @@ void Scene::keyReleaseEvent(QKeyEvent* event) {
         if(this->player->GetCurrentWeapon() == 0 && this->player->GetWeapon(1) != nullptr){
             this->player->SetCurrentWeapon(1); //we equip the second weapon
             qDebug() << "Equipped second weapon";
+            qDebug() << player->GetCurrentWeapon();
             //this->SetScale(0.5);
 
         }
@@ -197,7 +205,7 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     }
 
     // Si nous ne sommes pas en pause, traiter normalement pour le joueur
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton && this->meleeCooldown <= 0) {
         Weapon* weapon = this->player->GetWeapon(this->player->GetCurrentWeapon());
         if (weapon != nullptr) {
             if(weapon->GetRps() != 0) { //If the rps is 0, it's a melee weapon
@@ -206,9 +214,13 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         }
     }
 
-    else if (event->button() == Qt::RightButton) {
-        qDebug() << "*insert a melee logic here*";
-    }
+    else if (event->button() == Qt::RightButton && this->meleeCooldown <= 0) {
+        this->meleeCooldown = baseMeleeCooldown;
+        this->beforeMeleeInt = this->player->GetCurrentWeapon();
+        this->player->SetCurrentWeapon(2); //We equip melee !
+        this->hadMelee = true;
+    } 
+
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {

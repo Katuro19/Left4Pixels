@@ -95,6 +95,7 @@ unsigned int Player::GetCurrentWeapon() const {
     return current_weapon;
 }
 void Player::SetCurrentWeapon(unsigned int weapon) {
+    //qDebug() << "Equipping " << weapon;
     Weapon* equippedWeapon = GetEquippedWeapon();
     equippedWeapon->UnequipWeapon();
 
