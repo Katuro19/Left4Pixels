@@ -197,7 +197,7 @@ void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onRepr
     currentMenuType = MenuType::Pause;
 
     // Define pause menu size
-    int largeurMenu = 2500;
+    int largeurMenu = 8000;
     int hauteurMenu = 2500;
 
     // Create background centered on player
