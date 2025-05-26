@@ -107,24 +107,24 @@ void Menus::AfficherMenuPrincipal() {
     AjouterTitre("Left4Pixels - Menu Principal");
 
     AjouterBouton("Story mode", 400, 250, [this]() {
-        qDebug() << "Story mode button clicked";
+        //qDebug() << "Story mode button clicked";
         AfficherChoixMap("Story");
     });
 
     AjouterBouton("Wave mode", 400, 330, [this]() {
-        qDebug() << "Wave mode button clicked";
+        //qDebug() << "Wave mode button clicked";
         AfficherChoixMap("Wave");
     });
 
     AjouterBouton("Charger Partie", 400, 410, [this]() {
-        qDebug() << "Load game button clicked";
+        //qDebug() << "Load game button clicked";
         if (mainWindow) {
             mainWindow->LoadGame();
         }
     });
 
     AjouterBouton("Quitter", 400, 490, []() {
-        qDebug() << "Quit button clicked";
+        //qDebug() << "Quit button clicked";
         qApp->quit();
     });
 }
@@ -135,7 +135,7 @@ void Menus::AfficherChoixMap(QString mode) {
     scene->setBackgroundBrush(QColor(30, 30, 30));
 
     int y = 200;
-    QStringList maps = { "Map 1", "Map 2", "Map 3" };
+    QStringList maps = { "Lotus", "Pearl", "Debug" };
 
     if (mode == "Story") {
         AjouterTitre("Choix de la map - Story mode");
@@ -145,7 +145,7 @@ void Menus::AfficherChoixMap(QString mode) {
 
     for (const QString& mapName : maps) {
         AjouterBouton(mapName, 400, y, [this, mode, mapName]() {
-            qDebug() << "Map selected:" << mapName << "Mode:" << mode;
+            //qDebug() << "Map selected:" << mapName << "Mode:" << mode;
             if (mainWindow) {
                 mainWindow->StartGame(mapName, mode);
             }
@@ -154,7 +154,7 @@ void Menus::AfficherChoixMap(QString mode) {
     }
 
     AjouterBouton("Retour", 400, y + 40, [this]() {
-        qDebug() << "Back button clicked";
+        //qDebug() << "Back button clicked";
         AfficherMenuPrincipal();
     });
 }
@@ -197,22 +197,21 @@ void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onRepr
 
     // Add buttons - note that AjouterBouton will automatically add them to elementsPause
     AjouterBouton("Reprendre", centre.x() - 100, centre.y() - 120, [this, onReprendre]() {
-        qDebug() << "Resume button clicked";
+        //qDebug() << "Resume button clicked";
         MasquerMenuPause();
         if (onReprendre) onReprendre();
     });
 
     AjouterBouton("Sauvegarder", centre.x() - 100, centre.y(), [this, onSauvegarder]() {
-        qDebug() << "Save button clicked";
+        //qDebug() << "Save button clicked";
         if (onSauvegarder) onSauvegarder();
     });
 
     AjouterBouton("Quitter", centre.x() - 100, centre.y() + 120, [this]() {
-        qDebug() << "Quit button clicked";
+        //qDebug() << "Quit button clicked";
         qApp->quit();
     });
 
-    qDebug() << "Pause menu displayed with" << elementsPause.size() << "elements";
 }
 
 
@@ -220,8 +219,6 @@ void Menus::AfficherMenuMort(const QPointF& centre) {
     if (!elementsMort.isEmpty()) {
         return;
     }
-
-    qDebug() << "=== Creating Death Menu ===";
 
     // Set the current menu type BEFORE creating buttons
     currentMenuType = MenuType::Death;

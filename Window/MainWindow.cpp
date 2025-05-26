@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     setFixedSize(1000, 1000);
 
 
-    StartGame("Lotus", "wave");
-    //SetupMenuScene();
+    //StartGame("Lotus", "wave");
+    SetupMenuScene();
 }
 
 void MainWindow::SetupMenuScene() {
