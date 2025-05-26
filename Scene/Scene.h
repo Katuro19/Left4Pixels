@@ -88,7 +88,7 @@ public:
     QVector<QString> bossEnemies = {"mother"};
 
     int currentEnemyCount;
-    int maxEnemies = 35;
+    int maxEnemies = 30;
 
 
     //Optimisation :
