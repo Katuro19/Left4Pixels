@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     
     mainView = new QGraphicsView(this);
     mainView->setRenderHint(QPainter::Antialiasing);
-    mainView->setFixedSize(1000, 1000);
+    mainView->setFixedSize(1920, 1080);
 
     mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 
     setCentralWidget(mainView);
     setWindowTitle("Left4Pixels");
-    setFixedSize(1000, 1000);
+    setFixedSize(1920, 1080);
 
 
     //StartGame("Lotus", "wave");
