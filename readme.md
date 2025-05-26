@@ -17,3 +17,8 @@
 
 
 # Survive the longest you can ! More zombies will spawn further in, with bosses and mini-bosses !
+
+
+* The team went missing in this area, covered in zombies. It is your mission to go and erase the threat. Be careful, we don't know what's going on there. 
+
+* It is told that a special .... pink ? zombie can be seen. Watchout about this.
