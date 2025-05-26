@@ -135,7 +135,7 @@ void Menus::AfficherChoixMap(QString mode) {
     scene->setBackgroundBrush(QColor(30, 30, 30));
 
     int y = 200;
-    QStringList maps = { "Map 1", "Map 2", "Map 3" };
+    QStringList maps = { "Lotus", "Pearl", "Debug" };
 
     if (mode == "Story") {
         AjouterTitre("Choix de la map - Story mode");
