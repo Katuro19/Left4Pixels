@@ -197,7 +197,7 @@ void Menus::AfficherMenuPause(const QPointF& centre,std::function<void()> onRepr
     currentMenuType = MenuType::Pause;
 
     // Define pause menu size
-    int largeurMenu = 2500;
+    int largeurMenu = 8000;
     int hauteurMenu = 2500;
 
     // Create background centered on player
@@ -288,7 +288,7 @@ void Menus::AfficherMenuMort(const QPointF& centre) {
     scene->addItem(subtitle);
     elementsMort.append(subtitle);
 
-    qDebug() << "Creating death menu buttons...";
+    //qDebug() << "Creating death menu buttons...";
 
     // Add "Menu Principal" button
     AjouterBouton("Menu Principal", centre.x() - 200, centre.y(), [this]() {
@@ -334,7 +334,7 @@ void Menus::AfficherChoixArme(const QString mode, const QString mapName) {
 
 void Menus::MasquerMenuPause() {
     if (elementsPause.isEmpty()) {
-        qDebug() << "No pause menu to hide";
+        //qDebug() << "No pause menu to hide";
         return;
     }
 
@@ -347,16 +347,16 @@ void Menus::MasquerMenuPause() {
     elementsPause.clear();
     fondPause = nullptr;
 
-    qDebug() << "Pause menu hidden";
+    //qDebug() << "Pause menu hidden";
 }
 
 void Menus::MasquerMenuMort() {
     if (elementsMort.isEmpty()) {
-        qDebug() << "No death menu to hide";
+        //qDebug() << "No death menu to hide";
         return;
     }
 
-    qDebug() << "Hiding death menu with" << elementsMort.size() << "elements";
+    //qDebug() << "Hiding death menu with" << elementsMort.size() << "elements";
 
     // Clean up all death menu elements
     for (auto* item : elementsMort) {
@@ -367,6 +367,6 @@ void Menus::MasquerMenuMort() {
     elementsMort.clear();
     currentMenuType = MenuType::Main; // Reset to main menu type
 
-    qDebug() << "Death menu hidden";
+    //qDebug() << "Death menu hidden";
 }
 
