@@ -131,7 +131,7 @@ void Weapon::UpdateMovement(float deltaTime, int steps) {
         reloadTimeout -= deltaTime;
 
         if(reloadTimeout <= 0)
-            //qDebug() << "Done!";
+            ;
     }
 
     
