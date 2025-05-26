@@ -150,9 +150,8 @@ Scene* LoadSave() {
         int playerPosX = playerObject["Player_pos_x"].toInt();
         int playerPosY = playerObject["Player_pos_y"].toInt();
         int playerHP = playerObject["PLayer_HP"].toInt();
-        QString cloth = playerObject["Cloth"].toString();
 
-        qDebug() << "Chargement joueur - Position:" << playerPosX << "," << playerPosY << "Vêtement:" << cloth;
+        //qDebug() << "Chargement joueur - Position:" << playerPosX << "," << playerPosY << "Vêtement:" << cloth;
 
         Player* player = new Player(nullptr,QStringLiteral("../Resources/Textures/Characters/Player/player.png"),"player",1.0,scene,true);
 
@@ -162,14 +161,9 @@ Scene* LoadSave() {
         scene->player->setPos(playerPosX, playerPosY);
         scene->SetPlayerPos(QPointF(playerPosX, playerPosY));
 
-        // Charger le vêtement du joueur
 
-
-        QString outfit_texturePath = QString("../Resources/Textures/Cosmetics/Player/%1.png").arg(cloth);
         (*player).SetId("Cube");
-        Entity* outfit = new Entity(scene->player,outfit_texturePath,"cosmetic", scene);
-        (*outfit).SetId(cloth);
-        scene->player->SetCloth(outfit);
+
 
     }
 
@@ -201,6 +195,8 @@ Scene* LoadSave() {
 
                         weapon->SetMagazine(magazine);
                         scene->player->SetWeapon(weapon, i, weaponName);
+                        scene->baseMeleeCooldown = weapon->GetReloadTime();
+
                     }else{
 
                         int magazine = weaponsObject[magazineKey].toInt();
@@ -233,6 +229,16 @@ Scene* LoadSave() {
 
         new MapLoader(scene->GetMapName(), *scene);
     }
+
+
+    //Truc en plus our la superposition ecoute on s'en fou
+    QJsonObject playerObject = rootObject["Player"].toObject();
+    QString cloth = playerObject["Cloth"].toString();
+
+    QString outfit_texturePath = QString("../Resources/Textures/Cosmetics/Player/%1.png").arg(cloth);
+    Entity* outfit = new Entity(scene->player,outfit_texturePath,"cosmetic", scene);
+    (*outfit).SetId(cloth);
+    scene->player->SetCloth(outfit);
 
     scene->SetPlayerPos(playerPos);
 
